@@ -21,13 +21,20 @@ const Checkout = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const shippingAddress = `${formData.fullName}, ${formData.addressLine}, ${formData.city}, ${formData.state} - ${formData.pincode}. Phone: ${formData.phone}`;
+        const shippingAddress = {
+            street: formData.addressLine,
+            city: formData.city,
+            state: formData.state,
+            zipCode: formData.pincode,
+            country: 'India', // Default to India or add to form
+            mobile: formData.phone
+        };
 
         navigate('/payment', {
             state: {
                 shippingAddress,
-                product, 
-                quantity 
+                product,
+                quantity
             }
         });
     };
@@ -35,7 +42,7 @@ const Checkout = () => {
     return (
         <div className="min-h-screen bg-gray-50 py-8">
             <div className="max-w-2xl mx-auto px-4">
-               
+
                 <div className="flex items-center gap-4 mb-8">
                     <button
                         onClick={() => navigate(-1)}
@@ -48,7 +55,7 @@ const Checkout = () => {
 
                 <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
                     <form onSubmit={handleSubmit} className="space-y-6">
-                      
+
                         <div className="space-y-4">
                             <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
                                 <FaUser className="text-orange-500" /> Personal Details
@@ -85,7 +92,7 @@ const Checkout = () => {
                             </div>
                         </div>
 
-                     
+
                         <div className="space-y-4 pt-4 border-t border-gray-100">
                             <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
                                 <FaMapMarkerAlt className="text-orange-500" /> Delivery Address

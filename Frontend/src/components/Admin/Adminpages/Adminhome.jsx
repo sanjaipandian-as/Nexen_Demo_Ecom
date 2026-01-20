@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import Adminsidebar from '../components/Adminsidebar';
 import AdminDashboard from '../components/AdminDashboard';
-import AdminProductManagement from '../components/AdminProductManagement';
+import AdminAllProducts from '../components/AdminAllProducts';
 import AdminCategoryManagement from '../components/AdminCategoryManagement';
 import AdminOrdersManagement from '../components/AdminOrdersManagement';
 import AdminFinance from '../components/AdminFinance';
+import AdminHeroManagement from '../components/AdminHeroManagement';
 import AdminSettings from '../components/AdminSettings';
 import ProductUploadModal from '../components/ProductUploadModal';
 
@@ -30,11 +31,13 @@ const Adminhome = () => {
             case 'Dashboard':
                 return <AdminDashboard onOpenUploadModal={handleOpenUploadModal} refreshId={refreshId} />;
             case 'Products':
-                return <AdminProductManagement onOpenUploadModal={handleOpenUploadModal} refreshId={refreshId} />;
+                return <AdminAllProducts refreshId={refreshId} />;
             case 'Categories':
                 return <AdminCategoryManagement refreshId={refreshId} />;
             case 'Orders':
                 return <AdminOrdersManagement refreshId={refreshId} />;
+            case 'Hero Section':
+                return <AdminHeroManagement refreshId={refreshId} />;
             case 'Finance':
                 return <AdminFinance refreshId={refreshId} />;
             case 'Settings':

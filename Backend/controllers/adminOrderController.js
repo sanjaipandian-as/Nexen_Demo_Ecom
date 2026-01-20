@@ -5,7 +5,6 @@ export const getAllOrders = async (req, res) => {
   try {
     const orders = await Order.find()
       .populate("customerId")
-      .populate("sellerId")
       .populate("items.productId");
 
     res.json(orders);
@@ -21,7 +20,6 @@ export const getOrdersByStatus = async (req, res) => {
 
     const orders = await Order.find({ status })
       .populate("customerId")
-      .populate("sellerId")
       .populate("items.productId");
 
     res.json(orders);

@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
-import { LineChart, Line, BarChart, Bar, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { MdAttachMoney, MdTrendingUp, MdShoppingCart, MdAccountBalance } from 'react-icons/md';
+import { LineChart, Line, BarChart, Bar, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { MdAttachMoney, MdTrendingUp, MdTrendingDown, MdShoppingCart, MdAccountBalance, MdInsertChartOutlined, MdCalendarToday } from 'react-icons/md';
 import API from '../../../../api';
-import { toast } from 'react-toastify';
 
 const AdminFinance = ({ refreshId }) => {
     const [loading, setLoading] = useState(true);
@@ -13,60 +12,76 @@ const AdminFinance = ({ refreshId }) => {
         averageOrderValue: 0,
         revenueGrowth: 0
     });
+    const [showDropdown, setShowDropdown] = useState(false);
     const [revenueData, setRevenueData] = useState([]);
     const [monthlyData, setMonthlyData] = useState([]);
+
+    const timeOptions = [
+        { label: 'Last 7 Days', value: '7days' },
+        { label: 'Last 14 Days', value: '14days' },
+        { label: 'Last 30 Days', value: '30days' }
+    ];
+
+    const EmptyState = ({ message }) => (
+        <div className="flex flex-col items-center justify-center py-20 h-[300px] w-full border border-dashed border-slate-200 rounded-2xl bg-slate-50">
+            <div className="p-4 rounded-full bg-white shadow-sm mb-3">
+                <MdInsertChartOutlined className="w-8 h-8 text-slate-300" />
+            </div>
+            <p className="text-slate-400 font-bold text-sm uppercase tracking-wide">{message}</p>
+        </div>
+    );
 
     useEffect(() => {
         fetchFinanceData();
     }, [refreshId, timeRange]);
 
+    // ... (fetchFinanceData and statCards remain unchanged)
+
+    // Close dropdown when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (showDropdown && !event.target.closest('.custom-dropdown-container')) {
+                setShowDropdown(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, [showDropdown]);
+
     const fetchFinanceData = async () => {
         try {
             setLoading(true);
+            const [statsRes, revenueRes, monthlyRes] = await Promise.all([
+                API.get('/admin/analytics/finance-stats'),
+                API.get('/admin/analytics/daily-sales'),
+                API.get('/admin/analytics/monthly-sales')
+            ]);
 
-            // Fetch analytics
-            const analyticsRes = await API.get('/admin/analytics/dashboard');
-            const analytics = analyticsRes.data;
-
-            // Fetch daily sales
-            const salesRes = await API.get('/admin/analytics/daily-sales');
-            const salesByDate = salesRes.data;
-
-            const totalRevenue = analytics.totalSales || 0;
-            const totalOrders = analytics.totalOrders || 0;
-            const averageOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0;
-
+            const stats = statsRes.data;
             setFinanceData({
-                totalRevenue,
-                totalOrders,
-                averageOrderValue,
-                revenueGrowth: 15.3
+                totalRevenue: stats.totalRevenue || 0,
+                totalOrders: stats.totalOrders || 0,
+                averageOrderValue: stats.averageOrderValue || 0,
+                revenueGrowth: stats.revenueGrowth || 0
             });
 
-            // Process sales data for charts
-            const salesArray = Object.entries(salesByDate).map(([date, amount]) => ({
-                date: new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-                revenue: amount,
-                orders: Math.floor(Math.random() * 20) + 5,
-                profit: amount * 0.7
-            })).slice(-parseInt(timeRange.replace('days', '')));
-
-            setRevenueData(salesArray);
-
-            // Generate monthly data
-            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
-            const monthlyArray = months.map(month => ({
-                month,
-                revenue: Math.floor(Math.random() * 100000) + 50000,
-                expenses: Math.floor(Math.random() * 50000) + 20000,
-                profit: Math.floor(Math.random() * 50000) + 30000
+            // Process revenue chart data (daily)
+            const revenueArray = (revenueRes.data || []).map(day => ({
+                date: day.date,
+                revenue: day.sales,
+                orders: day.orders,
+                profit: Math.round(day.sales * 0.7)
             }));
 
-            setMonthlyData(monthlyArray);
+            const rangeMap = { '7days': 7, '14days': 14, '30days': 30 };
+            const limit = rangeMap[timeRange] || 7;
+            setRevenueData(revenueArray.slice(-limit));
+            setMonthlyData(monthlyRes.data || []);
 
         } catch (error) {
             console.error('Error fetching finance data:', error);
-            toast.error('Failed to load finance data');
+            setRevenueData([]);
+            setMonthlyData([]);
         } finally {
             setLoading(false);
         }
@@ -74,270 +89,226 @@ const AdminFinance = ({ refreshId }) => {
 
     const statCards = [
         {
-            title: 'Total Revenue',
+            title: 'TOTAL REVENUE',
             value: `₹${financeData.totalRevenue.toLocaleString('en-IN')}`,
             icon: MdAttachMoney,
-            color: 'from-green-500 to-green-600',
+            color: 'text-rose-600',
+            bg: 'bg-rose-50',
             growth: financeData.revenueGrowth,
-            bgColor: 'bg-green-50'
+            trend: 'up'
         },
         {
-            title: 'Total Orders',
+            title: 'TOTAL ORDERS',
             value: financeData.totalOrders,
             icon: MdShoppingCart,
-            color: 'from-blue-500 to-blue-600',
+            color: 'text-emerald-600',
+            bg: 'bg-emerald-50',
             growth: 8.5,
-            bgColor: 'bg-blue-50'
+            trend: 'up'
         },
         {
-            title: 'Average Order Value',
+            title: 'AVG. ORDER VALUE',
             value: `₹${Math.round(financeData.averageOrderValue).toLocaleString('en-IN')}`,
             icon: MdAccountBalance,
-            color: 'from-purple-500 to-purple-600',
-            growth: 5.2,
-            bgColor: 'bg-purple-50'
+            color: 'text-indigo-600',
+            bg: 'bg-indigo-50',
+            growth: -2.3,
+            trend: 'down'
         },
         {
-            title: 'Revenue Growth',
-            value: `${financeData.revenueGrowth}%`,
+            title: 'NET PROFIT EST.',
+            value: `₹${Math.round(financeData.totalRevenue * 0.7).toLocaleString('en-IN')}`,
             icon: MdTrendingUp,
-            color: 'from-orange-500 to-orange-600',
-            growth: financeData.revenueGrowth,
-            bgColor: 'bg-orange-50'
+            color: 'text-emerald-600',
+            bg: 'bg-emerald-50',
+            growth: 12.4,
+            trend: 'up'
         }
     ];
 
     if (loading) {
         return (
-            <div className="px-6 py-6 bg-[#F3F6FA] min-h-screen">
-                {/* Header Skeleton */}
-                <div className="mb-10 flex justify-between items-center">
-                    <div>
-                        <div className="h-8 w-64 bg-slate-200 rounded-full animate-pulse mb-2"></div>
-                        <div className="h-4 w-96 bg-slate-200 rounded-full animate-pulse"></div>
-                    </div>
-                    <div className="h-12 w-40 bg-slate-200 rounded-2xl animate-pulse"></div>
-                </div>
-
-                {/* Stats Cards Skeleton */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-                    {[...Array(4)].map((_, i) => (
-                        <div key={i} className="bg-white rounded-[16px] border border-slate-100 p-6 shadow-sm">
-                            <div className="flex items-center justify-between mb-4">
-                                <div className="w-10 h-10 bg-slate-100 rounded-xl animate-pulse"></div>
-                                <div className="w-12 h-4 bg-slate-100 rounded-full animate-pulse"></div>
-                            </div>
-                            <div className="h-3 w-20 bg-slate-50 rounded-full animate-pulse mb-3"></div>
-                            <div className="h-6 w-24 bg-slate-100 rounded-full animate-pulse"></div>
-                        </div>
-                    ))}
-                </div>
-
-                {/* Charts Skeleton */}
-                <div className="bg-white rounded-[24px] border border-slate-100 p-8 shadow-sm mb-10">
-                    <div className="h-6 w-48 bg-slate-100 rounded-full animate-pulse mb-8"></div>
-                    <div className="h-[350px] bg-slate-50 rounded-3xl animate-pulse"></div>
-                </div>
-
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10">
-                    {[...Array(2)].map((_, i) => (
-                        <div key={i} className="bg-white rounded-[24px] border border-slate-100 p-8 shadow-sm">
-                            <div className="h-6 w-48 bg-slate-100 rounded-full animate-pulse mb-8"></div>
-                            <div className="h-[300px] bg-slate-50 rounded-3xl animate-pulse"></div>
-                        </div>
-                    ))}
+            <div className="p-8 bg-slate-50/50 min-h-screen">
+                <div className="h-8 w-64 bg-slate-200 rounded animate-pulse mb-8"></div>
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                    {[1, 2, 3, 4].map(i => <div key={i} className="h-40 bg-white rounded-2xl shadow-sm animate-pulse"></div>)}
                 </div>
             </div>
         );
     }
 
     return (
-        <div className="px-6 py-6 bg-[#F3F6FA] min-h-screen">
+        <div className="p-8 bg-slate-50/50 min-h-screen font-sans text-slate-900">
             {/* Header */}
-            <div className="mb-10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 mb-10">
                 <div>
-                    <h1 className="text-[28px] font-bold text-[#1E293B] mb-1">Finance & Analytics</h1>
-                    <p className="text-[#64748B] text-[15px] font-medium italic">Track your revenue, expenses, and financial performance</p>
+                    <h1 className="text-2xl font-black text-slate-900 tracking-tight">Finance Overview</h1>
+                    <p className="text-slate-500 font-medium text-sm mt-1">Track your store's financial health</p>
                 </div>
-                <div className="relative group min-w-[180px]">
-                    <select
-                        value={timeRange}
-                        onChange={(e) => setTimeRange(e.target.value)}
-                        className="w-full px-6 py-3.5 bg-white border border-slate-100 rounded-2xl outline-none transition-all focus:border-[#2563EB]/30 focus:shadow-[0_8px_30px_rgb(37,99,235,0.06)] text-slate-700 font-black appearance-none cursor-pointer tracking-tight shadow-sm"
+                <div className="relative custom-dropdown-container min-w-[180px]">
+                    <button
+                        onClick={() => setShowDropdown(!showDropdown)}
+                        className={`
+                            w-full flex items-center gap-3 px-5 py-3 bg-white border rounded-xl outline-none transition-all cursor-pointer shadow-sm
+                            ${showDropdown ? 'border-rose-500 ring-4 ring-rose-500/10' : 'border-slate-200 hover:border-slate-300'}
+                        `}
                     >
-                        <option value="7days">Last 7 Days</option>
-                        <option value="14days">Last 14 Days</option>
-                        <option value="30days">Last 30 Days</option>
-                    </select>
-                    <div className="absolute right-6 top-1/2 -translate-y-1/2 w-3 h-3 border-b-2 border-r-2 border-slate-200 rotate-45 mb-1 pointer-events-none group-focus-within:border-[#2563EB] transition-colors"></div>
+                        <MdCalendarToday className="text-rose-600" />
+                        <span className="text-slate-700 font-bold text-sm flex-1 text-left">
+                            {timeOptions.find(opt => opt.value === timeRange)?.label}
+                        </span>
+                        <div className={`w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-t-[6px] border-t-slate-400 transition-transform ${showDropdown ? 'rotate-180' : ''}`} />
+                    </button>
+
+                    {showDropdown && (
+                        <div className="absolute top-full right-0 mt-2 w-full bg-white border border-slate-100 rounded-xl shadow-xl z-50 overflow-hidden animate-slideDown">
+                            {timeOptions.map((option) => (
+                                <div
+                                    key={option.value}
+                                    onClick={() => {
+                                        setTimeRange(option.value);
+                                        setShowDropdown(false);
+                                    }}
+                                    className={`
+                                        px-5 py-3 text-sm font-bold cursor-pointer transition-colors
+                                        ${timeRange === option.value ? 'bg-slate-50 text-rose-600' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'}
+                                    `}
+                                >
+                                    {option.label}
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
             </div>
 
             {/* Stats Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
-                {statCards.map((card, index) => {
-                    const Icon = card.icon;
-                    return (
-                        <div key={index} className="bg-white rounded-[16px] border border-slate-100 p-6 shadow-[0_8px_24px_rgba(0,0,0,0.06)] hover:shadow-[0_12px_32px_rgba(0,0,0,0.08)] transition-all">
-                            <div className="flex items-center justify-between mb-4">
-                                <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-white bg-gradient-to-br ${card.color}`}>
-                                    <Icon size={20} />
-                                </div>
-                                <div className={`flex items-center gap-1 text-[11px] font-black tracking-widest uppercase ${card.growth >= 0 ? 'text-emerald-500' : 'text-rose-500'}`}>
-                                    {card.growth >= 0 ? '↑' : '↓'} {Math.abs(card.growth)}%
-                                </div>
+                {statCards.map((card, index) => (
+                    <div key={index} className="bg-white rounded-2xl p-6 border border-slate-100 shadow-[0_4px_24px_rgba(0,0,0,0.02)] hover:shadow-xl hover:scale-105 transition-all duration-300 group cursor-pointer">
+                        <div className="flex justify-between items-start mb-4">
+                            <div className={`p-3 rounded-2xl ${card.bg} ${card.color} transition-colors`}>
+                                <card.icon className="w-6 h-6" />
                             </div>
-                            <h3 className="text-slate-400 text-[11px] font-black uppercase tracking-widest mb-1">{card.title}</h3>
-                            <p className="text-2xl font-bold text-slate-900 leading-none tracking-tight">{card.value}</p>
+                            <span className={`flex items-center gap-1 text-[11px] font-black px-2 py-1 rounded-full ${card.trend === 'up' ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}`}>
+                                {card.trend === 'up' ? <MdTrendingUp /> : <MdTrendingDown />}
+                                {Math.abs(card.growth)}%
+                            </span>
                         </div>
-                    );
-                })}
+                        <div>
+                            <p className="text-slate-400 text-[10px] font-black uppercase tracking-widest mb-1">{card.title}</p>
+                            <h3 className="text-2xl font-black text-slate-900 tracking-tight">{card.value}</h3>
+                        </div>
+                    </div>
+                ))}
             </div>
 
-            {/* Revenue Trend */}
-            <div className="bg-white rounded-[24px] border border-border-slate-100 shadow-[0_8px_24px_rgba(0,0,0,0.04)] p-8 mb-10">
-                <div className="flex items-center gap-3 mb-8">
-                    <div className="w-1.5 h-6 bg-[#2563EB] rounded-full"></div>
-                    <h2 className="text-xl font-bold text-[#1E293B]">Revenue Evolution</h2>
-                </div>
-                <ResponsiveContainer width="100%" height={350}>
-                    <AreaChart data={revenueData}>
-                        <defs>
-                            <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="5%" stopColor="#2563EB" stopOpacity={0.1} />
-                                <stop offset="95%" stopColor="#2563EB" stopOpacity={0} />
-                            </linearGradient>
-                        </defs>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
-                        <XAxis
-                            dataKey="date"
-                            axisLine={false}
-                            tickLine={false}
-                            tick={{ fill: '#64748B', fontSize: 12, fontWeight: 500 }}
-                            dy={15}
-                        />
-                        <YAxis
-                            axisLine={false}
-                            tickLine={false}
-                            tick={{ fill: '#64748B', fontSize: 12, fontWeight: 500 }}
-                            dx={-10}
-                            tickFormatter={(value) => `₹${value / 1000}k`}
-                        />
-                        <Tooltip
-                            contentStyle={{
-                                backgroundColor: '#fff',
-                                border: 'none',
-                                borderRadius: '16px',
-                                boxShadow: '0 10px 30px rgba(0,0,0,0.1)',
-                                padding: '12px 16px'
-                            }}
-                            cursor={{ stroke: '#2563EB', strokeWidth: 2, strokeDasharray: '5 5' }}
-                        />
-                        <Area
-                            type="monotone"
-                            dataKey="revenue"
-                            stroke="#2563EB"
-                            strokeWidth={3}
-                            fillOpacity={1}
-                            fill="url(#colorRevenue)"
-                        />
-                    </AreaChart>
-                </ResponsiveContainer>
-            </div>
-
-            {/* Revenue vs Profit */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-10">
-                <div className="bg-white rounded-[24px] border border-slate-100 shadow-[0_8px_24px_rgba(0,0,0,0.04)] p-8">
+            {/* Charts Section */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-10">
+                {/* Main Revenue Chart */}
+                <div className="lg:col-span-2 bg-white rounded-3xl p-8 border border-slate-100 shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
                     <div className="flex items-center gap-3 mb-8">
-                        <div className="w-1.5 h-6 bg-[#22C55E] rounded-full"></div>
-                        <h2 className="text-xl font-bold text-[#1E293B]">Revenue vs Profit</h2>
+                        <div className="w-1.5 h-6 bg-rose-600 rounded-full"></div>
+                        <h2 className="text-lg font-black text-slate-900 tracking-tight">Revenue Trend</h2>
                     </div>
-                    <ResponsiveContainer width="100%" height={300}>
-                        <BarChart data={revenueData}>
-                            <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
-                            <XAxis
-                                dataKey="date"
-                                axisLine={false}
-                                tickLine={false}
-                                tick={{ fill: '#64748B', fontSize: 12, fontWeight: 500 }}
-                                dy={10}
-                            />
-                            <YAxis
-                                axisLine={false}
-                                tickLine={false}
-                                tick={{ fill: '#64748B', fontSize: 12, fontWeight: 500 }}
-                                dx={-10}
-                                tickFormatter={(value) => `₹${value / 1000}k`}
-                            />
-                            <Tooltip
-                                contentStyle={{
-                                    backgroundColor: '#fff',
-                                    border: 'none',
-                                    borderRadius: '16px',
-                                    boxShadow: '0 10px 30px rgba(0,0,0,0.1)'
-                                }}
-                            />
-                            <Bar dataKey="revenue" fill="#2563EB" radius={[6, 6, 0, 0]} name="Revenue" barSize={30} />
-                            <Bar dataKey="profit" fill="#10B981" radius={[6, 6, 0, 0]} name="Profit" barSize={30} />
-                        </BarChart>
-                    </ResponsiveContainer>
+                    {revenueData.length > 0 ? (
+                        <div className="h-[350px] w-full">
+                            <ResponsiveContainer width="100%" height="100%">
+                                <AreaChart data={revenueData}>
+                                    <defs>
+                                        <linearGradient id="colorRevenuePink" x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="5%" stopColor="#e11d48" stopOpacity={0.1} />
+                                            <stop offset="95%" stopColor="#e11d48" stopOpacity={0} />
+                                        </linearGradient>
+                                    </defs>
+                                    <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
+                                    <XAxis
+                                        dataKey="date"
+                                        axisLine={false}
+                                        tickLine={false}
+                                        tick={{ fill: '#94a3b8', fontSize: 11, fontWeight: 700 }}
+                                        dy={15}
+                                    />
+                                    <YAxis
+                                        axisLine={false}
+                                        tickLine={false}
+                                        tick={{ fill: '#94a3b8', fontSize: 11, fontWeight: 700 }}
+                                        dx={-10}
+                                        tickFormatter={(value) => `₹${value / 1000}k`}
+                                    />
+                                    <Tooltip
+                                        contentStyle={{ backgroundColor: '#fff', border: 'none', borderRadius: '12px', boxShadow: '0 10px 30px rgba(0,0,0,0.1)' }}
+                                        cursor={{ stroke: '#e11d48', strokeWidth: 1, strokeDasharray: '4 4' }}
+                                    />
+                                    <Area
+                                        type="monotone"
+                                        dataKey="revenue"
+                                        stroke="#e11d48"
+                                        strokeWidth={3}
+                                        fillOpacity={1}
+                                        fill="url(#colorRevenuePink)"
+                                    />
+                                </AreaChart>
+                            </ResponsiveContainer>
+                        </div>
+                    ) : (
+                        <EmptyState message="No revenue data available" />
+                    )}
                 </div>
 
-                <div className="bg-white rounded-[24px] border border-slate-100 shadow-[0_8px_24px_rgba(0,0,0,0.04)] p-8">
+                {/* Monthly Performance */}
+                <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
                     <div className="flex items-center gap-3 mb-8">
-                        <div className="w-1.5 h-6 bg-[#8B5CF6] rounded-full"></div>
-                        <h2 className="text-xl font-bold text-[#1E293B]">Monthly Performance</h2>
+                        <div className="w-1.5 h-6 bg-slate-900 rounded-full"></div>
+                        <h2 className="text-lg font-black text-slate-900 tracking-tight">Monthly Recap</h2>
                     </div>
-                    <ResponsiveContainer width="100%" height={300}>
-                        <LineChart data={monthlyData}>
-                            <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
-                            <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fill: '#64748B', fontSize: 12, fontWeight: 500 }} dy={10} />
-                            <YAxis axisLine={false} tickLine={false} tick={{ fill: '#64748B', fontSize: 12, fontWeight: 500 }} dx={-10} />
-                            <Tooltip
-                                contentStyle={{
-                                    backgroundColor: '#fff',
-                                    border: 'none',
-                                    borderRadius: '16px',
-                                    boxShadow: '0 10px 30px rgba(0,0,0,0.1)'
-                                }}
-                            />
-                            <Line type="monotone" dataKey="revenue" stroke="#2563EB" strokeWidth={4} dot={{ fill: '#2563EB', strokeWidth: 2, r: 6, stroke: '#fff' }} name="Revenue" />
-                            <Line type="monotone" dataKey="profit" stroke="#10B981" strokeWidth={4} dot={{ fill: '#10B981', strokeWidth: 2, r: 6, stroke: '#fff' }} name="Profit" />
-                        </LineChart>
-                    </ResponsiveContainer>
+                    {monthlyData.length > 0 ? (
+                        <div className="h-[350px] w-full">
+                            <ResponsiveContainer width="100%" height="100%">
+                                <BarChart data={monthlyData} barGap={8}>
+                                    <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
+                                    <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 11, fontWeight: 700 }} dy={10} />
+                                    <Tooltip
+                                        contentStyle={{ backgroundColor: '#fff', border: 'none', borderRadius: '12px', boxShadow: '0 10px 30px rgba(0,0,0,0.1)' }}
+                                        cursor={{ fill: '#f8fafc' }}
+                                    />
+                                    <Bar dataKey="revenue" fill="#e11d48" radius={[4, 4, 0, 0]} name="Revenue" />
+                                    <Bar dataKey="profit" fill="#0f172a" radius={[4, 4, 0, 0]} name="Profit" />
+                                </BarChart>
+                            </ResponsiveContainer>
+                        </div>
+                    ) : (
+                        <EmptyState message="No monthly history" />
+                    )}
                 </div>
             </div>
 
             {/* Financial Summary */}
-            <div className="bg-white rounded-[24px] border border-slate-100 shadow-[0_8px_24px_rgba(0,0,0,0.04)] p-8">
-                <div className="flex items-center gap-3 mb-8">
-                    <div className="w-1.5 h-6 bg-slate-900 rounded-full"></div>
-                    <h2 className="text-xl font-bold text-[#1E293B]">Financial Summary</h2>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div className="p-8 bg-blue-50/50 rounded-[28px] border border-blue-100/50 group hover:bg-blue-600 transition-all duration-500">
-                        <p className="text-[11px] font-black text-blue-600 uppercase tracking-widest mb-3 group-hover:text-blue-100 transition-colors">Total Income</p>
-                        <p className="text-3xl font-black text-slate-900 group-hover:text-white transition-colors mb-2">₹{financeData.totalRevenue.toLocaleString('en-IN')}</p>
-                        <div className="flex items-center gap-2">
-                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                            <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest group-hover:text-emerald-300 transition-colors">+15.3% Growth</p>
+            <div className="bg-white rounded-3xl border border-slate-100 shadow-[0_4px_24px_rgba(0,0,0,0.02)] p-8">
+                <h2 className="text-lg font-black text-slate-900 tracking-tight mb-8">P&L Summary</h2>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="p-8 bg-slate-900 rounded-2xl border border-slate-800 relative overflow-hidden group">
+                        <div className="relative z-10">
+                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Total Income</p>
+                            <p className="text-3xl font-black text-white tracking-tight">₹{financeData.totalRevenue.toLocaleString('en-IN')}</p>
                         </div>
+                        <div className="absolute right-0 top-0 w-32 h-32 bg-slate-800 rounded-full blur-3xl -mr-16 -mt-16 group-hover:bg-slate-700 transition-colors"></div>
                     </div>
-                    <div className="p-8 bg-rose-50/50 rounded-[28px] border border-rose-100/50 group hover:bg-rose-600 transition-all duration-500">
-                        <p className="text-[11px] font-black text-rose-600 uppercase tracking-widest mb-3 group-hover:text-rose-100 transition-colors">Operational Cost</p>
-                        <p className="text-3xl font-black text-slate-900 group-hover:text-white transition-colors mb-2">₹{Math.round(financeData.totalRevenue * 0.3).toLocaleString('en-IN')}</p>
-                        <div className="flex items-center gap-2">
-                            <span className="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
-                            <p className="text-[10px] font-black text-amber-600 uppercase tracking-widest group-hover:text-amber-200 transition-colors">Stable Burn</p>
+
+                    <div className="p-8 bg-rose-50 rounded-2xl border border-rose-100 relative overflow-hidden group">
+                        <div className="relative z-10">
+                            <p className="text-[10px] font-black text-rose-900/50 uppercase tracking-widest mb-2">Operating Costs (Est. 30%)</p>
+                            <p className="text-3xl font-black text-rose-600 tracking-tight">₹{Math.round(financeData.totalRevenue * 0.3).toLocaleString('en-IN')}</p>
                         </div>
+                        <div className="absolute right-0 top-0 w-32 h-32 bg-rose-100 rounded-full blur-3xl -mr-16 -mt-16 group-hover:bg-rose-200 transition-colors"></div>
                     </div>
-                    <div className="p-8 bg-emerald-50/50 rounded-[28px] border border-emerald-100/50 group hover:bg-emerald-600 transition-all duration-500">
-                        <p className="text-[11px] font-black text-emerald-600 uppercase tracking-widest mb-3 group-hover:text-emerald-100 transition-colors">Net Profit</p>
-                        <p className="text-3xl font-black text-slate-900 group-hover:text-white transition-colors mb-2">₹{Math.round(financeData.totalRevenue * 0.7).toLocaleString('en-IN')}</p>
-                        <div className="flex items-center gap-2">
-                            <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
-                            <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest group-hover:text-emerald-100 transition-colors">Optimization Target Met</p>
+
+                    <div className="p-8 bg-emerald-50 rounded-2xl border border-emerald-100 relative overflow-hidden group">
+                        <div className="relative z-10">
+                            <p className="text-[10px] font-black text-emerald-900/50 uppercase tracking-widest mb-2">Net Profit (Est. 70%)</p>
+                            <p className="text-3xl font-black text-emerald-600 tracking-tight">₹{Math.round(financeData.totalRevenue * 0.7).toLocaleString('en-IN')}</p>
                         </div>
+                        <div className="absolute right-0 top-0 w-32 h-32 bg-emerald-100 rounded-full blur-3xl -mr-16 -mt-16 group-hover:bg-emerald-200 transition-colors"></div>
                     </div>
                 </div>
             </div>

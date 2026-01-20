@@ -418,7 +418,7 @@ const CategoriesSpecificpage = () => {
                         </div>
                     ) : products.length === 0 ? (
                         <div className="flex flex-col items-center justify-center py-16 md:py-24">
-                            <div className="text-6xl md:text-8xl mb-4">🎆</div>
+                            <div className="text-6xl md:text-8xl mb-4">👗</div>
                             <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-2">No Products Found</h2>
                             <p className="text-gray-600 text-center max-w-md mb-6">
                                 We couldn't find any products in this category. Try adjusting your filters or check back later.

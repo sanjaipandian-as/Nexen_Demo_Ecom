@@ -33,8 +33,8 @@ const Footer = () => {
             { name: 'FAQs', path: '/faqs' }
         ],
         policy: [
-            { name: 'Sell on APK Crackers', path: '/seller-register' },
-            { name: 'Sell under APK Crackers Accelerator', path: '/Affiliate' },
+            { name: 'Sell on Fashion Store', path: '/seller-register' },
+            { name: 'Fashion Store Accelerator', path: '/Affiliate' },
             { name: 'Protect and Build Your Brand', path: '/BrandRegistry' },
             { name: 'Become an Affiliate', path: '/affiliate' },
             { name: 'Advertise Your Products', path: '/advertise' }
@@ -49,11 +49,11 @@ const Footer = () => {
                     {/* Brand Section */}
                     <div className="lg:col-span-1">
                         <div className="mb-6">
-                            <h2 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent mb-3">
-                                APK Crackers
+                            <h2 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent mb-3">
+                                Fashion Store
                             </h2>
                             <p className="text-gray-400 text-sm leading-relaxed">
-                                Your trusted destination for premium quality crackers and fireworks
+                                Your trusted destination for premium fashion and lifestyle products
                             </p>
                         </div>
 
@@ -154,10 +154,10 @@ const Footer = () => {
                             <li className="flex items-center gap-3">
                                 <FaEnvelope className="w-4 h-4 text-orange-400 flex-shrink-0" />
                                 <a
-                                    href="mailto:support@apkcrackers.com"
+                                    href="mailto:support@fashionstore.com"
                                     className="text-gray-400 hover:text-orange-400 text-sm transition-colors focus:outline-none focus:text-orange-400"
                                 >
-                                    support@apkcrackers.com
+                                    support@fashionstore.com
                                 </a>
                             </li>
                         </ul>
@@ -239,7 +239,7 @@ const Footer = () => {
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-5">
                     <div className="flex flex-col md:flex-row items-center justify-between gap-3">
                         <p className="text-sm text-gray-400 text-center md:text-left">
-                            © {currentYear} <span className="text-orange-400 font-semibold">APK Crackers</span>. All rights reserved.
+                            © {currentYear} <span className="text-orange-400 font-semibold">Fashion Store</span>. All rights reserved.
                         </p>
                         <p className="text-xs text-gray-500 text-center md:text-right">
                             Made with ❤️ in India
@@ -249,10 +249,10 @@ const Footer = () => {
             </div>
 
             {/* Safety Warning */}
-            <div className="bg-gradient-to-r from-orange-900/30 to-red-900/30 border-t border-orange-800/50 pb-16 md:pb-0">
+            <div className="bg-gradient-to-r from-gray-900 to-gray-800 border-t border-gray-800 pb-16 md:pb-0">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-3">
-                    <p className="text-xs text-center text-orange-200 leading-relaxed">
-                        ⚠️ <span className="font-semibold">Safety First:</span> Always follow safety guidelines when using crackers and fireworks. Keep away from children. Use in open areas only.
+                    <p className="text-xs text-center text-gray-400 leading-relaxed">
+                        <span className="font-semibold text-white">100% Original Products:</span> All our products are sourced directly from brands or authorized distributors.
                     </p>
                 </div>
             </div>

@@ -1,7 +1,9 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import { MdAdd, MdEdit, MdDelete, MdImage, MdClose, MdCategory } from 'react-icons/md';
+import { MdAdd, MdEdit, MdDelete, MdImage, MdClose, MdCategory, MdSearch, MdRefresh } from 'react-icons/md';
+import { FaLayerGroup } from 'react-icons/fa';
 import API from '../../../../api';
+import PlaceholderImage from '../../../assets/Placeholder.png';
 
 const AdminCategoryManagement = () => {
     const [categories, setCategories] = useState([]);
@@ -12,6 +14,7 @@ const AdminCategoryManagement = () => {
     const [formData, setFormData] = useState({ name: '', icon: null });
     const [imagePreview, setImagePreview] = useState(null);
     const [submitting, setSubmitting] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
         fetchCategories();
@@ -119,182 +122,223 @@ const AdminCategoryManagement = () => {
         setImagePreview(null);
     };
 
-    return (
-        <div className="p-6 bg-[#F3F6FA] min-h-screen">
-            {/* Header */}
-            <div className="mb-8">
-                <h1 className="text-[28px] font-bold text-[#1E293B] mb-2 tracking-tight">Category Management</h1>
-                <p className="text-[#64748B] text-[15px] font-medium italic">Manage product categories and their icons</p>
-            </div>
+    const filteredCategories = categories.filter(c =>
+        c.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
-            {/* Add Category Button */}
-            <div className="mb-6">
+    // Styling constants matching Pink Professional Theme
+    const inputStyle = "w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-700 font-bold focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 transition-all placeholder:text-slate-400 text-sm";
+    const labelStyle = "block text-xs font-black text-slate-500 uppercase tracking-widest mb-1.5 ml-1";
+
+    return (
+        <div className="min-h-screen bg-[#F8FAFC] font-body p-8 space-y-8">
+            {/* Header */}
+            <div className="flex items-center justify-between mb-8 animate-slideUp">
+                <div>
+                    <div className="flex items-center gap-3">
+                        <h1 className="text-3xl font-black text-slate-900 tracking-tight font-hero">Category Management</h1>
+                        <span className="px-3 py-1 bg-rose-50 text-rose-600 text-[11px] font-bold uppercase tracking-widest rounded-full border border-rose-100">
+                            Structure
+                        </span>
+                    </div>
+                    <p className="text-sm font-medium text-slate-500 mt-1">
+                        Organize your store's product hierarchy.
+                    </p>
+                </div>
                 <button
                     onClick={openCreateModal}
-                    className="flex items-center gap-2 px-6 py-3 bg-[#2563EB] text-white font-bold rounded-xl hover:bg-[#1E40AF] transition-all shadow-[0_8px_24px_rgba(37,99,235,0.2)] hover:shadow-[0_12px_32px_rgba(37,99,235,0.3)]"
+                    className="flex items-center gap-2 px-6 py-3 bg-slate-900 hover:bg-rose-600 text-white font-bold rounded-2xl transition-all shadow-xl hover:shadow-rose-500/20 active:scale-95 text-xs uppercase tracking-widest"
                 >
-                    <MdAdd className="text-xl" />
-                    Add New Category
+                    <MdAdd className="text-lg" />
+                    <span>Add Category</span>
+                </button>
+            </div>
+
+            {/* Filters */}
+            <div className="flex justify-between items-center bg-white p-4 rounded-[2rem] border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.02)] animate-slideUp" style={{ animationDelay: '0.1s' }}>
+                <div className="relative w-full md:w-96 group">
+                    <MdSearch className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-rose-500 transition-colors text-xl" />
+                    <input
+                        type="text"
+                        placeholder="Search categories..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="w-full pl-14 pr-6 py-4 bg-slate-50 border-none rounded-2xl text-slate-700 font-bold placeholder:text-slate-400 focus:bg-white focus:ring-2 focus:ring-rose-500/10 transition-all outline-none"
+                    />
+                </div>
+                <button
+                    onClick={fetchCategories}
+                    className="p-4 bg-white border border-slate-200 text-slate-400 rounded-2xl hover:text-rose-600 hover:border-rose-200 transition-all active:scale-95 shadow-sm"
+                    title="Refresh Data"
+                >
+                    <MdRefresh className="text-xl" />
                 </button>
             </div>
 
             {/* Categories Grid */}
-            {loading ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                    {[...Array(6)].map((_, i) => (
-                        <div key={i} className="bg-white rounded-[16px] p-6 border border-slate-100 shadow-[0_8px_24px_rgba(0,0,0,0.04)] animate-pulse">
-                            <div className="w-full h-40 bg-slate-100 rounded-xl mb-4"></div>
-                            <div className="h-6 bg-slate-100 rounded mb-2"></div>
-                            <div className="flex gap-2">
-                                <div className="h-10 bg-slate-100 rounded flex-1"></div>
-                                <div className="h-10 bg-slate-100 rounded flex-1"></div>
-                            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 animate-slideUp" style={{ animationDelay: '0.2s' }}>
+                {loading ? (
+                    [...Array(4)].map((_, i) => (
+                        <div key={i} className="bg-white rounded-[2rem] h-64 border border-slate-100 p-4 animate-pulse"></div>
+                    ))
+                ) : filteredCategories.length === 0 ? (
+                    <div className="col-span-full bg-white rounded-[2rem] p-16 text-center border border-slate-100 shadow-sm">
+                        <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6 text-slate-300">
+                            <FaLayerGroup className="text-4xl" />
                         </div>
-                    ))}
-                </div>
-            ) : categories.length === 0 ? (
-                <div className="bg-white rounded-[24px] p-12 text-center border border-slate-100 shadow-[0_8px_24px_rgba(0,0,0,0.04)]">
-                    <MdCategory className="text-6xl text-slate-300 mx-auto mb-4" />
-                    <p className="text-slate-500 text-lg font-medium">No categories found</p>
-                    <p className="text-slate-400 text-sm mt-2">Create your first category to get started</p>
-                </div>
-            ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                    {categories.map((category) => (
+                        <h3 className="text-xl font-black text-slate-900 mb-2 font-hero">No Categories Found</h3>
+                        <p className="text-slate-500 text-sm font-medium">Create your first category to start organizing.</p>
+                    </div>
+                ) : (
+                    filteredCategories.map((category) => (
                         <div
                             key={category._id}
-                            className="bg-white rounded-[16px] overflow-hidden border border-slate-100 shadow-[0_8px_24px_rgba(0,0,0,0.06)] hover:shadow-[0_12px_32px_rgba(0,0,0,0.08)] transition-all"
+                            className="group bg-white rounded-[2rem] overflow-hidden border border-slate-100 shadow-[0_4px_24px_rgba(0,0,0,0.02)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:border-slate-200 hover:-translate-y-1 transition-all duration-300"
                         >
-                            <div className="h-40 bg-slate-50 overflow-hidden">
+                            <div className="h-48 bg-slate-50 overflow-hidden relative">
                                 {category.icon ? (
                                     <img
                                         src={category.icon}
                                         alt={category.name}
-                                        className="w-full h-full object-cover"
+                                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                        onError={(e) => { e.target.src = PlaceholderImage; e.target.onerror = null; }}
                                     />
                                 ) : (
-                                    <div className="w-full h-full flex items-center justify-center">
-                                        <MdImage className="text-6xl text-slate-300" />
+                                    <div className="w-full h-full flex flex-col items-center justify-center text-slate-300 bg-slate-50">
+                                        <MdImage className="text-4xl mb-2" />
+                                        <span className="text-[10px] font-bold uppercase tracking-widest">No Image</span>
                                     </div>
                                 )}
-                            </div>
-                            <div className="p-5">
-                                <h3 className="text-[17px] font-bold text-gray-900 mb-4 uppercase tracking-tight">
-                                    {category.name}
-                                </h3>
-                                <div className="flex gap-2">
+                                {/* Overlay Actions */}
+                                <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
                                     <button
                                         onClick={() => handleEdit(category)}
-                                        className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-blue-50 text-blue-600 rounded-xl hover:bg-blue-100 transition-all font-bold text-sm"
+                                        className="p-3 bg-white text-slate-900 rounded-xl hover:scale-110 transition-transform shadow-lg"
+                                        title="Edit"
                                     >
-                                        <MdEdit className="text-lg" />
-                                        Edit
+                                        <MdEdit />
                                     </button>
                                     <button
                                         onClick={() => handleDelete(category._id)}
-                                        className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-red-50 text-red-600 rounded-xl hover:bg-red-100 transition-all font-bold text-sm"
+                                        className="p-3 bg-red-500 text-white rounded-xl hover:scale-110 transition-transform shadow-lg"
+                                        title="Delete"
                                     >
-                                        <MdDelete className="text-lg" />
-                                        Delete
+                                        <MdDelete />
                                     </button>
                                 </div>
                             </div>
+
+                            <div className="p-6">
+                                <h3 className="text-lg font-black text-slate-900 mb-2 uppercase tracking-tight group-hover:text-rose-600 transition-colors font-hero truncate">
+                                    {category.name}
+                                </h3>
+                                <div className="flex items-center gap-2">
+                                    <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+                                    <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Active</span>
+                                </div>
+                            </div>
                         </div>
-                    ))}
-                </div>
-            )}
+                    ))
+                )}
+            </div>
 
             {/* Modal */}
             {showModal && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-                    <div className="bg-white rounded-[2rem] w-full max-w-md shadow-[0_20px_50px_rgba(0,0,0,0.15)] max-h-[90vh] overflow-y-auto">
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4 animate-fadeIn">
+                    <div className="bg-[#F8FAFC] w-full max-w-md rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col relative animate-slideUp">
                         {/* Modal Header */}
-                        <div className="p-6 border-b border-slate-100 flex items-center justify-between sticky top-0 bg-white rounded-t-[2rem]">
-                            <h2 className="text-xl font-bold text-[#1E293B]">
-                                {editMode ? 'Edit Category' : 'Add New Category'}
-                            </h2>
+                        <div className="px-8 py-6 bg-white border-b border-slate-100 flex items-center justify-between">
+                            <div>
+                                <h2 className="text-xl font-black text-slate-900 font-hero">
+                                    {editMode ? 'Edit Category' : 'New Category'}
+                                </h2>
+                                <p className="text-xs font-medium text-slate-500 mt-1">Enter category details</p>
+                            </div>
                             <button
                                 onClick={closeModal}
-                                className="w-12 h-12 rounded-2xl bg-slate-50 text-slate-400 hover:text-red-500 hover:bg-red-50 transition-all flex items-center justify-center"
+                                className="p-3 bg-slate-50 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-2xl transition-colors"
                             >
-                                <MdClose className="text-2xl" />
+                                <MdClose className="text-xl" />
                             </button>
                         </div>
 
                         {/* Modal Body */}
-                        <form onSubmit={handleSubmit} className="p-6">
-                            <div className="mb-6">
-                                <label className="block text-sm font-bold text-gray-700 mb-2">
-                                    Category Name *
+                        <form onSubmit={handleSubmit} className="p-8 space-y-6">
+                            <div>
+                                <label className={labelStyle}>
+                                    Category Name
                                 </label>
                                 <input
                                     type="text"
                                     value={formData.name}
                                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                    className="w-full px-4 py-3 rounded-[20px] border border-slate-200 focus:border-[#2563EB]/30 focus:shadow-[0_8px_30px_rgb(37,99,235,0.06)] transition-all outline-none"
-                                    placeholder="Enter category name"
+                                    className={inputStyle}
+                                    placeholder="e.g. Skin Care"
                                     required
                                 />
                             </div>
 
-                            <div className="mb-6">
-                                <label className="block text-sm font-bold text-gray-700 mb-2">
-                                    Category Icon
+                            <div>
+                                <label className={labelStyle}>
+                                    Cover Image
                                 </label>
-                                <div className="border-2 border-dashed border-slate-200 rounded-[20px] p-6 text-center hover:border-[#2563EB]/30 transition-all">
+                                <div
+                                    className={`
+                                        border-3 border-dashed rounded-[2rem] p-10 text-center transition-all cursor-pointer relative overflow-hidden group
+                                        ${imagePreview ? 'border-rose-200 bg-rose-50' : 'border-slate-200 hover:border-rose-400 hover:bg-slate-50'}
+                                    `}
+                                >
                                     {imagePreview ? (
-                                        <div className="relative">
+                                        <>
                                             <img
                                                 src={imagePreview}
                                                 alt="Preview"
-                                                className="w-full h-48 object-cover rounded-xl mb-4"
+                                                className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity"
                                             />
-                                            <button
-                                                type="button"
-                                                onClick={() => {
-                                                    setImagePreview(null);
-                                                    setFormData({ ...formData, icon: null });
-                                                }}
-                                                className="absolute top-2 right-2 w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-all"
-                                            >
-                                                <MdClose />
-                                            </button>
-                                        </div>
+                                            <div className="relative z-10">
+                                                <button
+                                                    type="button"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        setImagePreview(null);
+                                                        setFormData({ ...formData, icon: null });
+                                                    }}
+                                                    className="w-12 h-12 bg-white text-rose-600 rounded-full shadow-xl flex items-center justify-center mx-auto hover:scale-110 transition-transform"
+                                                >
+                                                    <MdDelete className="text-xl" />
+                                                </button>
+                                                <p className="text-[10px] font-black uppercase tracking-widest text-slate-900 mt-3">Remove Image</p>
+                                            </div>
+                                        </>
                                     ) : (
-                                        <div className="py-8">
-                                            <MdImage className="text-6xl text-slate-300 mx-auto mb-4" />
-                                            <p className="text-slate-500 text-sm mb-2">Click to upload an image</p>
-                                            <p className="text-slate-400 text-xs">PNG, JPG up to 5MB</p>
+                                        <div className="pointer-events-none">
+                                            <div className="w-16 h-16 bg-slate-100 rounded-2xl flex items-center justify-center mx-auto mb-4 text-slate-300">
+                                                <MdImage className="text-3xl" />
+                                            </div>
+                                            <p className="text-slate-400 text-xs font-black uppercase tracking-widest">Click to upload</p>
                                         </div>
                                     )}
                                     <input
                                         type="file"
                                         accept="image/*"
                                         onChange={handleImageChange}
-                                        className="hidden"
-                                        id="icon-upload"
+                                        className="absolute inset-0 cursor-pointer opacity-0"
                                     />
-                                    <label
-                                        htmlFor="icon-upload"
-                                        className="inline-block px-6 py-2 bg-slate-100 text-slate-700 rounded-xl hover:bg-slate-200 transition-all cursor-pointer font-bold text-sm"
-                                    >
-                                        {imagePreview ? 'Change Image' : 'Upload Image'}
-                                    </label>
                                 </div>
                             </div>
 
-                            <div className="flex gap-3">
+                            <div className="pt-4 flex gap-3">
                                 <button
                                     type="button"
                                     onClick={closeModal}
-                                    className="flex-1 px-6 py-3 bg-slate-100 text-slate-700 rounded-xl hover:bg-slate-200 transition-all font-bold"
+                                    className="flex-1 px-6 py-3 bg-slate-50 text-slate-600 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-slate-100 transition-colors"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     type="submit"
                                     disabled={submitting}
-                                    className="flex-1 px-6 py-3 bg-[#2563EB] text-white rounded-xl hover:bg-[#1E40AF] transition-all font-bold disabled:bg-slate-300 disabled:cursor-not-allowed"
+                                    className="flex-1 px-6 py-3 bg-slate-900 text-white rounded-xl font-black text-xs uppercase tracking-widest hover:bg-rose-600 transition-all shadow-lg hover:shadow-rose-500/30 disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     {submitting ? 'Saving...' : editMode ? 'Update' : 'Create'}
                                 </button>

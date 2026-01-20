@@ -101,6 +101,10 @@ app.use("/api/cart", cartRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/payment", paymentRoutes);
 
+// Hero Section Routes
+import heroRoutes from "./routes/heroRoutes.js";
+app.use("/api/hero", heroRoutes);
+
 
 // =========================
 // ⭐ GLOBAL ROUTES (USED BY ALL)

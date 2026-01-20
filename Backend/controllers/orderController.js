@@ -15,8 +15,15 @@ export const createOrder = async (req, res) => {
     if (!cart || cart.items.length === 0)
       return res.status(400).json({ message: "Cart is empty" });
 
+    // Filter out invalid items (where product might have been deleted)
+    const validItems = cart.items.filter(item => item.productId);
+
+    if (validItems.length === 0) {
+      return res.status(400).json({ message: "Cart contains invalid items or products that no longer exist." });
+    }
+
     // Prepare order items
-    const orderItems = cart.items.map((item) => ({
+    const orderItems = validItems.map((item) => ({
       productId: item.productId._id,
       quantity: item.quantity,
       price: item.productId.pricing?.selling_price || item.productId.price || 0,
@@ -28,12 +35,12 @@ export const createOrder = async (req, res) => {
       0
     );
 
-    // Firecrackers come from ONE seller → get sellerId from product
-    const sellerId = cart.items[0].productId.sellerId;
 
     // Deduct stock
-    for (const item of cart.items) {
+    for (const item of validItems) {
       const product = await Product.findById(item.productId._id);
+      if (!product) continue;
+
       const availableStock = product.stock_control?.available_pieces ?? product.stock ?? 0;
 
       if (availableStock < item.quantity) {
@@ -48,28 +55,26 @@ export const createOrder = async (req, res) => {
       await product.save();
     }
 
+    console.log("Creating Order Payload:", JSON.stringify({
+      customerId,
+      items: orderItems,
+      totalAmount,
+      shippingAddress,
+      paymentMethod
+    }, null, 2));
+
     // Create order with payment method
     const order = await Order.create({
       customerId,
-      sellerId,
       items: orderItems,
       totalAmount,
       shippingAddress,
       paymentMethod,
-      status: paymentMethod === "cod" ? "paid" : "pending_payment",
-      paymentStatus: paymentMethod === "cod" ? "pending" : "pending"
+      status: paymentMethod === "cod" ? "pending_payment" : "pending_payment", // Default to pending until verified
+      paymentStatus: "pending"
     });
 
-    // ⭐ NOTIFICATION 1 — Notify Seller
-    await createNotification({
-      userId: sellerId,
-      userType: "seller",
-      title: "New Order Received",
-      message: "A new order has been placed for your products.",
-      type: "order"
-    });
-
-    // ⭐ NOTIFICATION 2 — Notify Customer
+    // ⭐ NOTIFICATION 1 — Notify Customer
     await createNotification({
       userId: customerId,
       userType: "customer",
@@ -92,7 +97,12 @@ export const createOrder = async (req, res) => {
     });
 
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error("Order Creation Logic Error:", err);
+    res.status(500).json({
+      message: "Failed to create order",
+      error: err.message,
+      stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
+    });
   }
 };
 
@@ -105,10 +115,6 @@ export const getMyOrders = async (req, res) => {
 
     const orders = await Order.find({ customerId })
       .populate("items.productId")
-      .populate({
-        path: "sellerId",
-        select: "businessName email phone"
-      })
       .sort({ createdAt: -1 }); // Most recent first
 
     res.json({
@@ -132,10 +138,6 @@ export const getAllOrders = async (req, res) => {
     const orders = await Order.find({})
       .populate("customerId", "name email phone")
       .populate("items.productId", "name images")
-      .populate({
-        path: "sellerId",
-        select: "businessName email phone"
-      })
       .sort({ createdAt: -1 }); // Most recent first
 
     res.json(orders);

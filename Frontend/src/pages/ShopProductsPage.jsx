@@ -267,7 +267,7 @@ const ShopProductsPage = () => {
                                 <FaStore className="text-7xl text-gray-200 mb-6" />
                                 <h2 className="text-2xl font-black text-gray-900 mb-2">Inventory Empty</h2>
                                 <p className="text-gray-500 text-center max-w-sm mb-8 font-medium">
-                                    This brand hasn't listed any firecrackers for this season yet. Check back soon!
+                                    This brand hasn't listed any fashion items for this season yet. Check back soon!
                                 </p>
                                 <button
                                     onClick={() => navigate('/')}

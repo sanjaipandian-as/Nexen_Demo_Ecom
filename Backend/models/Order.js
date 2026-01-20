@@ -9,12 +9,6 @@ const orderSchema = new mongoose.Schema(
       index: true,
     },
 
-    sellerId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Seller",
-      required: true,
-      index: true,
-    },
 
     items: [
       {
@@ -45,9 +39,12 @@ const orderSchema = new mongoose.Schema(
     },
 
     shippingAddress: {
-      type: String,
-      required: true,
-      trim: true,
+      street: { type: String, required: true },
+      city: { type: String, required: true },
+      state: { type: String, required: true },
+      zipCode: { type: String, required: true },
+      country: { type: String, required: true },
+      mobile: { type: String, required: true }
     },
 
     status: {

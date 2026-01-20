@@ -29,6 +29,7 @@ const Payment = () => {
     const [processing, setProcessing] = useState(false);
     const [addresses, setAddresses] = useState([]);
     const [selectedAddressId, setSelectedAddressId] = useState(null);
+    const [selectedAddress, setSelectedAddress] = useState(shippingAddress || null);
     const [orderCreated, setOrderCreated] = useState(false);
     const [cartItems, setCartItems] = useState([]);
     const [shippingAddressString, setShippingAddressString] = useState('');
@@ -65,6 +66,7 @@ const Payment = () => {
             if (!shippingAddress) {
                 await fetchAddresses();
             } else {
+                setSelectedAddress(shippingAddress);
                 setShippingAddressString(formatAddress(shippingAddress));
                 setLoading(false);
             }
@@ -90,6 +92,7 @@ const Payment = () => {
             const defaultAddr = userAddresses.find(addr => addr.isDefault);
             const addressToUse = defaultAddr || userAddresses[0];
             setSelectedAddressId(addressToUse._id);
+            setSelectedAddress(addressToUse);
 
             setShippingAddressString(formatAddress(addressToUse));
             setLoading(false);
@@ -158,21 +161,36 @@ const Payment = () => {
 
     const handleSelectAddress = (address) => {
         setSelectedAddressId(address._id);
+        setSelectedAddress(address);
         setShippingAddressString(formatAddress(address));
         setShowAddressModal(false);
     };
 
-    const createOrder = async (addressString) => {
+    const createOrder = async () => {
         if (orderCreated) {
             console.log('Order already created, skipping...');
             return order;
         }
 
+        if (!selectedAddress) {
+            setError('No shipping address selected');
+            return;
+        }
+
+        // Map address to unified structure for Order model
+        const orderAddress = {
+            street: selectedAddress.addressLine || selectedAddress.street,
+            city: selectedAddress.city,
+            state: selectedAddress.state,
+            zipCode: selectedAddress.pincode || selectedAddress.zipCode,
+            country: selectedAddress.country || 'India',
+            mobile: selectedAddress.phone || selectedAddress.mobile
+        };
+
         try {
             setProcessing(true);
-            console.log('Creating order with address:', addressString);
             const response = await API.post('/orders/create', {
-                shippingAddress: addressString,
+                shippingAddress: orderAddress,
                 paymentMethod: selectedMethod === 'cod' ? 'cod' : 'online'
             });
             setOrder(response.data.order);
@@ -226,7 +244,7 @@ const Payment = () => {
 
             let currentOrder = order;
             if (!orderCreated) {
-                currentOrder = await createOrder(shippingAddressString);
+                currentOrder = await createOrder();
             }
 
             if (!currentOrder) {
@@ -316,7 +334,7 @@ const Payment = () => {
 
             let currentOrder = order;
             if (!orderCreated) {
-                currentOrder = await createOrder(shippingAddressString);
+                currentOrder = await createOrder();
             }
 
             if (!currentOrder) {

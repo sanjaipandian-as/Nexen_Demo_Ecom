@@ -105,8 +105,89 @@ export const getAllProducts = async (req, res) => {
 export const updateProduct = async (req, res) => {
   try {
     const { productId } = req.params;
-    const updates = req.body;
 
+    // Parse FormData fields
+    const categoryData = {};
+    const pricingData = {};
+    const updates = {};
+
+    // Handle category fields (category[main], category[sub])
+    Object.keys(req.body).forEach(key => {
+      if (key.startsWith('category[')) {
+        const field = key.match(/category\[(.+)\]/)[1];
+        categoryData[field] = req.body[key];
+      } else if (key.startsWith('pricing[')) {
+        const field = key.match(/pricing\[(.+)\]/)[1];
+        pricingData[field] = req.body[key];
+      } else if (key === 'specifications') {
+        // Parse JSON string
+        updates[key] = typeof req.body[key] === 'string' ? JSON.parse(req.body[key]) : req.body[key];
+      } else if (key === 'tags' || key === 'colors' || key === 'sizes') {
+        // Handle arrays - they come as tags[], colors[], sizes[]
+        // Skip here, we'll handle them below
+      } else if (key === 'existingImages' || key === 'existingImages[]') {
+        // Skip, handled separately
+      } else if (key === 'is_featured' || key === 'is_new_arrival') {
+        updates[key] = req.body[key] === 'true' || req.body[key] === true;
+      } else {
+        updates[key] = req.body[key];
+      }
+    });
+
+    // Handle array fields that come as field[]
+    if (req.body['tags[]']) {
+      updates.tags = Array.isArray(req.body['tags[]']) ? req.body['tags[]'] : [req.body['tags[]']];
+    } else if (req.body.tags) {
+      updates.tags = Array.isArray(req.body.tags) ? req.body.tags : [req.body.tags];
+    }
+
+    if (req.body['colors[]']) {
+      updates.colors = Array.isArray(req.body['colors[]']) ? req.body['colors[]'] : [req.body['colors[]']];
+    }
+
+    if (req.body['sizes[]']) {
+      updates.sizes = Array.isArray(req.body['sizes[]']) ? req.body['sizes[]'] : [req.body['sizes[]']];
+    }
+
+    // Set nested objects
+    if (Object.keys(categoryData).length > 0) {
+      updates.category = categoryData;
+    }
+
+    if (Object.keys(pricingData).length > 0) {
+      updates.pricing = pricingData;
+    }
+
+    // Handle images
+    let imageUrls = [];
+
+    // Keep existing images
+    if (req.body['existingImages[]']) {
+      imageUrls = Array.isArray(req.body['existingImages[]'])
+        ? req.body['existingImages[]']
+        : [req.body['existingImages[]']];
+    } else if (req.body.existingImages) {
+      imageUrls = Array.isArray(req.body.existingImages)
+        ? req.body.existingImages
+        : [req.body.existingImages];
+    }
+
+    // Upload new images if provided
+    if (req.files && req.files.length > 0) {
+      for (const file of req.files) {
+        const result = await cloudinary.uploader.upload(file.path, {
+          folder: "products",
+          resource_type: "auto",
+        });
+        imageUrls.push(result.secure_url);
+      }
+    }
+
+    if (imageUrls.length > 0) {
+      updates.images = imageUrls;
+    }
+
+    // Update the product
     const product = await Product.findByIdAndUpdate(
       productId,
       { $set: updates },
@@ -119,6 +200,7 @@ export const updateProduct = async (req, res) => {
 
     res.json({ message: "Product updated successfully", product });
   } catch (err) {
+    console.error("Update product error:", err);
     res.status(500).json({ error: err.message });
   }
 };

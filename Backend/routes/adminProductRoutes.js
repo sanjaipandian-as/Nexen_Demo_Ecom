@@ -26,8 +26,8 @@ router.get("/count", authenticate, isAdmin, getAllProductsCount);
 // Get product by ID
 router.get("/:productId", authenticate, isAdmin, getProductById);
 
-// Update product
-router.put("/:productId", authenticate, isAdmin, updateProduct);
+// Update product (with optional image upload)
+router.put("/:productId", authenticate, isAdmin, upload.array("images", 5), updateProduct);
 
 // Delete product (soft delete)
 router.delete("/:productId", authenticate, isAdmin, deleteProduct);

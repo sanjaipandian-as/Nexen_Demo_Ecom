@@ -8,16 +8,16 @@ const storage = new CloudinaryStorage({
   cloudinary,
   params: async (req, file) => {
     return {
-      folder: "crackers-app",
+      folder: "fashion-app",
       resource_type: "auto",
-      public_id: `${Date.now()}-${file.originalname}`,
+      public_id: `${Date.now()}-${file.originalname.replace(/[^a-zA-Z0-9]/g, "_")}`,
     };
   },
 });
 
 const upload = multer({
   storage,
-  limits: { fileSize: 5 * 1024 * 1024 },
+  limits: { fileSize: 50 * 1024 * 1024 },
 });
 
 export default upload;

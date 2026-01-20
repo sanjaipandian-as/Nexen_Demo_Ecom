@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { MdPerson, MdLock, MdNotifications, MdStore, MdSave, MdCategory } from 'react-icons/md';
+import { MdPerson, MdLock, MdNotifications, MdStore, MdSave, MdCategory, MdArrowForward, MdTune, MdSecurity, MdStorefront } from 'react-icons/md';
 import API from '../../../../api';
 
-const AdminSettings = () => {
+const AdminSettings = ({ onNavigate }) => {
+    const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('profile');
     const [loading, setLoading] = useState(false);
     const [adminData, setAdminData] = useState({
@@ -13,13 +15,10 @@ const AdminSettings = () => {
         newPassword: '',
         confirmPassword: ''
     });
-    const [categories, setCategories] = useState([
-        'Body Care',
-        'Skin Care',
-        'Face Care',
-        'Hair Care'
-    ]);
-    const [newCategory, setNewCategory] = useState('');
+    const [categories, setCategories] = useState([]);
+    const [loadingCategories, setLoadingCategories] = useState(false);
+
+    // Notifications State
     const [notifications, setNotifications] = useState({
         emailOrders: true,
         emailProducts: true,
@@ -29,7 +28,7 @@ const AdminSettings = () => {
     });
 
     useEffect(() => {
-        // Load admin data from localStorage
+        // Load admin data
         const user = localStorage.getItem('user');
         if (user) {
             try {
@@ -45,16 +44,34 @@ const AdminSettings = () => {
         }
     }, []);
 
+    // Fetch categories when tab is active
+    useEffect(() => {
+        if (activeTab === 'categories') {
+            fetchCategories();
+        }
+    }, [activeTab]);
+
+    const fetchCategories = async () => {
+        try {
+            setLoadingCategories(true);
+            const response = await API.get('/categories');
+            setCategories(response.data);
+        } catch (error) {
+            console.error('Error fetching categories:', error);
+        } finally {
+            setLoadingCategories(false);
+        }
+    };
+
     const handleProfileUpdate = async (e) => {
         e.preventDefault();
         setLoading(true);
-
         try {
             // Simulate API call
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            toast.success('Profile updated successfully');
+            await new Promise(resolve => setTimeout(resolve, 800));
+            toast.success('Your profile has been updated!');
         } catch (error) {
-            toast.error('Failed to update profile');
+            toast.error('Could not update profile. Please try again.');
         } finally {
             setLoading(false);
         }
@@ -62,23 +79,20 @@ const AdminSettings = () => {
 
     const handlePasswordChange = async (e) => {
         e.preventDefault();
-
         if (adminData.newPassword !== adminData.confirmPassword) {
-            toast.error('Passwords do not match');
+            toast.error('The passwords you entered do not match.');
             return;
         }
-
         if (adminData.newPassword.length < 6) {
-            toast.error('Password must be at least 6 characters');
+            toast.error('Please ensure your password is at least 6 characters long.');
             return;
         }
 
         setLoading(true);
-
         try {
             // Simulate API call
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            toast.success('Password changed successfully');
+            await new Promise(resolve => setTimeout(resolve, 800));
+            toast.success('Your password has been securely updated.');
             setAdminData(prev => ({
                 ...prev,
                 currentPassword: '',
@@ -86,315 +100,333 @@ const AdminSettings = () => {
                 confirmPassword: ''
             }));
         } catch (error) {
-            toast.error('Failed to change password');
+            toast.error('We couldn\'t update your password. Please try again.');
         } finally {
             setLoading(false);
         }
-    };
-
-    const handleAddCategory = () => {
-        if (!newCategory.trim()) {
-            toast.error('Please enter a category name');
-            return;
-        }
-
-        if (categories.includes(newCategory)) {
-            toast.error('Category already exists');
-            return;
-        }
-
-        setCategories([...categories, newCategory]);
-        setNewCategory('');
-        toast.success('Category added successfully');
-    };
-
-    const handleRemoveCategory = (category) => {
-        setCategories(categories.filter(c => c !== category));
-        toast.success('Category removed successfully');
     };
 
     const handleNotificationUpdate = async () => {
         setLoading(true);
-
         try {
-            // Simulate API call
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            toast.success('Notification settings updated');
+            await new Promise(resolve => setTimeout(resolve, 800));
+            toast.success('Your notification preferences are saved.');
         } catch (error) {
-            toast.error('Failed to update settings');
+            toast.error('Could not save preferences.');
         } finally {
             setLoading(false);
         }
     };
 
+    const handleManageCategoriesRedirect = () => {
+        if (onNavigate) {
+            onNavigate('Categories');
+        } else {
+            toast.info("Please navigate to the Categories page using the sidebar to make changes.");
+        }
+    };
+
     const tabs = [
-        { id: 'profile', label: 'Profile', icon: MdPerson },
-        { id: 'password', label: 'Password', icon: MdLock },
-        { id: 'categories', label: 'Categories', icon: MdCategory },
+        { id: 'profile', label: 'General', icon: MdTune },
+        { id: 'password', label: 'Security', icon: MdSecurity },
+        { id: 'store', label: 'Storefront', icon: MdStorefront },
         { id: 'notifications', label: 'Notifications', icon: MdNotifications },
-        { id: 'store', label: 'Store Settings', icon: MdStore }
+        { id: 'categories', label: 'Taxonomy', icon: MdCategory }
     ];
 
-    const inputClasses = "w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition-all outline-none";
-    const labelClasses = "block text-sm font-semibold text-gray-700 mb-2";
+    // Refined Professional Styles with Micro-interactions
+    const inputClasses = "w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-rose-500 focus:ring-4 focus:ring-rose-500/10 transition-all duration-300 outline-none text-slate-900 font-bold placeholder:text-slate-400 placeholder:font-medium text-sm hover:border-slate-300";
+    const labelClasses = "block text-[11px] font-black text-slate-500 uppercase tracking-widest mb-2.5 ml-1";
+    const buttonClasses = "group relative flex items-center justify-center gap-2 px-8 py-3.5 bg-slate-900 text-white rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-rose-600 hover:shadow-xl hover:shadow-rose-500/20 active:scale-95 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer overflow-hidden";
+
+    // Animation for button ripple effect could go here, but simple css matches "pulse" request
 
     return (
-        <div className="p-6 bg-gray-50 min-h-screen">
-            {/* Header */}
-            <div className="mb-8">
-                <h1 className="text-3xl font-bold text-gray-900 mb-2">Settings</h1>
-                <p className="text-gray-600">Manage your account and platform settings</p>
-            </div>
+        <div className="min-h-screen bg-white font-body selection:bg-rose-100 selection:text-rose-900">
+            <div className="max-w-5xl mx-auto px-8 py-12">
 
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-                {/* Sidebar Tabs */}
-                <div className="lg:col-span-1">
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+                {/* Header Section */}
+                <div className="mb-12 text-center md:text-left animate-slideUp">
+                    <h1 className="text-4xl font-black text-slate-900 tracking-tight mb-3 font-hero">Settings</h1>
+                    <p className="text-slate-500 font-medium text-lg max-w-2xl">Configure how your storefront works and customize your admin experience.</p>
+                </div>
+
+                {/* Top Navigation Bar */}
+                <div className="sticky top-0 z-20 bg-white/80 backdrop-blur-xl border-b border-slate-100 mb-12 -mx-4 px-4 animate-slideUp" style={{ animationDelay: '0.1s' }}>
+                    <div className="flex items-center gap-8 overflow-x-auto no-scrollbar">
                         {tabs.map((tab) => {
                             const Icon = tab.icon;
+                            const isActive = activeTab === tab.id;
                             return (
                                 <button
                                     key={tab.id}
                                     onClick={() => setActiveTab(tab.id)}
-                                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg mb-2 transition-all ${activeTab === tab.id
-                                            ? 'bg-orange-50 text-orange-600 font-semibold'
-                                            : 'text-gray-700 hover:bg-gray-50'
-                                        }`}
+                                    className={`
+                                        group flex items-center gap-2 py-4 border-b-[3px] transition-all duration-300 whitespace-nowrap relative
+                                        ${isActive
+                                            ? 'border-rose-600 text-rose-600'
+                                            : 'border-transparent text-slate-500 hover:text-slate-900 hover:border-slate-200'}
+                                    `}
                                 >
-                                    <Icon className="text-xl" />
-                                    {tab.label}
+                                    <Icon className={`text-xl transition-transform duration-300 ${isActive ? 'text-rose-600 scale-110' : 'text-slate-400 group-hover:text-slate-600 group-hover:scale-110'}`} />
+                                    <span className={`text-sm font-bold tracking-tight transition-colors duration-300 ${isActive ? 'text-rose-600' : 'text-slate-600'}`}>
+                                        {tab.label}
+                                    </span>
                                 </button>
                             );
                         })}
                     </div>
                 </div>
 
-                {/* Content Area */}
-                <div className="lg:col-span-3">
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                        {/* Profile Tab */}
-                        {activeTab === 'profile' && (
-                            <div>
-                                <h2 className="text-2xl font-bold text-gray-900 mb-6">Profile Settings</h2>
-                                <form onSubmit={handleProfileUpdate} className="space-y-6">
-                                    <div>
-                                        <label className={labelClasses}>Username</label>
-                                        <input
-                                            type="text"
-                                            value={adminData.username}
-                                            onChange={(e) => setAdminData({ ...adminData, username: e.target.value })}
-                                            className={inputClasses}
-                                            required
-                                        />
-                                    </div>
-                                    <div>
-                                        <label className={labelClasses}>Email</label>
-                                        <input
-                                            type="email"
-                                            value={adminData.email}
-                                            onChange={(e) => setAdminData({ ...adminData, email: e.target.value })}
-                                            className={inputClasses}
-                                            required
-                                        />
-                                    </div>
-                                    <button
-                                        type="submit"
-                                        disabled={loading}
-                                        className="flex items-center gap-2 px-6 py-3 bg-orange-600 text-white font-semibold rounded-lg hover:bg-orange-700 disabled:bg-gray-400 transition-colors"
-                                    >
-                                        <MdSave />
-                                        {loading ? 'Saving...' : 'Save Changes'}
-                                    </button>
-                                </form>
-                            </div>
-                        )}
+                {/* Content Container */}
+                <div className="animate-slideUp fade-in-up" style={{ animationDelay: '0.2s' }}>
 
-                        {/* Password Tab */}
-                        {activeTab === 'password' && (
-                            <div>
-                                <h2 className="text-2xl font-bold text-gray-900 mb-6">Change Password</h2>
-                                <form onSubmit={handlePasswordChange} className="space-y-6">
-                                    <div>
-                                        <label className={labelClasses}>Current Password</label>
-                                        <input
-                                            type="password"
-                                            value={adminData.currentPassword}
-                                            onChange={(e) => setAdminData({ ...adminData, currentPassword: e.target.value })}
-                                            className={inputClasses}
-                                            required
-                                        />
-                                    </div>
-                                    <div>
-                                        <label className={labelClasses}>New Password</label>
-                                        <input
-                                            type="password"
-                                            value={adminData.newPassword}
-                                            onChange={(e) => setAdminData({ ...adminData, newPassword: e.target.value })}
-                                            className={inputClasses}
-                                            required
-                                        />
-                                    </div>
-                                    <div>
-                                        <label className={labelClasses}>Confirm New Password</label>
-                                        <input
-                                            type="password"
-                                            value={adminData.confirmPassword}
-                                            onChange={(e) => setAdminData({ ...adminData, confirmPassword: e.target.value })}
-                                            className={inputClasses}
-                                            required
-                                        />
-                                    </div>
-                                    <button
-                                        type="submit"
-                                        disabled={loading}
-                                        className="flex items-center gap-2 px-6 py-3 bg-orange-600 text-white font-semibold rounded-lg hover:bg-orange-700 disabled:bg-gray-400 transition-colors"
-                                    >
-                                        <MdLock />
-                                        {loading ? 'Updating...' : 'Update Password'}
-                                    </button>
-                                </form>
+                    {/* Profile Tab */}
+                    {activeTab === 'profile' && (
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 animate-fadeIn">
+                            <div className="md:col-span-1">
+                                <h2 className="text-xl font-black text-slate-900 mb-3 font-hero">Profile Information</h2>
+                                <p className="text-sm text-slate-500 leading-relaxed font-medium">Update your account's public profile and private details.</p>
                             </div>
-                        )}
+                            <div className="md:col-span-2">
+                                <div className="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-shadow duration-500">
+                                    <form onSubmit={handleProfileUpdate} className="space-y-8 max-w-lg">
 
-                        {/* Categories Tab */}
-                        {activeTab === 'categories' && (
-                            <div>
-                                <h2 className="text-2xl font-bold text-gray-900 mb-6">Manage Categories</h2>
-                                <div className="mb-6">
-                                    <label className={labelClasses}>Add New Category</label>
-                                    <div className="flex gap-3">
-                                        <input
-                                            type="text"
-                                            value={newCategory}
-                                            onChange={(e) => setNewCategory(e.target.value)}
-                                            className={inputClasses}
-                                            placeholder="Enter category name"
-                                        />
-                                        <button
-                                            onClick={handleAddCategory}
-                                            className="px-6 py-3 bg-orange-600 text-white font-semibold rounded-lg hover:bg-orange-700 transition-colors whitespace-nowrap"
-                                        >
-                                            Add Category
+                                        {/* Avatar Section */}
+                                        <div className="flex items-center gap-6 mb-8 group cursor-pointer">
+                                            <div className="w-24 h-24 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 border-4 border-white shadow-xl shadow-slate-100 transition-transform duration-300 group-hover:scale-105 group-hover:shadow-rose-100 overflow-hidden relative">
+                                                <MdPerson className="text-5xl relative z-10 transition-colors group-hover:text-rose-500" />
+                                                <div className="absolute inset-0 bg-rose-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                            </div>
+                                            <div>
+                                                <button type="button" className="text-rose-600 text-sm font-bold hover:text-rose-700 transition-colors">Change Profile Photo</button>
+                                                <p className="text-xs text-slate-400 mt-1.5 font-medium">Accepts JPG, GIF or PNG. Max size of 1MB.</p>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <label className={labelClasses}>Display Name</label>
+                                            <input
+                                                type="text"
+                                                value={adminData.username}
+                                                onChange={(e) => setAdminData({ ...adminData, username: e.target.value })}
+                                                className={inputClasses}
+                                                required
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className={labelClasses}>Email Address</label>
+                                            <input
+                                                type="email"
+                                                value={adminData.email}
+                                                onChange={(e) => setAdminData({ ...adminData, email: e.target.value })}
+                                                className={inputClasses}
+                                                required
+                                            />
+                                        </div>
+                                        <div className="pt-6 border-t border-slate-50 flex justify-end">
+                                            <button type="submit" disabled={loading} className={buttonClasses}>
+                                                <MdSave className="text-lg group-hover:rotate-12 transition-transform duration-300" />
+                                                <span>{loading ? 'Saving Changes...' : 'Save Changes'}</span>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Password Tab */}
+                    {activeTab === 'password' && (
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 animate-fadeIn">
+                            <div className="md:col-span-1">
+                                <h2 className="text-xl font-black text-slate-900 mb-3 font-hero">Security</h2>
+                                <p className="text-sm text-slate-500 leading-relaxed font-medium">Keep your account secure with a strong password.</p>
+                            </div>
+                            <div className="md:col-span-2">
+                                <div className="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-shadow duration-500">
+                                    <form onSubmit={handlePasswordChange} className="space-y-8 max-w-lg">
+                                        <div>
+                                            <label className={labelClasses}>Current Password</label>
+                                            <input
+                                                type="password"
+                                                value={adminData.currentPassword}
+                                                onChange={(e) => setAdminData({ ...adminData, currentPassword: e.target.value })}
+                                                className={inputClasses}
+                                                required
+                                            />
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-5">
+                                            <div>
+                                                <label className={labelClasses}>New Password</label>
+                                                <input
+                                                    type="password"
+                                                    value={adminData.newPassword}
+                                                    onChange={(e) => setAdminData({ ...adminData, newPassword: e.target.value })}
+                                                    className={inputClasses}
+                                                    required
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className={labelClasses}>Confirm Password</label>
+                                                <input
+                                                    type="password"
+                                                    value={adminData.confirmPassword}
+                                                    onChange={(e) => setAdminData({ ...adminData, confirmPassword: e.target.value })}
+                                                    className={inputClasses}
+                                                    required
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="pt-6 border-t border-slate-50 flex justify-end">
+                                            <button type="submit" disabled={loading} className={buttonClasses}>
+                                                <MdLock className="text-lg group-hover:scale-110 transition-transform duration-300" />
+                                                <span>{loading ? 'Updating...' : 'Update Password'}</span>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Store Tab */}
+                    {activeTab === 'store' && (
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 animate-fadeIn">
+                            <div className="md:col-span-1">
+                                <h2 className="text-xl font-black text-slate-900 mb-3 font-hero">Store Profile</h2>
+                                <p className="text-sm text-slate-500 leading-relaxed font-medium">Control the public information visible on your storefront.</p>
+                            </div>
+                            <div className="md:col-span-2">
+                                <div className="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-shadow duration-500">
+                                    <div className="space-y-8 max-w-lg">
+                                        <div>
+                                            <label className={labelClasses}>Store Name</label>
+                                            <input
+                                                type="text"
+                                                defaultValue="Grow We Go"
+                                                className={inputClasses}
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className={labelClasses}>Store Description</label>
+                                            <textarea
+                                                rows="4"
+                                                defaultValue="Your premium destination for fashion and lifestyle."
+                                                className={`${inputClasses} resize-none`}
+                                            />
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-5">
+                                            <div>
+                                                <label className={labelClasses}>Contact Email</label>
+                                                <input
+                                                    type="email"
+                                                    defaultValue="support@growwego.com"
+                                                    className={inputClasses}
+                                                />
+                                            </div>
+                                            <div>
+                                                <label className={labelClasses}>Support Phone</label>
+                                                <input
+                                                    type="tel"
+                                                    defaultValue="+91 88888 99999"
+                                                    className={inputClasses}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="pt-6 border-t border-slate-50 flex justify-end">
+                                            <button className={buttonClasses}>
+                                                <MdSave className="text-lg group-hover:rotate-12 transition-transform duration-300" />
+                                                <span>Save Settings</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Notifications Tab */}
+                    {activeTab === 'notifications' && (
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 animate-fadeIn">
+                            <div className="md:col-span-1">
+                                <h2 className="text-xl font-black text-slate-900 mb-3 font-hero">Notifications</h2>
+                                <p className="text-sm text-slate-500 leading-relaxed font-medium">Choose what updates matter to you and how you receive them.</p>
+                            </div>
+                            <div className="md:col-span-2">
+                                <div className="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-shadow duration-500">
+                                    <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest mb-6 ml-1">Email Alerts</h3>
+                                    <div className="space-y-4 mb-8">
+                                        {Object.entries(notifications).filter(([key]) => key.startsWith('email')).map(([key, value]) => (
+                                            <div key={key} className="flex items-center justify-between p-5 bg-slate-50 rounded-2xl transition-colors hover:bg-slate-100/80 group">
+                                                <span className="font-bold text-slate-700 text-sm group-hover:text-slate-900 transition-colors">
+                                                    {key.replace('email', '').replace(/([A-Z])/g, ' $1').trim()}
+                                                </span>
+                                                <label className="relative inline-flex items-center cursor-pointer">
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={value}
+                                                        onChange={(e) => setNotifications({ ...notifications, [key]: e.target.checked })}
+                                                        className="sr-only peer"
+                                                    />
+                                                    <div className="w-12 h-7 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all after:duration-300 peer-checked:bg-rose-600 peer-checked:shadow-lg peer-checked:shadow-rose-500/30"></div>
+                                                </label>
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    <div className="pt-6 border-t border-slate-50 flex justify-end">
+                                        <button onClick={handleNotificationUpdate} disabled={loading} className={buttonClasses}>
+                                            <MdSave className="text-lg group-hover:rotate-12 transition-transform duration-300" />
+                                            <span>Save Preferences</span>
                                         </button>
                                     </div>
                                 </div>
-                                <div className="space-y-2">
-                                    <h3 className="font-semibold text-gray-900 mb-3">Current Categories</h3>
-                                    {categories.map((category, index) => (
-                                        <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                                            <span className="font-medium text-gray-900">{category}</span>
-                                            <button
-                                                onClick={() => handleRemoveCategory(category)}
-                                                className="px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors text-sm font-semibold"
-                                            >
-                                                Remove
-                                            </button>
-                                        </div>
-                                    ))}
-                                </div>
                             </div>
-                        )}
+                        </div>
+                    )}
 
-                        {/* Notifications Tab */}
-                        {activeTab === 'notifications' && (
-                            <div>
-                                <h2 className="text-2xl font-bold text-gray-900 mb-6">Notification Preferences</h2>
-                                <div className="space-y-6">
-                                    <div>
-                                        <h3 className="font-semibold text-gray-900 mb-4">Email Notifications</h3>
-                                        <div className="space-y-3">
-                                            {Object.entries(notifications).filter(([key]) => key.startsWith('email')).map(([key, value]) => (
-                                                <label key={key} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg cursor-pointer">
-                                                    <span className="text-gray-900">
-                                                        {key.replace('email', '').replace(/([A-Z])/g, ' $1').trim()}
-                                                    </span>
-                                                    <input
-                                                        type="checkbox"
-                                                        checked={value}
-                                                        onChange={(e) => setNotifications({ ...notifications, [key]: e.target.checked })}
-                                                        className="w-5 h-5 text-orange-600 rounded focus:ring-orange-500"
-                                                    />
-                                                </label>
+                    {/* Categories Summary Tab */}
+                    {activeTab === 'categories' && (
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 animate-fadeIn">
+                            <div className="md:col-span-1">
+                                <h2 className="text-xl font-black text-slate-900 mb-3 font-hero">Taxonomy</h2>
+                                <p className="text-sm text-slate-500 leading-relaxed font-medium">An overview of your product organization structure.</p>
+                                <button
+                                    onClick={handleManageCategoriesRedirect}
+                                    className="mt-6 flex items-center gap-2 text-rose-600 font-bold text-sm hover:underline group"
+                                >
+                                    <span>Go to Category Manager</span>
+                                    <MdArrowForward className="group-hover:translate-x-1 transition-transform" />
+                                </button>
+                            </div>
+                            <div className="md:col-span-2">
+                                <div className="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.02)] max-h-[500px] overflow-y-auto">
+                                    {loadingCategories ? (
+                                        <div className="grid grid-cols-3 gap-4">
+                                            {[1, 2, 3].map(i => <div key={i} className="h-28 bg-slate-50 rounded-2xl animate-pulse"></div>)}
+                                        </div>
+                                    ) : categories.length === 0 ? (
+                                        <div className="text-center py-12 bg-slate-50 rounded-2xl border border-dashed border-slate-200">
+                                            <p className="text-slate-400 font-bold">No categories found</p>
+                                        </div>
+                                    ) : (
+                                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                                            {categories.map((cat, index) => (
+                                                <div key={index} className="flex flex-col items-center justify-center p-6 bg-slate-50 rounded-2xl border border-slate-100 hover:border-rose-200 hover:bg-white hover:shadow-lg hover:shadow-rose-500/10 transition-all duration-300 group cursor-default">
+                                                    <div className="w-14 h-14 rounded-2xl bg-white flex items-center justify-center text-slate-400 mb-4 shadow-sm group-hover:text-rose-600 group-hover:scale-110 transition-all duration-300">
+                                                        {cat.icon ? <img src={cat.icon} className="w-full h-full object-cover rounded-2xl transition-transform duration-300 group-hover:scale-105" /> : <MdCategory className="text-2xl" />}
+                                                    </div>
+                                                    <span className="font-bold text-slate-700 text-xs text-center group-hover:text-slate-900 transition-colors">{cat.name}</span>
+                                                </div>
                                             ))}
                                         </div>
-                                    </div>
-                                    <div>
-                                        <h3 className="font-semibold text-gray-900 mb-4">Push Notifications</h3>
-                                        <div className="space-y-3">
-                                            {Object.entries(notifications).filter(([key]) => key.startsWith('push')).map(([key, value]) => (
-                                                <label key={key} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg cursor-pointer">
-                                                    <span className="text-gray-900">
-                                                        {key.replace('push', '').replace(/([A-Z])/g, ' $1').trim()}
-                                                    </span>
-                                                    <input
-                                                        type="checkbox"
-                                                        checked={value}
-                                                        onChange={(e) => setNotifications({ ...notifications, [key]: e.target.checked })}
-                                                        className="w-5 h-5 text-orange-600 rounded focus:ring-orange-500"
-                                                    />
-                                                </label>
-                                            ))}
-                                        </div>
-                                    </div>
-                                    <button
-                                        onClick={handleNotificationUpdate}
-                                        disabled={loading}
-                                        className="flex items-center gap-2 px-6 py-3 bg-orange-600 text-white font-semibold rounded-lg hover:bg-orange-700 disabled:bg-gray-400 transition-colors"
-                                    >
-                                        <MdSave />
-                                        {loading ? 'Saving...' : 'Save Preferences'}
-                                    </button>
+                                    )}
                                 </div>
                             </div>
-                        )}
+                        </div>
+                    )}
 
-                        {/* Store Settings Tab */}
-                        {activeTab === 'store' && (
-                            <div>
-                                <h2 className="text-2xl font-bold text-gray-900 mb-6">Store Settings</h2>
-                                <div className="space-y-6">
-                                    <div>
-                                        <label className={labelClasses}>Store Name</label>
-                                        <input
-                                            type="text"
-                                            defaultValue="Demo E-commerce"
-                                            className={inputClasses}
-                                        />
-                                    </div>
-                                    <div>
-                                        <label className={labelClasses}>Store Description</label>
-                                        <textarea
-                                            rows="4"
-                                            defaultValue="Your one-stop shop for beauty and personal care products"
-                                            className={inputClasses}
-                                        />
-                                    </div>
-                                    <div>
-                                        <label className={labelClasses}>Contact Email</label>
-                                        <input
-                                            type="email"
-                                            defaultValue="support@demo-ecom.com"
-                                            className={inputClasses}
-                                        />
-                                    </div>
-                                    <div>
-                                        <label className={labelClasses}>Contact Phone</label>
-                                        <input
-                                            type="tel"
-                                            defaultValue="+91 1234567890"
-                                            className={inputClasses}
-                                        />
-                                    </div>
-                                    <button
-                                        className="flex items-center gap-2 px-6 py-3 bg-orange-600 text-white font-semibold rounded-lg hover:bg-orange-700 transition-colors"
-                                    >
-                                        <MdSave />
-                                        Save Store Settings
-                                    </button>
-                                </div>
-                            </div>
-                        )}
-                    </div>
                 </div>
             </div>
         </div>

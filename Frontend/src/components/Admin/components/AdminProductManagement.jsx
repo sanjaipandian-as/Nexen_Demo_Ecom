@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { MdEdit, MdDelete, MdSearch, MdFilterList, MdVisibility, MdAdd, MdInventory } from 'react-icons/md';
 import API from '../../../../api';
 import ProductUploadModal from './ProductUploadModal';
+import PlaceholderImage from '../../../assets/Placeholder.png';
 
 const AdminProductManagement = ({ onOpenUploadModal, refreshId }) => {
     const navigate = useNavigate();
@@ -152,6 +153,7 @@ const AdminProductManagement = ({ onOpenUploadModal, refreshId }) => {
                                         src={product.images?.[0] || '/placeholder.png'}
                                         alt={product.name}
                                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                                        onError={(e) => { e.target.src = PlaceholderImage; e.target.onerror = null; }}
                                     />
                                     {/* Subtle Shine Overlay */}
                                     <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>

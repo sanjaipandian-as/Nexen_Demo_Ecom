@@ -137,11 +137,6 @@ const ProductSchema = new Schema(
     sold_count: { type: Number, default: 0 },
 
     // ⭐ MISSING FIELDS ADDED
-    sellerId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Admin", // Assuming sellers are in Admin model or similar
-      index: true
-    },
     averageRating: {
       type: Number,
       default: 0,
