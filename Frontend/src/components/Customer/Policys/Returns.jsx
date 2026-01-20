@@ -12,28 +12,28 @@ const Returns = () => {
             </header>
 
             {/* Quick Info */}
-            <section className="bg-orange-600 text-white py-12">
+            <section className="bg-primary text-white py-12">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
                         <div>
                             <FiClock className="w-10 h-10 mx-auto mb-3" />
                             <div className="text-3xl font-bold mb-1">48 Hours</div>
-                            <p className="text-orange-100">Return window</p>
+                            <p className="text-primary-foreground/80">Return window</p>
                         </div>
                         <div>
                             <FiDollarSign className="w-10 h-10 mx-auto mb-3" />
                             <div className="text-3xl font-bold mb-1">Full Refund</div>
-                            <p className="text-orange-100">For eligible items</p>
+                            <p className="text-primary-foreground/80">For eligible items</p>
                         </div>
                         <div>
                             <FiRotateCcw className="w-10 h-10 mx-auto mb-3" />
                             <div className="text-3xl font-bold mb-1">Easy Process</div>
-                            <p className="text-orange-100">Simple steps</p>
+                            <p className="text-primary-foreground/80">Simple steps</p>
                         </div>
                         <div>
                             <FiCheckCircle className="w-10 h-10 mx-auto mb-3" />
                             <div className="text-3xl font-bold mb-1">Verified</div>
-                            <p className="text-orange-100">Quality checked</p>
+                            <p className="text-primary-foreground/80">Quality checked</p>
                         </div>
                     </div>
                 </div>
@@ -95,22 +95,22 @@ const Returns = () => {
                     <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center">Return Process</h2>
                     <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-8">
                         <div className="bg-white border border-gray-200 rounded-lg p-8">
-                            <div className="w-12 h-12 bg-orange-600 text-white rounded-full flex items-center justify-center font-bold text-xl mb-4">1</div>
+                            <div className="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center font-bold text-xl mb-4">1</div>
                             <h3 className="text-xl font-bold text-gray-900 mb-3">Report Issue</h3>
                             <p className="text-gray-600">Contact support within 48 hours with photos/videos of damaged items</p>
                         </div>
                         <div className="bg-white border border-gray-200 rounded-lg p-8">
-                            <div className="w-12 h-12 bg-orange-600 text-white rounded-full flex items-center justify-center font-bold text-xl mb-4">2</div>
+                            <div className="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center font-bold text-xl mb-4">2</div>
                             <h3 className="text-xl font-bold text-gray-900 mb-3">Verification</h3>
                             <p className="text-gray-600">Our team reviews your photos and verifies the issue</p>
                         </div>
                         <div className="bg-white border border-gray-200 rounded-lg p-8">
-                            <div className="w-12 h-12 bg-orange-600 text-white rounded-full flex items-center justify-center font-bold text-xl mb-4">3</div>
+                            <div className="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center font-bold text-xl mb-4">3</div>
                             <h3 className="text-xl font-bold text-gray-900 mb-3">Approval & Pickup</h3>
                             <p className="text-gray-600">Once approved, we arrange pickup from your address</p>
                         </div>
                         <div className="bg-white border border-gray-200 rounded-lg p-8">
-                            <div className="w-12 h-12 bg-orange-600 text-white rounded-full flex items-center justify-center font-bold text-xl mb-4">4</div>
+                            <div className="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center font-bold text-xl mb-4">4</div>
                             <h3 className="text-xl font-bold text-gray-900 mb-3">Refund Processing</h3>
                             <p className="text-gray-600">Refund processed within 5-7 business days after inspection</p>
                         </div>
@@ -159,22 +159,22 @@ const Returns = () => {
                     <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Replacement Options</h2>
                     <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
                         <div className="bg-white border border-gray-200 rounded-lg p-8 text-center">
-                            <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <FiRotateCcw className="w-8 h-8 text-orange-600" />
+                            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <FiRotateCcw className="w-8 h-8 text-primary" />
                             </div>
                             <h3 className="text-xl font-bold text-gray-900 mb-3">Replacement</h3>
                             <p className="text-gray-600">Same product (subject to availability)</p>
                         </div>
                         <div className="bg-white border border-gray-200 rounded-lg p-8 text-center">
-                            <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <FiDollarSign className="w-8 h-8 text-orange-600" />
+                            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <FiDollarSign className="w-8 h-8 text-primary" />
                             </div>
                             <h3 className="text-xl font-bold text-gray-900 mb-3">Refund</h3>
                             <p className="text-gray-600">Full refund to original payment method</p>
                         </div>
                         <div className="bg-white border border-gray-200 rounded-lg p-8 text-center">
-                            <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <FiCheckCircle className="w-8 h-8 text-orange-600" />
+                            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <FiCheckCircle className="w-8 h-8 text-primary" />
                             </div>
                             <h3 className="text-xl font-bold text-gray-900 mb-3">Store Credit</h3>
                             <p className="text-gray-600">Credit for future purchases</p>
@@ -184,32 +184,32 @@ const Returns = () => {
             </section>
 
             {/* Tips */}
-            <section className="py-16 bg-orange-50 border-y border-orange-200">
+            <section className="py-16 bg-primary/5 border-y border-primary/10">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Tips for Smooth Returns</h2>
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
                         <div className="flex items-start gap-3">
-                            <span className="text-orange-600 font-bold text-xl">•</span>
+                            <span className="text-primary font-bold text-xl">•</span>
                             <p className="text-gray-700">Inspect order immediately upon delivery</p>
                         </div>
                         <div className="flex items-start gap-3">
-                            <span className="text-orange-600 font-bold text-xl">•</span>
+                            <span className="text-primary font-bold text-xl">•</span>
                             <p className="text-gray-700">Take unboxing video for high-value orders</p>
                         </div>
                         <div className="flex items-start gap-3">
-                            <span className="text-orange-600 font-bold text-xl">•</span>
+                            <span className="text-primary font-bold text-xl">•</span>
                             <p className="text-gray-700">Report issues within 48 hours</p>
                         </div>
                         <div className="flex items-start gap-3">
-                            <span className="text-orange-600 font-bold text-xl">•</span>
+                            <span className="text-primary font-bold text-xl">•</span>
                             <p className="text-gray-700">Keep original packaging intact</p>
                         </div>
                         <div className="flex items-start gap-3">
-                            <span className="text-orange-600 font-bold text-xl">•</span>
+                            <span className="text-primary font-bold text-xl">•</span>
                             <p className="text-gray-700">Provide clear photos of the issue</p>
                         </div>
                         <div className="flex items-start gap-3">
-                            <span className="text-orange-600 font-bold text-xl">•</span>
+                            <span className="text-primary font-bold text-xl">•</span>
                             <p className="text-gray-700">Keep all safety seals intact</p>
                         </div>
                     </div>

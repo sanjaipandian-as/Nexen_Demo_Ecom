@@ -471,7 +471,7 @@ const Searchbar = () => {
                             onClick={() => navigate('/')}
                             className="cursor-pointer hover:opacity-80 transition-opacity"
                         >
-                            <h1 className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-bold text-orange-500 whitespace-nowrap transition-all duration-300">
+                            <h1 className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-bold text-primary whitespace-nowrap transition-all duration-300">
                                 APK Crackers
                             </h1>
                         </button>
@@ -480,7 +480,7 @@ const Searchbar = () => {
                     {/* Desktop Search Bar - Hidden on Mobile */}
                     <div className="hidden md:flex flex-1 max-w-md lg:max-w-2xl" ref={searchRef}>
                         <div className="relative group w-full">
-                            <FaSearch className="absolute left-3 lg:left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-3.5 h-3.5 lg:w-4 lg:h-4 group-focus-within:text-orange-500 transition-colors z-10" />
+                            <FaSearch className="absolute left-3 lg:left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-3.5 h-3.5 lg:w-4 lg:h-4 group-focus-within:text-primary transition-colors z-10" />
                             <input
                                 type="text"
                                 placeholder="Search crackers..."
@@ -488,7 +488,7 @@ const Searchbar = () => {
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 onKeyDown={handleKeyDown}
                                 onFocus={() => searchQuery.trim().length > 1 && setShowSuggestions(true)}
-                                className="w-full pl-9 lg:pl-12 pr-3 lg:pr-4 py-2 lg:py-3 bg-gray-50 border-2 border-gray-200 rounded-full text-sm lg:text-md text-gray-700 placeholder-gray-400 focus:outline-none focus:bg-white focus:border-orange-500 hover:border-gray-300 transition-all cursor-text shadow-sm"
+                                className="w-full pl-9 lg:pl-12 pr-3 lg:pr-4 py-2 lg:py-3 bg-gray-50 border-2 border-gray-200 rounded-full text-sm lg:text-md text-gray-700 placeholder-gray-400 focus:outline-none focus:bg-white focus:border-primary hover:border-gray-300 transition-all cursor-text shadow-sm"
                             />
 
                             {/* Suggestions Dropdown */}
@@ -496,7 +496,7 @@ const Searchbar = () => {
                                 <div className="absolute top-full left-0 right-0 mt-2 bg-white border-2 border-gray-200 rounded-2xl shadow-xl z-50 max-h-96 overflow-y-auto">
                                     {loadingSuggestions ? (
                                         <div className="p-4 text-center text-gray-500">
-                                            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-orange-500 mx-auto"></div>
+                                            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary mx-auto"></div>
                                         </div>
                                     ) : suggestions.length > 0 ? (
                                         <div className="py-2">
@@ -504,7 +504,7 @@ const Searchbar = () => {
                                                 <button
                                                     key={suggestion._id}
                                                     onClick={() => handleSearch(suggestion.name)}
-                                                    className={`w-full px-4 py-3 text-left hover:bg-orange-50 transition-colors flex items-center gap-3 ${index === selectedSuggestionIndex ? 'bg-orange-50' : ''
+                                                    className={`w-full px-4 py-3 text-left hover:bg-primary/10 transition-colors flex items-center gap-3 ${index === selectedSuggestionIndex ? 'bg-primary/10' : ''
                                                         }`}
                                                 >
                                                     <FaSearch className="w-4 h-4 text-gray-400" />
@@ -528,9 +528,9 @@ const Searchbar = () => {
                         <div className="relative" ref={notificationRef}>
                             <button
                                 onClick={() => setShowNotifications(!showNotifications)}
-                                className="relative p-1.5 sm:p-2 md:p-2.5 hover:bg-orange-50 rounded-full transition-all cursor-pointer group"
+                                className="relative p-1.5 sm:p-2 md:p-2.5 hover:bg-primary/10 rounded-full transition-all cursor-pointer group"
                             >
-                                <FaBell className="w-4 h-4 md:w-5 md:h-5 text-gray-600 group-hover:text-orange-500 transition-colors" />
+                                <FaBell className="w-4 h-4 md:w-5 md:h-5 text-gray-600 group-hover:text-primary transition-colors" />
                                 {unreadCount > 0 && (
                                     <span className="absolute -top-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 bg-red-500 text-white text-[10px] sm:text-xs font-bold rounded-full flex items-center justify-center border-2 border-white">
                                         {unreadCount > 9 ? '9+' : unreadCount}
@@ -542,14 +542,14 @@ const Searchbar = () => {
                             {showNotifications && isLoggedIn && (
                                 <div className="fixed sm:absolute top-16 sm:top-full left-2 right-2 sm:left-auto sm:right-0 mt-0 sm:mt-2 w-auto sm:w-80 md:w-96 bg-white border-2 border-gray-200 rounded-xl sm:rounded-2xl shadow-2xl z-50 max-h-[calc(100vh-5rem)] sm:max-h-[500px] overflow-hidden flex flex-col">
                                     {/* Header */}
-                                    <div className="p-3 sm:p-4 border-b border-gray-200 bg-orange-50 flex-shrink-0">
+                                    <div className="p-3 sm:p-4 border-b border-gray-200 bg-primary/10 flex-shrink-0">
                                         <div className="flex items-center justify-between mb-1 sm:mb-2">
                                             <h3 className="text-base sm:text-lg font-bold text-gray-900">Notifications</h3>
                                             <div className="flex items-center gap-2">
                                                 {unreadCount > 0 && (
                                                     <button
                                                         onClick={markAllAsRead}
-                                                        className="text-xs font-semibold text-orange-600 hover:text-orange-700 transition-colors px-2 py-1 hover:bg-orange-100 rounded"
+                                                        className="text-xs font-semibold text-primary hover:text-primary/80 transition-colors px-2 py-1 hover:bg-primary/20 rounded"
                                                     >
                                                         Mark all read
                                                     </button>
@@ -574,7 +574,7 @@ const Searchbar = () => {
                                     <div className="overflow-y-auto flex-1 overscroll-contain">
                                         {loadingNotifications ? (
                                             <div className="p-6 sm:p-8 text-center">
-                                                <div className="animate-spin rounded-full h-6 w-6 sm:h-8 sm:w-8 border-b-2 border-orange-500 mx-auto"></div>
+                                                <div className="animate-spin rounded-full h-6 w-6 sm:h-8 sm:w-8 border-b-2 border-primary mx-auto"></div>
                                             </div>
                                         ) : notifications.length === 0 ? (
                                             <div className="p-6 sm:p-8 text-center">
@@ -588,7 +588,7 @@ const Searchbar = () => {
                                                     <div
                                                         key={notification._id}
                                                         onClick={() => !notification.isRead && markAsRead(notification._id)}
-                                                        className={`p-3 sm:p-4 hover:bg-gray-50 active:bg-gray-100 transition-colors cursor-pointer ${!notification.isRead ? 'bg-orange-50' : ''
+                                                        className={`p-3 sm:p-4 hover:bg-primary/10 active:bg-gray-100 transition-colors cursor-pointer ${!notification.isRead ? 'bg-primary/10' : ''
                                                             }`}
                                                     >
                                                         <div className="flex items-start gap-2 sm:gap-3">
@@ -602,7 +602,7 @@ const Searchbar = () => {
                                                                         {notification.title}
                                                                     </h4>
                                                                     {!notification.isRead && (
-                                                                        <div className="w-2 h-2 bg-orange-500 rounded-full flex-shrink-0 mt-1.5"></div>
+                                                                        <div className="w-2 h-2 bg-primary rounded-full flex-shrink-0 mt-1.5"></div>
                                                                     )}
                                                                 </div>
                                                                 <p className="text-xs sm:text-sm text-gray-600 line-clamp-2 mb-1.5">
@@ -626,7 +626,7 @@ const Searchbar = () => {
                                                 onClick={() => {
                                                     setShowNotifications(false);
                                                 }}
-                                                className="w-full text-center text-xs sm:text-sm font-semibold text-orange-600 hover:text-orange-700 py-2 hover:bg-orange-50 rounded transition-colors"
+                                                className="w-full text-center text-xs sm:text-sm font-semibold text-primary hover:text-primary/80 py-2 hover:bg-primary/10 rounded transition-colors"
                                             >
                                                 View all notifications
                                             </button>
@@ -642,7 +642,7 @@ const Searchbar = () => {
                                 {/* Login Button */}
                                 <button
                                     onClick={() => navigate('/Login')}
-                                    className="hidden md:block px-3 lg:px-4 xl:px-6 py-1.5 lg:py-2 xl:py-2.5 text-xs md:text-sm font-semibold text-gray-700 bg-white border-2 border-gray-300 rounded-full hover:border-orange-500 hover:text-orange-500 hover:bg-orange-50 transition-all cursor-pointer shadow-sm hover:shadow"
+                                    className="hidden md:block px-3 lg:px-4 xl:px-6 py-1.5 lg:py-2 xl:py-2.5 text-xs md:text-sm font-semibold text-gray-700 bg-white border-2 border-gray-300 rounded-full hover:border-primary hover:text-primary hover:bg-primary/10 transition-all cursor-pointer shadow-sm hover:shadow"
                                 >
                                     Login
                                 </button>
@@ -650,7 +650,7 @@ const Searchbar = () => {
                                 {/* Signup Button */}
                                 <button
                                     onClick={() => navigate('/Register')}
-                                    className="hidden md:block px-3 lg:px-4 xl:px-6 py-1.5 lg:py-2 xl:py-2.5 text-xs md:text-sm font-semibold text-white bg-orange-500 rounded-full hover:bg-orange-600 transition-all shadow-md hover:shadow-lg cursor-pointer"
+                                    className="hidden md:block px-3 lg:px-4 xl:px-6 py-1.5 lg:py-2 xl:py-2.5 text-xs md:text-sm font-semibold text-white bg-primary rounded-full hover:bg-primary/90 transition-all shadow-md hover:shadow-lg cursor-pointer"
                                 >
                                     Sign Up
                                 </button>
@@ -660,7 +660,7 @@ const Searchbar = () => {
                                 {/* Profile Icon - Navigate to Settings */}
                                 <button
                                     onClick={() => navigate(userRole === 'seller' ? '/seller-home' : '/Settings')}
-                                    className="hidden md:flex w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-orange-500 items-center justify-center cursor-pointer hover:ring-2 hover:ring-orange-500 hover:ring-offset-2 transition-all shadow-md hover:shadow-lg"
+                                    className="hidden md:flex w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-primary items-center justify-center cursor-pointer hover:ring-2 hover:ring-primary hover:ring-offset-2 transition-all shadow-md hover:shadow-lg"
                                     title={userRole === 'seller' ? "Go to Seller Dashboard" : "Go to Settings"}
                                 >
                                     <FaUser className="w-3.5 h-3.5 lg:w-4 lg:h-4 xl:w-5 xl:h-5 text-white" />
@@ -669,7 +669,7 @@ const Searchbar = () => {
                                 {/* Logout Button */}
                                 <button
                                     onClick={handleLogout}
-                                    className="hidden md:flex w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-red-500 items-center justify-center hover:bg-red-600 transition-all shadow-md hover:shadow-lg cursor-pointer"
+                                    className="hidden md:flex w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-primary items-center justify-center hover:bg-primary/90 transition-all shadow-md hover:shadow-lg cursor-pointer"
                                     title="Logout"
                                 >
                                     <FaSignOutAlt className="w-3.5 h-3.5 lg:w-4 lg:h-4 xl:w-5 xl:h-5 text-white" />
@@ -680,7 +680,7 @@ const Searchbar = () => {
                         {/* Mobile Menu Toggle */}
                         <button
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                            className="md:hidden p-2 hover:bg-orange-50 rounded-full transition-all"
+                            className="md:hidden p-2 hover:bg-primary/10 rounded-full transition-all"
                         >
                             {isMobileMenuOpen ? (
                                 <FaTimes className="w-5 h-5 text-gray-600" />
@@ -695,7 +695,7 @@ const Searchbar = () => {
             {/* Mobile Search Bar - Shown when search icon is clicked */}
             <div className="md:hidden px-3 pb-3" ref={searchRef}>
                 <div className="relative group">
-                    <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 group-focus-within:text-orange-500 transition-colors z-10" />
+                    <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 group-focus-within:text-primary transition-colors z-10" />
                     <input
                         type="text"
                         placeholder="Search crackers..."
@@ -703,7 +703,7 @@ const Searchbar = () => {
                         onChange={(e) => setSearchQuery(e.target.value)}
                         onKeyDown={handleKeyDown}
                         onFocus={() => searchQuery.trim().length > 1 && setShowSuggestions(true)}
-                        className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border-2 border-gray-200 rounded-full text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:bg-white focus:border-orange-500 hover:border-gray-300 transition-all cursor-text shadow-sm"
+                        className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border-2 border-gray-200 rounded-full text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:bg-white focus:border-primary hover:border-gray-300 transition-all cursor-text shadow-sm"
                     />
 
                     {/* Mobile Suggestions Dropdown */}
@@ -711,7 +711,7 @@ const Searchbar = () => {
                         <div className="absolute top-full left-0 right-0 mt-2 bg-white border-2 border-gray-200 rounded-2xl shadow-xl z-50 max-h-64 overflow-y-auto">
                             {loadingSuggestions ? (
                                 <div className="p-4 text-center text-gray-500">
-                                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-orange-500 mx-auto"></div>
+                                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary mx-auto"></div>
                                 </div>
                             ) : suggestions.length > 0 ? (
                                 <div className="py-2">
@@ -719,7 +719,7 @@ const Searchbar = () => {
                                         <button
                                             key={suggestion._id}
                                             onClick={() => handleSearch(suggestion.name)}
-                                            className={`w-full px-3 py-2.5 text-left hover:bg-orange-50 transition-colors flex items-center gap-2 ${index === selectedSuggestionIndex ? 'bg-orange-50' : ''
+                                            className={`w-full px-3 py-2.5 text-left hover:bg-primary/10 transition-colors flex items-center gap-2 ${index === selectedSuggestionIndex ? 'bg-primary/10' : ''
                                                 }`}
                                         >
                                             <FaSearch className="w-3 h-3 text-gray-400" />
@@ -748,7 +748,7 @@ const Searchbar = () => {
                                     navigate('/Login');
                                     setIsMobileMenuOpen(false);
                                 }}
-                                className="w-full px-4 py-3 text-sm font-semibold text-gray-700 bg-white border-2 border-gray-300 rounded-lg hover:border-orange-500 hover:text-orange-500 hover:bg-orange-50 transition-all flex items-center justify-center gap-2"
+                                className="w-full px-4 py-3 text-sm font-semibold text-gray-700 bg-white border-2 border-gray-300 rounded-lg hover:border-primary hover:text-primary hover:bg-primary/10 transition-all flex items-center justify-center gap-2"
                             >
                                 <FaUser className="w-4 h-4" />
                                 Login
@@ -760,7 +760,7 @@ const Searchbar = () => {
                                     navigate('/Register');
                                     setIsMobileMenuOpen(false);
                                 }}
-                                className="w-full px-4 py-3 text-sm font-semibold text-white bg-orange-500 rounded-lg hover:bg-orange-600 transition-all shadow-sm flex items-center justify-center gap-2"
+                                className="w-full px-4 py-3 text-sm font-semibold text-white bg-primary rounded-lg hover:bg-primary/90 transition-all shadow-sm flex items-center justify-center gap-2"
                             >
                                 <FaUser className="w-4 h-4" />
                                 Sign Up
@@ -771,7 +771,7 @@ const Searchbar = () => {
                             {/* User Info Section */}
                             <div className="pb-4 mb-4 border-b border-gray-200">
                                 <div className="flex items-center gap-3">
-                                    <div className="w-12 h-12 rounded-full bg-orange-500 flex items-center justify-center">
+                                    <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center">
                                         <FaUser className="w-6 h-6 text-white" />
                                     </div>
                                     <div className="flex-1">

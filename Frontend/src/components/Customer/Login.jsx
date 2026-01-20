@@ -82,7 +82,7 @@ const Login = () => {
         }
     };
 
-    const inputClasses = "w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-lg border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all placeholder:text-gray-400";
+    const inputClasses = "w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-lg border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-gray-400";
     const labelClasses = "block text-xs sm:text-sm font-medium text-gray-700 mb-1.5";
 
     return (
@@ -171,11 +171,11 @@ const Login = () => {
                                 type="checkbox"
                                 checked={rememberMe}
                                 onChange={(e) => setRememberMe(e.target.checked)}
-                                className="w-4 h-4 sm:w-5 sm:h-5 rounded border-gray-300 text-orange-600 focus:ring-orange-500"
+                                className="w-4 h-4 sm:w-5 sm:h-5 rounded border-gray-300 text-primary focus:ring-primary"
                             />
                             <span className="text-xs sm:text-sm text-gray-600 group-hover:text-gray-900 transition-colors">Remember me</span>
                         </label>
-                        <a href="#" className="text-xs sm:text-sm font-semibold text-orange-600 hover:text-orange-500">
+                        <a href="#" className="text-xs sm:text-sm font-semibold text-primary hover:text-primary/80">
                             Forgot Password?
                         </a>
                     </div>
@@ -186,14 +186,14 @@ const Login = () => {
                                 type="checkbox"
                                 checked={acceptPolicy}
                                 onChange={(e) => setAcceptPolicy(e.target.checked)}
-                                className="w-4 h-4 sm:w-5 sm:h-5 rounded border-gray-300 text-orange-600 focus:ring-orange-500 mt-0.5"
+                                className="w-4 h-4 sm:w-5 sm:h-5 rounded border-gray-300 text-primary focus:ring-primary mt-0.5"
                                 required
                             />
                             <span className="text-xs sm:text-sm text-gray-600">
                                 I agree to the{' '}
-                                <a href="/privacy-policy" target="_blank" rel="noopener noreferrer" className="font-semibold text-orange-600 hover:text-orange-500 underline">Privacy Policy</a>
+                                <a href="/privacy-policy" target="_blank" rel="noopener noreferrer" className="font-semibold text-primary hover:text-primary/80 underline">Privacy Policy</a>
                                 {' and '}
-                                <a href="/terms-and-conditions" target="_blank" rel="noopener noreferrer" className="font-semibold text-orange-600 hover:text-orange-500 underline">Terms & Conditions</a>
+                                <a href="/terms-and-conditions" target="_blank" rel="noopener noreferrer" className="font-semibold text-primary hover:text-primary/80 underline">Terms & Conditions</a>
                             </span>
                         </label>
                     </div>
@@ -201,9 +201,9 @@ const Login = () => {
                     <button
                         type="submit"
                         disabled={loading}
-                        className={`w-full font-semibold text-sm sm:text-base md:text-lg py-3 sm:py-3.5 md:py-4 rounded-lg focus:outline-none focus:ring-4 focus:ring-orange-500/20 transition-all shadow-sm active:scale-95 ${loading
-                            ? 'bg-orange-400 text-white cursor-not-allowed'
-                            : 'bg-orange-600 text-white hover:bg-orange-700'
+                        className={`w-full font-semibold text-sm sm:text-base md:text-lg py-3 sm:py-3.5 md:py-4 rounded-lg focus:outline-none focus:ring-4 focus:ring-primary/20 transition-all shadow-sm active:scale-95 ${loading
+                            ? 'bg-primary/60 text-white cursor-not-allowed'
+                            : 'bg-primary text-white hover:bg-primary/90'
                             }`}
                     >
                         {loading ? 'Signing In...' : 'Sign In'}
@@ -212,7 +212,7 @@ const Login = () => {
 
                 <p className="text-center text-xs sm:text-sm text-gray-500">
                     Don't have an account?{' '}
-                    <a href="/Register" className="font-semibold text-orange-600 hover:text-orange-500">
+                    <a href="/Register" className="font-semibold text-primary hover:text-primary/80">
                         Sign Up
                     </a>
                 </p>

@@ -81,7 +81,7 @@ const AdminDashboard = ({ onOpenUploadModal, refreshId }) => {
         }
     };
 
-    const COLORS = ['#2563EB', '#22C55E', '#8B5CF6', '#F97316', '#F87171', '#2DD4BF'];
+    const COLORS = ['#2563EB', '#22C55E', '#8B5CF6', '#F7DB91', '#F87171', '#2DD4BF'];
 
     const statCards = [
         {
@@ -115,8 +115,8 @@ const AdminDashboard = ({ onOpenUploadModal, refreshId }) => {
             title: 'Customers',
             value: stats.totalCustomers,
             icon: MdPeople,
-            color: 'bg-orange-50 text-orange-600',
-            iconBg: 'bg-orange-500',
+            color: 'bg-secondary/10 text-secondary',
+            iconBg: 'bg-secondary',
             growth: 15.8,
             trend: 'up'
         }
@@ -339,7 +339,7 @@ const AdminDashboard = ({ onOpenUploadModal, refreshId }) => {
             <div className="bg-white rounded-[24px] border border-slate-100 p-8 shadow-[0_8px_24px_rgba(0,0,0,0.04)] overflow-hidden">
                 <div className="flex items-center justify-between mb-8">
                     <h2 className="text-lg font-black text-slate-900 flex items-center gap-2">
-                        <div className="w-1.5 h-6 bg-orange-500 rounded-full"></div>
+                        <div className="w-1.5 h-6 bg-secondary rounded-full"></div>
                         Recent Activity
                     </h2>
                     <button className="text-blue-600 text-[13px] font-black uppercase tracking-widest hover:underline">View All</button>
@@ -379,13 +379,13 @@ const AdminDashboard = ({ onOpenUploadModal, refreshId }) => {
                                                 ${order.status === 'delivered' ? 'bg-emerald-50 text-emerald-600' :
                                                     order.status === 'shipped' ? 'bg-blue-50 text-blue-600' :
                                                         order.status === 'paid' ? 'bg-indigo-50 text-indigo-600' :
-                                                            'bg-orange-50 text-orange-600'
+                                                            'bg-secondary/10 text-secondary'
                                                 }
                                             `}>
                                                 <div className={`w-1.5 h-1.5 rounded-full ${order.status === 'delivered' ? 'bg-emerald-500' :
-                                                        order.status === 'shipped' ? 'bg-blue-500' :
-                                                            order.status === 'paid' ? 'bg-indigo-500' :
-                                                                'bg-orange-500'
+                                                    order.status === 'shipped' ? 'bg-blue-500' :
+                                                        order.status === 'paid' ? 'bg-indigo-500' :
+                                                            'bg-secondary'
                                                     }`}></div>
                                                 {order.status}
                                             </span>

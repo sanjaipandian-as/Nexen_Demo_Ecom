@@ -85,7 +85,7 @@ const Register = () => {
         }
     };
 
-    const inputClasses = "w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-lg border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all placeholder:text-gray-400";
+    const inputClasses = "w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-lg border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all placeholder:text-gray-400";
     const labelClasses = "block text-xs sm:text-sm font-medium text-gray-700 mb-1.5";
 
     return (
@@ -135,7 +135,7 @@ const Register = () => {
                 <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8">
                     <div className="space-y-4 sm:space-y-6">
                         <div className="flex items-center gap-2 pb-2 border-b border-gray-100">
-                            <FaUser className="text-orange-500 w-4 h-4 sm:w-5 sm:h-5" />
+                            <FaUser className="text-primary w-4 h-4 sm:w-5 sm:h-5" />
                             <h3 className="text-base sm:text-lg font-semibold text-gray-900">Personal Information</h3>
                         </div>
 
@@ -210,7 +210,7 @@ const Register = () => {
 
                     <div className="space-y-4 sm:space-y-6">
                         <div className="flex items-center gap-2 pb-2 border-b border-gray-100">
-                            <FaMapMarkerAlt className="text-orange-500 w-4 h-4 sm:w-5 sm:h-5" />
+                            <FaMapMarkerAlt className="text-primary w-4 h-4 sm:w-5 sm:h-5" />
                             <h3 className="text-base sm:text-lg font-semibold text-gray-900">Delivery Address</h3>
                         </div>
 
@@ -348,7 +348,7 @@ const Register = () => {
                                 name="newsletter"
                                 checked={formData.newsletter}
                                 onChange={handleChange}
-                                className="w-4 h-4 sm:w-5 sm:h-5 rounded border-gray-300 text-orange-600 focus:ring-orange-500 mt-0.5"
+                                className="w-4 h-4 sm:w-5 sm:h-5 rounded border-gray-300 text-primary focus:ring-primary mt-0.5"
                             />
                             <span className="text-xs sm:text-sm text-gray-600 group-hover:text-gray-900 transition-colors">
                                 Subscribe to our newsletter for exclusive offers and festival updates
@@ -361,14 +361,14 @@ const Register = () => {
                                 name="agreeToTerms"
                                 checked={formData.agreeToTerms}
                                 onChange={handleChange}
-                                className="w-4 h-4 sm:w-5 sm:h-5 rounded border-gray-300 text-orange-600 focus:ring-orange-500 mt-0.5 flex-shrink-0"
+                                className="w-4 h-4 sm:w-5 sm:h-5 rounded border-gray-300 text-primary focus:ring-primary mt-0.5 flex-shrink-0"
                                 required
                             />
                             <span className="text-xs sm:text-sm text-gray-600">
                                 I agree to the{' '}
-                                <a href="/privacy-policy" target="_blank" rel="noopener noreferrer" className="font-semibold text-orange-600 hover:text-orange-500 underline">Privacy Policy</a>
+                                <a href="/privacy-policy" target="_blank" rel="noopener noreferrer" className="font-semibold text-primary hover:text-primary/80 underline">Privacy Policy</a>
                                 {' and '}
-                                <a href="/terms-and-conditions" target="_blank" rel="noopener noreferrer" className="font-semibold text-orange-600 hover:text-orange-500 underline">Terms & Conditions</a>
+                                <a href="/terms-and-conditions" target="_blank" rel="noopener noreferrer" className="font-semibold text-primary hover:text-primary/80 underline">Terms & Conditions</a>
                             </span>
                         </label>
                     </div>
@@ -376,9 +376,9 @@ const Register = () => {
                     <button
                         type="submit"
                         disabled={loading}
-                        className={`w-full font-semibold text-sm sm:text-base md:text-lg py-3 sm:py-3.5 md:py-4 rounded-lg focus:outline-none focus:ring-4 focus:ring-orange-500/20 transition-all shadow-sm active:scale-95 ${loading
-                            ? 'bg-orange-400 text-white cursor-not-allowed'
-                            : 'bg-orange-600 text-white hover:bg-orange-700'
+                        className={`w-full font-semibold text-sm sm:text-base md:text-lg py-3 sm:py-3.5 md:py-4 rounded-lg focus:outline-none focus:ring-4 focus:ring-primary/20 transition-all shadow-sm active:scale-95 ${loading
+                            ? 'bg-primary/70 text-white cursor-not-allowed'
+                            : 'bg-primary text-white hover:bg-primary/90'
                             }`}
                     >
                         {loading ? 'Creating Account...' : 'Create Account'}
@@ -387,7 +387,7 @@ const Register = () => {
 
                 <p className="text-center text-xs sm:text-sm text-gray-500">
                     Already have an account?{' '}
-                    <a href="/Login" className="font-semibold text-orange-600 hover:text-orange-500">
+                    <a href="/Login" className="font-semibold text-primary hover:text-primary/80">
                         Sign In
                     </a>
                 </p>

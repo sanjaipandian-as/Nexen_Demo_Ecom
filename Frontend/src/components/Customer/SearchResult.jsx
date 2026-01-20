@@ -232,12 +232,12 @@ const SearchResult = () => {
             <div className="p-4 sm:p-6">
                 <div className="flex items-center justify-between mb-4 sm:mb-6">
                     <h2 className="text-lg sm:text-xl font-bold text-gray-800 flex items-center gap-2">
-                        <FaFilter className="w-4 h-4 sm:w-5 sm:h-5 text-orange-500" />
+                        <FaFilter className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                         Filters
                     </h2>
                     <button
                         onClick={clearFilters}
-                        className="text-xs sm:text-sm text-orange-600 hover:text-orange-700 font-semibold px-2 py-1 hover:bg-orange-50 rounded transition-colors"
+                        className="text-xs sm:text-sm text-primary hover:text-primary/80 font-semibold px-2 py-1 hover:bg-primary/10 rounded transition-colors"
                     >
                         Clear All
                     </button>
@@ -249,7 +249,7 @@ const SearchResult = () => {
                         <select
                             value={filters.sortBy}
                             onChange={(e) => setFilters({ ...filters, sortBy: e.target.value })}
-                            className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm border-2 border-gray-200 rounded-lg focus:border-orange-500 focus:outline-none"
+                            className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none"
                         >
                             <option value="relevance">Relevance</option>
                             <option value="price-low">Price: Low to High</option>
@@ -264,7 +264,7 @@ const SearchResult = () => {
                         <div className="space-y-1.5 sm:space-y-2">
                             <button
                                 onClick={() => setFilters({ ...filters, category: '' })}
-                                className={`w-full text-left px-3 sm:px-4 py-2 rounded-lg transition-all text-sm ${filters.category === '' ? 'bg-orange-500 text-white' : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
+                                className={`w-full text-left px-3 sm:px-4 py-2 rounded-lg transition-all text-sm ${filters.category === '' ? 'bg-primary text-primary-foreground' : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
                                     }`}
                             >
                                 All Categories
@@ -273,7 +273,7 @@ const SearchResult = () => {
                                 <button
                                     key={cat}
                                     onClick={() => setFilters({ ...filters, category: cat })}
-                                    className={`w-full text-left px-3 sm:px-4 py-2 rounded-lg transition-all text-sm ${filters.category === cat ? 'bg-orange-500 text-white' : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
+                                    className={`w-full text-left px-3 sm:px-4 py-2 rounded-lg transition-all text-sm ${filters.category === cat ? 'bg-primary text-primary-foreground' : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
                                         }`}
                                 >
                                     {cat}
@@ -290,14 +290,14 @@ const SearchResult = () => {
                                 placeholder="Min Price"
                                 value={filters.minPrice}
                                 onChange={(e) => setFilters({ ...filters, minPrice: e.target.value })}
-                                className="w-full px-3 sm:px-4 py-2 text-sm border-2 border-gray-200 rounded-lg focus:border-orange-500 focus:outline-none"
+                                className="w-full px-3 sm:px-4 py-2 text-sm border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none"
                             />
                             <input
                                 type="number"
                                 placeholder="Max Price"
                                 value={filters.maxPrice}
                                 onChange={(e) => setFilters({ ...filters, maxPrice: e.target.value })}
-                                className="w-full px-3 sm:px-4 py-2 text-sm border-2 border-gray-200 rounded-lg focus:border-orange-500 focus:outline-none"
+                                className="w-full px-3 sm:px-4 py-2 text-sm border-2 border-gray-200 rounded-lg focus:border-primary focus:outline-none"
                             />
                         </div>
                     </div>
@@ -308,7 +308,7 @@ const SearchResult = () => {
                                 type="checkbox"
                                 checked={filters.inStock}
                                 onChange={(e) => setFilters({ ...filters, inStock: e.target.checked })}
-                                className="w-4 h-4 sm:w-5 sm:h-5 text-orange-500 border-2 border-gray-300 rounded focus:ring-orange-500"
+                                className="w-4 h-4 sm:w-5 sm:h-5 text-primary border-2 border-gray-300 rounded focus:ring-primary"
                             />
                             <span className="text-xs sm:text-sm font-semibold text-gray-700">In Stock Only</span>
                         </label>
@@ -345,10 +345,10 @@ const SearchResult = () => {
                             className="absolute top-2 right-2 w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 bg-white rounded-full flex items-center justify-center shadow-md hover:shadow-lg transition-shadow"
                         >
                             {togglingWishlist === product._id ? (
-                                <div className="animate-spin rounded-full h-4 w-4 sm:h-5 sm:w-5 border-b-2 border-orange-500"></div>
+                                <div className="animate-spin rounded-full h-4 w-4 sm:h-5 sm:w-5 border-b-2 border-primary"></div>
                             ) : (
                                 <FaHeart
-                                    className={`w-4 h-4 sm:w-5 sm:h-5 transition-colors ${wishlistItems.includes(product._id) ? 'text-red-500' : 'text-gray-300 hover:text-red-400'
+                                    className={`w-4 h-4 sm:w-5 sm:h-5 transition-colors ${wishlistItems.includes(product._id) ? 'text-primary' : 'text-gray-300 hover:text-primary'
                                         }`}
                                 />
                             )}
@@ -388,7 +388,7 @@ const SearchResult = () => {
                                     </li>
                                     <li className="flex items-start">
                                         <span className="text-gray-400 mr-1.5 sm:mr-2">•</span>
-                                        <span>Stock: <span className={`font-semibold ${(product.stock_control?.available_pieces || product.stock || 0) > 10 ? 'text-green-600' : (product.stock_control?.available_pieces || product.stock || 0) > 0 ? 'text-orange-600' : 'text-red-600'
+                                        <span>Stock: <span className={`font-semibold ${(product.stock_control?.available_pieces || product.stock || 0) > 10 ? 'text-green-600' : (product.stock_control?.available_pieces || product.stock || 0) > 0 ? 'text-secondary' : 'text-red-600'
                                             }`}>
                                             {(product.stock_control?.available_pieces || product.stock || 0) > 0 ? `${product.stock_control?.available_pieces || product.stock} units available` : 'Out of stock'}
                                         </span></span>
@@ -422,7 +422,7 @@ const SearchResult = () => {
                                         e.stopPropagation();
                                         navigate('/cart');
                                     }}
-                                    className="w-full sm:w-auto flex items-center justify-center gap-1.5 sm:gap-2 px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 md:py-3 bg-white border-2 border-orange-500 text-orange-600 rounded-lg transition-all shadow-sm hover:shadow-md hover:bg-orange-50 font-semibold text-sm sm:text-base"
+                                    className="w-full sm:w-auto flex items-center justify-center gap-1.5 sm:gap-2 px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 md:py-3 bg-white border-2 border-primary text-primary rounded-lg transition-all shadow-sm hover:shadow-md hover:bg-primary/10 font-semibold text-sm sm:text-base"
                                 >
                                     <FaCheckCircle className="w-4 h-4 sm:w-5 sm:h-5" />
                                     <span>Cart ({cartItem?.quantity || 1})</span>
@@ -433,7 +433,7 @@ const SearchResult = () => {
                                     disabled={addingToCart === product._id || (product.stock_control?.available_pieces || product.stock || 0) <= 0}
                                     className={`w-full sm:w-auto flex items-center justify-center gap-1.5 sm:gap-2 px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 md:py-3 text-white rounded-lg transition-all shadow-sm hover:shadow-md font-semibold text-sm sm:text-base ${(addingToCart === product._id || (product.stock_control?.available_pieces || product.stock || 0) <= 0)
                                         ? 'bg-gray-400 cursor-not-allowed'
-                                        : 'bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600'
+                                        : 'bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90'
                                         }`}
                                 >
                                     {addingToCart === product._id ? (
@@ -482,10 +482,10 @@ const SearchResult = () => {
                         className="absolute top-2 right-2 w-8 h-8 sm:w-9 sm:h-9 bg-white rounded-full flex items-center justify-center shadow-md hover:shadow-lg transition-all z-10"
                     >
                         {togglingWishlist === product._id ? (
-                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-orange-500"></div>
+                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
                         ) : (
                             <FaHeart
-                                className={`w-4 h-4 transition-colors ${wishlistItems.includes(product._id) ? 'text-red-500' : 'text-gray-300 hover:text-red-400'
+                                className={`w-4 h-4 transition-colors ${wishlistItems.includes(product._id) ? 'text-primary' : 'text-gray-300 hover:text-primary'
                                     }`}
                             />
                         )}
@@ -502,7 +502,7 @@ const SearchResult = () => {
                         <h3 className="text-sm sm:text-base lg:text-base xl:text-lg font-bold text-gray-900 line-clamp-2 flex-1">
                             {product.name}
                         </h3>
-                        <div className="flex items-center gap-1 bg-yellow-400 text-white px-2 py-1 rounded text-xs sm:text-sm font-bold flex-shrink-0">
+                        <div className="flex items-center gap-1 bg-secondary text-white px-2 py-1 rounded text-xs sm:text-sm font-bold flex-shrink-0">
                             <FaStar className="w-3 h-3" />
                             <span>4.2</span>
                             <span className="text-[10px] sm:text-xs">(0)</span>
@@ -518,7 +518,7 @@ const SearchResult = () => {
                         </div>
                         <div className="text-right">
                             <p className="text-xs text-gray-500 mb-1">Stock</p>
-                            <p className={`text-sm xl:text-base font-bold ${(product.stock_control?.available_pieces || product.stock || 0) > 10 ? 'text-green-600' : (product.stock_control?.available_pieces || product.stock || 0) > 0 ? 'text-orange-600' : 'text-red-600'
+                            <p className={`text-sm xl:text-base font-bold ${(product.stock_control?.available_pieces || product.stock || 0) > 10 ? 'text-green-600' : (product.stock_control?.available_pieces || product.stock || 0) > 0 ? 'text-secondary' : 'text-red-600'
                                 }`}>
                                 {(product.stock_control?.available_pieces || product.stock || 0) > 0 ? `${product.stock_control?.available_pieces || product.stock} units` : 'Out of stock'}
                             </p>
@@ -549,7 +549,7 @@ const SearchResult = () => {
                                 e.stopPropagation();
                                 navigate('/cart');
                             }}
-                            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 xl:py-3 bg-white border-2 border-orange-500 text-orange-600 rounded-lg transition-all shadow-sm hover:shadow-md hover:bg-orange-50 font-semibold text-sm">
+                            className="w-full flex items-center justify-center gap-2 px-4 py-2.5 xl:py-3 bg-white border-2 border-primary text-primary rounded-lg transition-all shadow-sm hover:shadow-md hover:bg-primary/10 font-semibold text-sm">
                             <FaShoppingCart className="w-4 h-4" />
                             <span>Added ({cartItem?.quantity || 1})</span>
                         </button>
@@ -559,7 +559,7 @@ const SearchResult = () => {
                             disabled={addingToCart === product._id || (product.stock_control?.available_pieces || product.stock || 0) <= 0}
                             className={`w-full flex items-center justify-center gap-2 px-4 py-2.5 xl:py-3 text-white rounded-lg transition-all shadow-sm hover:shadow-md font-semibold text-sm ${addingToCart === product._id || (product.stock_control?.available_pieces || product.stock || 0) <= 0
                                 ? 'bg-gray-400 cursor-not-allowed'
-                                : 'bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700'
+                                : 'bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary/80'
                                 }`}
                         >
                             {addingToCart === product._id ? (
@@ -634,7 +634,7 @@ const SearchResult = () => {
                         </div>
                         <button
                             onClick={() => setShowMobileFilters(true)}
-                            className="lg:hidden px-3 sm:px-4 py-2 bg-orange-500 text-white rounded-lg flex items-center gap-1.5 sm:gap-2 text-sm sm:text-base font-medium shadow-sm hover:bg-orange-600 transition-colors flex-shrink-0"
+                            className="lg:hidden px-3 sm:px-4 py-2 bg-primary text-white rounded-lg flex items-center gap-1.5 sm:gap-2 text-sm sm:text-base font-medium shadow-sm hover:bg-primary/90 transition-colors flex-shrink-0"
                         >
                             <FaFilter className="w-3 h-3 sm:w-4 sm:h-4" />
                             <span className="hidden xs:inline">Filters</span>
@@ -702,7 +702,7 @@ const SearchResult = () => {
                             <p className="text-gray-600 text-base sm:text-lg text-center">{error}</p>
                             <button
                                 onClick={searchProducts}
-                                className="mt-3 sm:mt-4 px-5 sm:px-6 py-2 sm:py-2.5 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-all text-sm sm:text-base font-medium shadow-sm"
+                                className="mt-3 sm:mt-4 px-5 sm:px-6 py-2 sm:py-2.5 bg-primary text-white rounded-lg hover:bg-primary/90 transition-all text-sm sm:text-base font-medium shadow-sm"
                             >
                                 Retry
                             </button>
@@ -714,7 +714,7 @@ const SearchResult = () => {
                             <p className="text-gray-500 text-xs sm:text-sm mb-4 sm:mb-6 text-center">Try adjusting your filters or search terms</p>
                             <button
                                 onClick={() => navigate('/')}
-                                className="px-5 sm:px-6 py-2 sm:py-2.5 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-all text-sm sm:text-base font-medium shadow-sm"
+                                className="px-5 sm:px-6 py-2 sm:py-2.5 bg-primary text-white rounded-lg hover:bg-primary/90 transition-all text-sm sm:text-base font-medium shadow-sm"
                             >
                                 Browse All Products
                             </button>

@@ -83,7 +83,7 @@ const AdminAllProducts = () => {
     const getStatusColor = (status) => {
         const colors = {
             'approved': 'bg-green-100 text-green-700',
-            'pending': 'bg-yellow-100 text-yellow-700',
+            'pending': 'bg-secondary/10 text-secondary',
             'rejected': 'bg-red-100 text-red-700'
         };
         return colors[status] || 'bg-gray-100 text-gray-700';
@@ -123,9 +123,9 @@ const AdminAllProducts = () => {
             title: 'Pending',
             value: stats.pending,
             icon: MdPending,
-            bgColor: 'bg-yellow-100',
-            iconColor: 'text-yellow-600',
-            textColor: 'text-yellow-600'
+            bgColor: 'bg-secondary/10',
+            iconColor: 'text-secondary',
+            textColor: 'text-secondary'
         },
         {
             title: 'Rejected',
@@ -362,7 +362,7 @@ const AdminAllProducts = () => {
                                                     <span className={`px-3 py-1 text-xs font-semibold rounded-full ${(product.stock_control?.available_pieces || product.stock || 0) > 10
                                                         ? 'bg-green-100 text-green-700'
                                                         : (product.stock_control?.available_pieces || product.stock || 0) > 0
-                                                            ? 'bg-yellow-100 text-yellow-700'
+                                                            ? 'bg-secondary/10 text-secondary'
                                                             : 'bg-red-100 text-red-700'
                                                         }`}>
                                                         {product.stock_control?.available_pieces || product.stock || 0} units

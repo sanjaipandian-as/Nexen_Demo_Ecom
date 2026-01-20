@@ -101,9 +101,9 @@ const AdminFinance = ({ refreshId }) => {
             title: 'Revenue Growth',
             value: `${financeData.revenueGrowth}%`,
             icon: MdTrendingUp,
-            color: 'from-orange-500 to-orange-600',
+            color: 'from-secondary to-secondary/80',
             growth: financeData.revenueGrowth,
-            bgColor: 'bg-orange-50'
+            bgColor: 'bg-secondary/10'
         }
     ];
 

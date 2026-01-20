@@ -49,7 +49,7 @@ const Footer = () => {
                     {/* Brand Section */}
                     <div className="lg:col-span-1">
                         <div className="mb-6">
-                            <h2 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent mb-3">
+                            <h2 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-3">
                                 APK Crackers
                             </h2>
                             <p className="text-gray-400 text-sm leading-relaxed">
@@ -71,7 +71,7 @@ const Footer = () => {
                                     <button
                                         key={index}
                                         aria-label={social.label}
-                                        className={`w-9 h-9 rounded-lg bg-gray-800 ${social.color} flex items-center justify-center transition-all transform hover:scale-110 active:scale-95 border border-gray-700 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-orange-500`}
+                                        className={`w-9 h-9 rounded-lg bg-gray-800 ${social.color} flex items-center justify-center transition-all transform hover:scale-110 active:scale-95 border border-gray-700 hover:border-transparent focus:outline-none focus:ring-2 focus:ring-primary`}
                                     >
                                         <social.icon className="w-4 h-4" />
                                     </button>
@@ -88,7 +88,7 @@ const Footer = () => {
                                 <li key={index}>
                                     <button
                                         onClick={() => navigate(link.path)}
-                                        className="text-gray-400 hover:text-orange-400 transition-colors text-sm hover:translate-x-1 inline-block transform duration-200 focus:outline-none focus:text-orange-400"
+                                        className="text-gray-400 hover:text-primary transition-colors text-sm hover:translate-x-1 inline-block transform duration-200 focus:outline-none focus:text-primary"
                                     >
                                         {link.name}
                                     </button>
@@ -105,7 +105,7 @@ const Footer = () => {
                                 <li key={index}>
                                     <button
                                         onClick={() => navigate(link.path)}
-                                        className="text-gray-400 hover:text-orange-400 transition-colors text-sm hover:translate-x-1 inline-block transform duration-200 focus:outline-none focus:text-orange-400"
+                                        className="text-gray-400 hover:text-primary transition-colors text-sm hover:translate-x-1 inline-block transform duration-200 focus:outline-none focus:text-primary"
                                     >
                                         {link.name}
                                     </button>
@@ -122,7 +122,7 @@ const Footer = () => {
                                 <li key={index}>
                                     <button
                                         onClick={() => navigate(link.path)}
-                                        className="text-gray-400 hover:text-orange-400 transition-colors text-sm hover:translate-x-1 inline-block transform duration-200 focus:outline-none focus:text-orange-400"
+                                        className="text-gray-400 hover:text-primary transition-colors text-sm hover:translate-x-1 inline-block transform duration-200 focus:outline-none focus:text-primary"
                                     >
                                         {link.name}
                                     </button>
@@ -136,26 +136,26 @@ const Footer = () => {
                         <h4 className="text-base font-bold mb-4 text-white">Contact Us</h4>
                         <ul className="space-y-3">
                             <li className="flex items-start gap-3">
-                                <FaMapMarkerAlt className="w-4 h-4 text-orange-400 mt-1 flex-shrink-0" />
+                                <FaMapMarkerAlt className="w-4 h-4 text-primary mt-1 flex-shrink-0" />
                                 <span className="text-gray-400 text-sm leading-relaxed">
                                     123 Sivakasi Main Road,<br />
                                     Tamil Nadu, India - 626123
                                 </span>
                             </li>
                             <li className="flex items-center gap-3">
-                                <FaPhone className="w-4 h-4 text-orange-400 flex-shrink-0" />
+                                <FaPhone className="w-4 h-4 text-primary flex-shrink-0" />
                                 <a
                                     href="tel:+911234567890"
-                                    className="text-gray-400 hover:text-orange-400 text-sm transition-colors focus:outline-none focus:text-orange-400"
+                                    className="text-gray-400 hover:text-primary text-sm transition-colors focus:outline-none focus:text-primary"
                                 >
                                     +91 12345 67890
                                 </a>
                             </li>
                             <li className="flex items-center gap-3">
-                                <FaEnvelope className="w-4 h-4 text-orange-400 flex-shrink-0" />
+                                <FaEnvelope className="w-4 h-4 text-primary flex-shrink-0" />
                                 <a
                                     href="mailto:support@apkcrackers.com"
-                                    className="text-gray-400 hover:text-orange-400 text-sm transition-colors focus:outline-none focus:text-orange-400"
+                                    className="text-gray-400 hover:text-primary text-sm transition-colors focus:outline-none focus:text-primary"
                                 >
                                     support@apkcrackers.com
                                 </a>
@@ -179,8 +179,8 @@ const Footer = () => {
                             { icon: FaHeadset, title: '24/7 Support', desc: 'Always here to help' }
                         ].map((feature, index) => (
                             <div key={index} className="flex items-center gap-3">
-                                <div className="w-12 h-12 bg-orange-500/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                                    <feature.icon className="w-5 h-5 text-orange-400" />
+                                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <feature.icon className="w-5 h-5 text-primary" />
                                 </div>
                                 <div>
                                     <p className="font-semibold text-sm text-white">{feature.title}</p>
@@ -239,7 +239,7 @@ const Footer = () => {
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-5">
                     <div className="flex flex-col md:flex-row items-center justify-between gap-3">
                         <p className="text-sm text-gray-400 text-center md:text-left">
-                            © {currentYear} <span className="text-orange-400 font-semibold">APK Crackers</span>. All rights reserved.
+                            © {currentYear} <span className="text-primary font-semibold">APK Crackers</span>. All rights reserved.
                         </p>
                         <p className="text-xs text-gray-500 text-center md:text-right">
                             Made with ❤️ in India
@@ -249,9 +249,9 @@ const Footer = () => {
             </div>
 
             {/* Safety Warning */}
-            <div className="bg-gradient-to-r from-orange-900/30 to-red-900/30 border-t border-orange-800/50 pb-16 md:pb-0">
+            <div className="bg-gradient-to-r from-primary/30 to-secondary/30 border-t border-primary/20 pb-16 md:pb-0">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-3">
-                    <p className="text-xs text-center text-orange-200 leading-relaxed">
+                    <p className="text-xs text-center text-primary/80 leading-relaxed">
                         ⚠️ <span className="font-semibold">Safety First:</span> Always follow safety guidelines when using crackers and fireworks. Keep away from children. Use in open areas only.
                     </p>
                 </div>

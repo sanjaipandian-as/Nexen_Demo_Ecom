@@ -49,11 +49,11 @@ const TrackOrder = () => {
                                     onChange={(e) => setOrderId(e.target.value)}
                                     placeholder="Enter your order ID (e.g., ORD123456)"
                                     required
-                                    className="flex-1 px-4 py-4 border border-gray-300 rounded-lg focus:outline-none focus:border-orange-600 text-lg"
+                                    className="flex-1 px-4 py-4 border border-gray-300 rounded-lg focus:outline-none focus:border-primary text-lg"
                                 />
                                 <button
                                     type="submit"
-                                    className="bg-orange-600 hover:bg-orange-700 text-white font-semibold px-10 py-4 rounded-lg flex items-center gap-2"
+                                    className="bg-primary hover:bg-primary/90 text-white font-semibold px-10 py-4 rounded-lg flex items-center gap-2"
                                 >
                                     <FiSearch className="w-5 h-5" />
                                     Track
@@ -78,7 +78,7 @@ const TrackOrder = () => {
                                     <div>
                                         <h2 className="text-3xl font-bold text-gray-900">Order #{trackingResult.orderId}</h2>
                                         <p className="text-lg text-gray-600 mt-2">
-                                            Status: <span className="font-semibold text-orange-600">{trackingResult.status}</span>
+                                            Status: <span className="font-semibold text-primary">{trackingResult.status}</span>
                                         </p>
                                     </div>
                                     <div className="text-right">
@@ -126,8 +126,8 @@ const TrackOrder = () => {
                             <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
                                 <div className="bg-white border border-gray-200 rounded-lg p-8">
                                     <div className="flex items-center gap-3 mb-4">
-                                        <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
-                                            <FiMapPin className="w-6 h-6 text-orange-600" />
+                                        <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                                            <FiMapPin className="w-6 h-6 text-primary" />
                                         </div>
                                         <h3 className="text-xl font-bold text-gray-900">Delivery Address</h3>
                                     </div>
@@ -140,8 +140,8 @@ const TrackOrder = () => {
 
                                 <div className="bg-white border border-gray-200 rounded-lg p-8">
                                     <div className="flex items-center gap-3 mb-4">
-                                        <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
-                                            <FiTruck className="w-6 h-6 text-orange-600" />
+                                        <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                                            <FiTruck className="w-6 h-6 text-primary" />
                                         </div>
                                         <h3 className="text-xl font-bold text-gray-900">Courier Partner</h3>
                                     </div>

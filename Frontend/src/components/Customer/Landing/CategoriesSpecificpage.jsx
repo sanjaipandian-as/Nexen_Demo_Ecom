@@ -50,12 +50,12 @@ const ProductCard = React.memo(({
                     }}
                     disabled={addingToWishlist === product._id}
                     className={`absolute top-2 left-2 w-9 h-9 rounded-full flex items-center justify-center shadow-lg transition-all ${inWishlist
-                        ? 'bg-red-500 text-white'
-                        : 'bg-white text-gray-600 hover:bg-red-50 hover:text-red-500'
+                        ? 'bg-primary text-white'
+                        : 'bg-white text-gray-600 hover:bg-pink-50 hover:text-primary'
                         }`}
                 >
                     {addingToWishlist === product._id ? (
-                        <div className="animate-spin rounded-full h-4 w-4 border-2 border-gray-300 border-t-orange-500"></div>
+                        <div className="animate-spin rounded-full h-4 w-4 border-2 border-gray-300 border-t-primary"></div>
                     ) : (
                         <FaHeart className={`w-4 h-4 ${inWishlist ? 'fill-current' : ''}`} />
                     )}
@@ -66,7 +66,7 @@ const ProductCard = React.memo(({
             <div className="p-4">
                 {/* Product Name */}
                 <h3
-                    className="font-semibold text-gray-900 mb-2 line-clamp-2 text-sm md:text-base cursor-pointer hover:text-orange-600 transition-colors"
+                    className="font-semibold text-gray-900 mb-2 line-clamp-2 text-sm md:text-base cursor-pointer hover:text-primary transition-colors"
                     onClick={() => onProductClick(product._id)}
                 >
                     {product.name}
@@ -80,13 +80,13 @@ const ProductCard = React.memo(({
                     </div>
                     <div className="text-right">
                         <p className="text-[10px] text-gray-400 uppercase">Brand</p>
-                        <p className="font-semibold text-orange-500">{product.brand}</p>
+                        <p className="font-semibold text-primary">{product.brand}</p>
                     </div>
                 </div>
 
                 {/* Rating */}
                 <div className="flex items-center gap-1 mb-3">
-                    <FaStar className="w-3 h-3 text-yellow-400" />
+                    <FaStar className="w-3 h-3 text-secondary" />
                     <span className="text-sm font-semibold text-gray-700">4.2</span>
                 </div>
 
@@ -113,8 +113,8 @@ const ProductCard = React.memo(({
                         className={`px-4 py-2 rounded-lg font-semibold text-sm flex items-center gap-2 transition-all ${(product.stock || 0) <= 0
                             ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
                             : inCart
-                                ? 'bg-orange-500 text-white hover:bg-orange-600'
-                                : 'bg-orange-500 text-white hover:bg-orange-600'
+                                ? 'bg-primary text-white hover:bg-primary/90'
+                                : 'bg-primary text-white hover:bg-primary/90'
                             }`}
                     >
                         {addingToCart === product._id ? (
@@ -395,7 +395,7 @@ const CategoriesSpecificpage = () => {
                             {/* Mobile Filter Button */}
                             <button
                                 onClick={() => setShowMobileFilters(true)}
-                                className="md:hidden flex items-center gap-2 bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors"
+                                className="md:hidden flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors"
                             >
                                 <FaFilter />
                                 <span>Filters</span>
@@ -425,7 +425,7 @@ const CategoriesSpecificpage = () => {
                             </p>
                             <button
                                 onClick={() => navigate('/')}
-                                className="bg-orange-500 text-white px-6 py-3 rounded-lg hover:bg-orange-600 transition-colors"
+                                className="bg-primary text-white px-6 py-3 rounded-lg hover:bg-primary/90 transition-colors"
                             >
                                 Browse All Products
                             </button>
@@ -473,7 +473,7 @@ const CategoriesSpecificpage = () => {
                                                         key={page}
                                                         onClick={() => handlePageChange(page)}
                                                         className={`px-4 py-2 rounded-lg ${currentPage === page
-                                                            ? 'bg-orange-500 text-white'
+                                                            ? 'bg-primary text-white'
                                                             : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
                                                             }`}
                                                     >
@@ -526,7 +526,7 @@ const CategoriesSpecificpage = () => {
                             </p>
                             <button
                                 onClick={() => setShowMobileFilters(false)}
-                                className="w-full bg-orange-500 text-white py-3 rounded-lg hover:bg-orange-600 transition-colors"
+                                className="w-full bg-primary text-white py-3 rounded-lg hover:bg-primary/90 transition-colors"
                             >
                                 Close
                             </button>

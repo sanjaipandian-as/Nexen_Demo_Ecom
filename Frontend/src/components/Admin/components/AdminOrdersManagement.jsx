@@ -80,8 +80,8 @@ const AdminOrders = ({ refreshId }) => {
                 </div>
                 <div className="bg-white rounded-[16px] border border-slate-100 p-6 shadow-[0_8_24_rgba(0,0,0,0.06)] hover:shadow-[0_12px_32px_rgba(0,0,0,0.08)] transition-all">
                     <div className="flex items-center justify-between mb-4">
-                        <div className="w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center text-orange-500">
-                            <div className="w-2.5 h-2.5 bg-orange-500 rounded-full animate-pulse"></div>
+                        <div className="w-10 h-10 rounded-xl bg-secondary/10 flex items-center justify-center text-secondary">
+                            <div className="w-2.5 h-2.5 bg-secondary rounded-full animate-pulse"></div>
                         </div>
                         <span className="text-slate-400 text-[11px] font-black uppercase tracking-widest leading-none">Pending</span>
                     </div>

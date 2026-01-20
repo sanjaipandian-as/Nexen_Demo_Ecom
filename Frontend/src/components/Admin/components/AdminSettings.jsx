@@ -135,7 +135,7 @@ const AdminSettings = () => {
         { id: 'store', label: 'Store Settings', icon: MdStore }
     ];
 
-    const inputClasses = "w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition-all outline-none";
+    const inputClasses = "w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none";
     const labelClasses = "block text-sm font-semibold text-gray-700 mb-2";
 
     return (
@@ -157,8 +157,8 @@ const AdminSettings = () => {
                                     key={tab.id}
                                     onClick={() => setActiveTab(tab.id)}
                                     className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg mb-2 transition-all ${activeTab === tab.id
-                                            ? 'bg-orange-50 text-orange-600 font-semibold'
-                                            : 'text-gray-700 hover:bg-gray-50'
+                                        ? 'bg-primary/10 text-primary font-semibold'
+                                        : 'text-gray-700 hover:bg-gray-50'
                                         }`}
                                 >
                                     <Icon className="text-xl" />
@@ -200,7 +200,7 @@ const AdminSettings = () => {
                                     <button
                                         type="submit"
                                         disabled={loading}
-                                        className="flex items-center gap-2 px-6 py-3 bg-orange-600 text-white font-semibold rounded-lg hover:bg-orange-700 disabled:bg-gray-400 transition-colors"
+                                        className="flex items-center gap-2 px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 disabled:bg-gray-400 transition-colors"
                                     >
                                         <MdSave />
                                         {loading ? 'Saving...' : 'Save Changes'}
@@ -247,7 +247,7 @@ const AdminSettings = () => {
                                     <button
                                         type="submit"
                                         disabled={loading}
-                                        className="flex items-center gap-2 px-6 py-3 bg-orange-600 text-white font-semibold rounded-lg hover:bg-orange-700 disabled:bg-gray-400 transition-colors"
+                                        className="flex items-center gap-2 px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 disabled:bg-gray-400 transition-colors"
                                     >
                                         <MdLock />
                                         {loading ? 'Updating...' : 'Update Password'}
@@ -272,7 +272,7 @@ const AdminSettings = () => {
                                         />
                                         <button
                                             onClick={handleAddCategory}
-                                            className="px-6 py-3 bg-orange-600 text-white font-semibold rounded-lg hover:bg-orange-700 transition-colors whitespace-nowrap"
+                                            className="px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 transition-colors whitespace-nowrap"
                                         >
                                             Add Category
                                         </button>
@@ -312,7 +312,7 @@ const AdminSettings = () => {
                                                         type="checkbox"
                                                         checked={value}
                                                         onChange={(e) => setNotifications({ ...notifications, [key]: e.target.checked })}
-                                                        className="w-5 h-5 text-orange-600 rounded focus:ring-orange-500"
+                                                        className="w-5 h-5 text-primary rounded focus:ring-primary"
                                                     />
                                                 </label>
                                             ))}
@@ -330,7 +330,7 @@ const AdminSettings = () => {
                                                         type="checkbox"
                                                         checked={value}
                                                         onChange={(e) => setNotifications({ ...notifications, [key]: e.target.checked })}
-                                                        className="w-5 h-5 text-orange-600 rounded focus:ring-orange-500"
+                                                        className="w-5 h-5 text-primary rounded focus:ring-primary"
                                                     />
                                                 </label>
                                             ))}
@@ -339,7 +339,7 @@ const AdminSettings = () => {
                                     <button
                                         onClick={handleNotificationUpdate}
                                         disabled={loading}
-                                        className="flex items-center gap-2 px-6 py-3 bg-orange-600 text-white font-semibold rounded-lg hover:bg-orange-700 disabled:bg-gray-400 transition-colors"
+                                        className="flex items-center gap-2 px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 disabled:bg-gray-400 transition-colors"
                                     >
                                         <MdSave />
                                         {loading ? 'Saving...' : 'Save Preferences'}
@@ -386,7 +386,7 @@ const AdminSettings = () => {
                                         />
                                     </div>
                                     <button
-                                        className="flex items-center gap-2 px-6 py-3 bg-orange-600 text-white font-semibold rounded-lg hover:bg-orange-700 transition-colors"
+                                        className="flex items-center gap-2 px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 transition-colors"
                                     >
                                         <MdSave />
                                         Save Store Settings

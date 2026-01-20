@@ -18,10 +18,12 @@ const Homepage = () => {
     };
 
     return (
-        <div className="flex w-full h-screen bg-gray-50">
+        <div className="flex flex-col w-full min-h-screen bg-gray-50">
+            <Searchbar />
             <Sidebar />
-            <div className="flex flex-col flex-1 h-screen overflow-y-auto">
-                <Searchbar />
+
+            {/* Main Content - Padding top equal to Sidebar height (64px) as Searchbar acts as Topbar in flow */}
+            <div className="flex-1 w-full pt-16">
                 <LandingPage />
                 <Products filters={filters} />
                 <Footer />

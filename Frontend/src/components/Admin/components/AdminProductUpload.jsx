@@ -173,7 +173,7 @@ const AdminProductUpload = () => {
         }
     };
 
-    const inputClasses = "w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition-all outline-none";
+    const inputClasses = "w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none";
     const labelClasses = "block text-sm font-semibold text-gray-700 mb-2";
 
     return (
@@ -183,7 +183,7 @@ const AdminProductUpload = () => {
                 <div className="mb-8">
                     <button
                         onClick={() => navigate('/admin-dashboard')}
-                        className="flex items-center gap-2 text-gray-600 hover:text-orange-600 transition-colors mb-4"
+                        className="flex items-center gap-2 text-gray-600 hover:text-primary transition-colors mb-4"
                     >
                         <FaArrowLeft /> Back to Dashboard
                     </button>
@@ -366,7 +366,7 @@ const AdminProductUpload = () => {
                             ))}
 
                             {imagePreview.length < 5 && (
-                                <label className="w-full h-32 border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-orange-500 hover:bg-orange-50 transition-all">
+                                <label className="w-full h-32 border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-primary hover:bg-primary/5 transition-all">
                                     <FaImage className="text-gray-400 text-2xl mb-2" />
                                     <span className="text-sm text-gray-500">Add Image</span>
                                     <input
@@ -389,7 +389,7 @@ const AdminProductUpload = () => {
                             <button
                                 type="button"
                                 onClick={addSpecification}
-                                className="flex items-center gap-2 px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-colors"
+                                className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
                             >
                                 <FaPlus /> Add Spec
                             </button>
@@ -446,7 +446,7 @@ const AdminProductUpload = () => {
                                 name="is_featured"
                                 checked={formData.is_featured}
                                 onChange={handleInputChange}
-                                className="w-5 h-5 text-orange-600 rounded focus:ring-orange-500"
+                                className="w-5 h-5 text-primary rounded focus:ring-primary"
                             />
                             <label className="text-sm font-semibold text-gray-700">
                                 Mark as Featured Product
@@ -459,7 +459,7 @@ const AdminProductUpload = () => {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="flex-1 flex items-center justify-center gap-2 px-6 py-4 bg-orange-600 text-white font-semibold rounded-lg hover:bg-orange-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all shadow-lg hover:shadow-xl"
+                            className="flex-1 flex items-center justify-center gap-2 px-6 py-4 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all shadow-lg hover:shadow-xl"
                         >
                             {loading ? (
                                 <>

@@ -61,7 +61,7 @@ const Affiliate = () => {
                     <div className="flex items-center gap-2">
                         <h1 className="text-2xl font-bold">
                             <span className="text-gray-900">APK</span>
-                            <span className="text-orange-500">Crackers</span>
+                            <span className="text-primary">Crackers</span>
                             <span className="text-sm text-gray-600 ml-2">associates</span>
                         </h1>
                     </div>
@@ -71,7 +71,7 @@ const Affiliate = () => {
                         </select>
                         <button
                             onClick={() => navigate('/seller-register')}
-                            className="text-sm text-gray-700 hover:text-orange-600 transition-colors"
+                            className="text-sm text-gray-700 hover:text-primary transition-colors"
                         >
                             Sign in
                         </button>
@@ -97,7 +97,7 @@ const Affiliate = () => {
                         </h2>
                         <button
                             onClick={() => navigate('/seller-register')}
-                            className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold px-8 py-3 rounded-lg transition-all shadow-lg hover:shadow-xl transform hover:scale-105"
+                            className="bg-primary hover:bg-primary/90 text-white font-bold px-8 py-3 rounded-lg transition-all shadow-lg hover:shadow-xl transform hover:scale-105"
                         >
                             Sign up
                         </button>
@@ -121,7 +121,7 @@ const Affiliate = () => {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
                     {/* Step 1 */}
                     <div className="text-center">
-                        <div className="w-20 h-20 bg-yellow-400 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <div className="w-20 h-20 bg-secondary rounded-full flex items-center justify-center mx-auto mb-4">
                             <FaHandPointer className="w-10 h-10 text-gray-900" />
                         </div>
                         <div className="w-8 h-8 bg-gray-900 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -137,7 +137,7 @@ const Affiliate = () => {
 
                     {/* Step 2 */}
                     <div className="text-center">
-                        <div className="w-20 h-20 bg-yellow-400 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <div className="w-20 h-20 bg-secondary rounded-full flex items-center justify-center mx-auto mb-4">
                             <FaShareAlt className="w-10 h-10 text-gray-900" />
                         </div>
                         <div className="w-8 h-8 bg-gray-900 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -151,7 +151,7 @@ const Affiliate = () => {
 
                     {/* Step 3 */}
                     <div className="text-center">
-                        <div className="w-20 h-20 bg-yellow-400 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <div className="w-20 h-20 bg-secondary rounded-full flex items-center justify-center mx-auto mb-4">
                             <FaMoneyBillWave className="w-10 h-10 text-gray-900" />
                         </div>
                         <div className="w-8 h-8 bg-gray-900 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -245,11 +245,11 @@ const Affiliate = () => {
                 </div>
 
                 {/* Bottom CTA Section */}
-                <div className="bg-gradient-to-br from-orange-50 to-yellow-50 rounded-2xl p-12 text-center">
+                <div className="bg-gradient-to-br from-primary/5 to-secondary/5 rounded-2xl p-12 text-center">
                     <div className="flex items-center justify-center gap-3 mb-6">
                         <h2 className="text-3xl font-bold">
                             <span className="text-gray-900">APK</span>
-                            <span className="text-orange-500">Crackers</span>
+                            <span className="text-primary">Crackers</span>
                             <span className="text-lg text-gray-600 ml-2">associates</span>
                         </h2>
                     </div>
@@ -258,7 +258,7 @@ const Affiliate = () => {
                     </h3>
                     <button
                         onClick={() => navigate('/seller-register')}
-                        className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold px-8 py-3 rounded-lg transition-all shadow-lg hover:shadow-xl transform hover:scale-105"
+                        className="bg-primary hover:bg-primary/90 text-white font-bold px-8 py-3 rounded-lg transition-all shadow-lg hover:shadow-xl transform hover:scale-105"
                     >
                         Sign up
                     </button>

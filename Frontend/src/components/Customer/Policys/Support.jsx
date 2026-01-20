@@ -70,10 +70,10 @@ const Support = () => {
             title: 'Phone Support',
             info: '+91 98765 43210',
             subInfo: 'Available Mon-Sat',
-            color: 'orange',
-            bgColor: 'bg-orange-500',
-            hoverBorder: 'hover:border-orange-500',
-            textColor: 'text-orange-600'
+            color: 'primary',
+            bgColor: 'bg-primary',
+            hoverBorder: 'hover:border-primary',
+            textColor: 'text-primary'
         },
         {
             icon: FiMail,
@@ -113,11 +113,11 @@ const Support = () => {
             title: 'FAQs',
             description: 'Find quick answers',
             link: '/faqs',
-            color: 'orange',
-            bgHover: 'hover:bg-orange-50',
-            borderHover: 'hover:border-orange-500',
-            iconBgHover: 'group-hover:bg-orange-100',
-            iconColorHover: 'group-hover:text-orange-600'
+            color: 'primary',
+            bgHover: 'hover:bg-primary/5',
+            borderHover: 'hover:border-primary',
+            iconBgHover: 'group-hover:bg-primary/10',
+            iconColorHover: 'group-hover:text-primary'
         },
         {
             icon: FiMessageCircle,
@@ -160,7 +160,7 @@ const Support = () => {
             <div className="bg-white border-b-2 border-gray-200">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
                     <div className="max-w-3xl">
-                        <div className="inline-block px-4 py-2 bg-orange-100 text-orange-600 rounded-full text-sm font-semibold mb-6">
+                        <div className="inline-block px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-semibold mb-6">
                             Customer Support
                         </div>
                         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
@@ -254,7 +254,7 @@ const Support = () => {
                                                 onFocus={() => setFocusedField('name')}
                                                 onBlur={() => setFocusedField('')}
                                                 required
-                                                className={`w-full px-4 py-3.5 bg-gray-50 border-2 ${focusedField === 'name' ? 'border-orange-500 bg-white' : 'border-gray-300'
+                                                className={`w-full px-4 py-3.5 bg-gray-50 border-2 ${focusedField === 'name' ? 'border-primary bg-white' : 'border-gray-300'
                                                     } rounded-xl focus:ring-0 outline-none transition-all text-gray-900 font-medium`}
                                                 placeholder="Enter your full name"
                                             />
@@ -271,7 +271,7 @@ const Support = () => {
                                                 onFocus={() => setFocusedField('email')}
                                                 onBlur={() => setFocusedField('')}
                                                 required
-                                                className={`w-full px-4 py-3.5 bg-gray-50 border-2 ${focusedField === 'email' ? 'border-orange-500 bg-white' : 'border-gray-300'
+                                                className={`w-full px-4 py-3.5 bg-gray-50 border-2 ${focusedField === 'email' ? 'border-primary bg-white' : 'border-gray-300'
                                                     } rounded-xl focus:ring-0 outline-none transition-all text-gray-900 font-medium`}
                                                 placeholder="your@email.com"
                                             />
@@ -290,7 +290,7 @@ const Support = () => {
                                                 onChange={handleChange}
                                                 onFocus={() => setFocusedField('phone')}
                                                 onBlur={() => setFocusedField('')}
-                                                className={`w-full px-4 py-3.5 bg-gray-50 border-2 ${focusedField === 'phone' ? 'border-orange-500 bg-white' : 'border-gray-300'
+                                                className={`w-full px-4 py-3.5 bg-gray-50 border-2 ${focusedField === 'phone' ? 'border-primary bg-white' : 'border-gray-300'
                                                     } rounded-xl focus:ring-0 outline-none transition-all text-gray-900 font-medium`}
                                                 placeholder="+91 98765 43210"
                                             />
@@ -306,7 +306,7 @@ const Support = () => {
                                                 onFocus={() => setFocusedField('category')}
                                                 onBlur={() => setFocusedField('')}
                                                 required
-                                                className={`w-full px-4 py-3.5 bg-gray-50 border-2 ${focusedField === 'category' ? 'border-orange-500 bg-white' : 'border-gray-300'
+                                                className={`w-full px-4 py-3.5 bg-gray-50 border-2 ${focusedField === 'category' ? 'border-primary bg-white' : 'border-gray-300'
                                                     } rounded-xl focus:ring-0 outline-none transition-all text-gray-900 font-medium`}
                                             >
                                                 <option value="general">General Question</option>
@@ -333,7 +333,7 @@ const Support = () => {
                                             onFocus={() => setFocusedField('subject')}
                                             onBlur={() => setFocusedField('')}
                                             required
-                                            className={`w-full px-4 py-3.5 bg-gray-50 border-2 ${focusedField === 'subject' ? 'border-orange-500 bg-white' : 'border-gray-300'
+                                            className={`w-full px-4 py-3.5 bg-gray-50 border-2 ${focusedField === 'subject' ? 'border-primary bg-white' : 'border-gray-300'
                                                 } rounded-xl focus:ring-0 outline-none transition-all text-gray-900 font-medium`}
                                             placeholder="Brief summary of your issue"
                                         />
@@ -351,7 +351,7 @@ const Support = () => {
                                             onBlur={() => setFocusedField('')}
                                             required
                                             rows="6"
-                                            className={`w-full px-4 py-3.5 bg-gray-50 border-2 ${focusedField === 'message' ? 'border-orange-500 bg-white' : 'border-gray-300'
+                                            className={`w-full px-4 py-3.5 bg-gray-50 border-2 ${focusedField === 'message' ? 'border-primary bg-white' : 'border-gray-300'
                                                 } rounded-xl focus:ring-0 outline-none transition-all resize-none text-gray-900 font-medium`}
                                             placeholder="Please describe your issue in detail..."
                                         />
@@ -360,7 +360,7 @@ const Support = () => {
                                     <button
                                         type="submit"
                                         disabled={loading}
-                                        className="w-full bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white font-bold py-4 rounded-xl transition-all flex items-center justify-center gap-3 shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+                                        className="w-full bg-primary hover:bg-primary/90 active:bg-primary/95 text-white font-bold py-4 rounded-xl transition-all flex items-center justify-center gap-3 shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
                                     >
                                         {loading ? (
                                             <>
@@ -404,24 +404,24 @@ const Support = () => {
                         </div>
 
                         {/* Business Hours */}
-                        <div className="bg-orange-500 rounded-2xl p-6 text-white shadow-lg">
+                        <div className="bg-primary rounded-2xl p-6 text-white shadow-lg">
                             <h3 className="font-bold mb-6 text-xl">Business Hours</h3>
                             <div className="space-y-4">
-                                <div className="flex justify-between items-center pb-4 border-b-2 border-orange-400">
-                                    <span className="text-orange-100 font-medium">Monday - Friday</span>
+                                <div className="flex justify-between items-center pb-4 border-b-2 border-primary-foreground/20">
+                                    <span className="text-primary-foreground/80 font-medium">Monday - Friday</span>
                                     <span className="font-bold">9:00 AM - 6:00 PM</span>
                                 </div>
-                                <div className="flex justify-between items-center pb-4 border-b-2 border-orange-400">
-                                    <span className="text-orange-100 font-medium">Saturday</span>
+                                <div className="flex justify-between items-center pb-4 border-b-2 border-primary-foreground/20">
+                                    <span className="text-primary-foreground/80 font-medium">Saturday</span>
                                     <span className="font-bold">10:00 AM - 4:00 PM</span>
                                 </div>
                                 <div className="flex justify-between items-center">
-                                    <span className="text-orange-100 font-medium">Sunday</span>
+                                    <span className="text-primary-foreground/80 font-medium">Sunday</span>
                                     <span className="font-bold">Closed</span>
                                 </div>
                             </div>
-                            <div className="mt-6 pt-6 border-t-2 border-orange-400">
-                                <p className="text-sm text-orange-100 leading-relaxed">
+                            <div className="mt-6 pt-6 border-t-2 border-primary-foreground/20">
+                                <p className="text-sm text-primary-foreground/80 leading-relaxed">
                                     We respond to all emails within 24 hours during business days.
                                 </p>
                             </div>

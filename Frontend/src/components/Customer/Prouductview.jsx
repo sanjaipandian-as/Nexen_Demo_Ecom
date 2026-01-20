@@ -424,7 +424,7 @@ const Productview = () => {
                     <p className="text-gray-600 mb-6">{error || 'The product you are looking for does not exist'}</p>
                     <button
                         onClick={() => navigate('/')}
-                        className="px-8 py-3 bg-gradient-to-r from-orange-50 to-orange-600 text-white font-semibold rounded-lg hover:from-orange-600 hover:to-orange-700 transition-all shadow-md"
+                        className="px-8 py-3 bg-gradient-to-r from-primary to-primary/90 text-white font-semibold rounded-lg hover:from-primary/90 hover:to-primary transition-all shadow-md"
                     >
                         Browse All Products
                     </button>
@@ -458,7 +458,7 @@ const Productview = () => {
                                         className="p-3 bg-white rounded-full shadow-lg hover:scale-110 transition-all"
                                     >
                                         {togglingWishlist ? (
-                                            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-orange-500"></div>
+                                            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary"></div>
                                         ) : (
                                             <BsFillBagHeartFill className={`w-5 h-5 transition-all ${isInWishlist ? 'text-red-500' : 'text-gray-400'}`} />
                                         )}
@@ -471,7 +471,7 @@ const Productview = () => {
                                     <button
                                         key={index}
                                         onClick={() => setSelectedImage(index)}
-                                        className={`border-2 rounded-lg overflow-hidden transition-all ${selectedImage === index ? 'border-orange-500' : 'border-gray-200'}`}
+                                        className={`border-2 rounded-lg overflow-hidden transition-all ${selectedImage === index ? 'border-primary' : 'border-gray-200'}`}
                                     >
                                         <img src={image} alt="" className="w-full h-20 object-contain p-2" onError={(e) => {
                                             e.target.src = placeholderImg;
@@ -485,7 +485,7 @@ const Productview = () => {
                                 <button
                                     onClick={handleAddToCart}
                                     disabled={!inStock}
-                                    className="flex-1 py-4 bg-orange-100 border-2 border-orange-500 text-orange-600 font-bold text-lg rounded-lg hover:bg-orange-200 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                                    className="flex-1 py-4 bg-primary/10 border-2 border-primary text-primary font-bold text-lg rounded-lg hover:bg-primary/20 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
                                 >
                                     <FaShoppingCart className="w-5 h-5" />
                                     {isInCart ? 'ADDED' : 'ADD TO CART'}
@@ -493,7 +493,7 @@ const Productview = () => {
                                 <button
                                     onClick={handlePlaceOrder}
                                     disabled={!inStock}
-                                    className="flex-1 py-4 bg-orange-500 text-white font-bold text-lg rounded-lg hover:bg-orange-600 transition-all disabled:opacity-50"
+                                    className="flex-1 py-4 bg-primary text-white font-bold text-lg rounded-lg hover:bg-primary/90 transition-all disabled:opacity-50"
                                 >
                                     BUY NOW
                                 </button>
@@ -503,8 +503,8 @@ const Productview = () => {
 
                     <div className="lg:col-span-7">
                         <div className="flex items-center justify-between mb-2">
-                            <span className="text-orange-600 font-bold uppercase tracking-wider text-sm">{product.brand || 'Standard'}</span>
-                            <div className="flex items-center gap-1 bg-yellow-400 text-white px-2 py-1 rounded-lg text-sm font-bold">
+                            <span className="text-primary font-bold uppercase tracking-wider text-sm">{product.brand || 'Standard'}</span>
+                            <div className="flex items-center gap-1 bg-secondary text-white px-2 py-1 rounded-lg text-sm font-bold">
                                 <FaStar /> {averageRating}
                             </div>
                         </div>
@@ -513,11 +513,11 @@ const Productview = () => {
 
                         <div className="flex items-center gap-3 mb-6">
                             <div className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 text-gray-600 rounded-full text-xs font-bold border border-gray-200">
-                                <FaBox className="w-3 h-3 text-orange-500" />
+                                <FaBox className="w-3 h-3 text-primary" />
                                 {product.net_quantity || 'N/A'}
                             </div>
                             <div className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 text-gray-600 rounded-full text-xs font-bold border border-gray-200">
-                                <FaTag className="w-3 h-3 text-orange-500" />
+                                <FaTag className="w-3 h-3 text-primary" />
                                 {product.brand || 'Standard'}
                             </div>
                         </div>
@@ -537,22 +537,22 @@ const Productview = () => {
 
                         <div className="mb-6 pb-6 border-b border-gray-200">
                             <h3 className="text-sm font-bold text-gray-800 mb-4 flex items-center gap-2">
-                                <FaInfoCircle className="text-orange-500" /> Availability & Category
+                                <FaInfoCircle className="text-primary" /> Availability & Category
                             </h3>
                             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-5">
-                                <div className="p-3 bg-white rounded-xl border border-gray-100 shadow-sm hover:border-orange-200 transition-colors">
+                                <div className="p-3 bg-white rounded-xl border border-gray-100 shadow-sm hover:border-primary/20 transition-colors">
                                     <p className="text-[10px] text-gray-400 uppercase font-black tracking-wider mb-1">Category</p>
                                     <p className="text-sm font-bold text-gray-800 truncate">{product.category?.main || 'General'}</p>
                                 </div>
-                                <div className="p-3 bg-white rounded-xl border border-gray-100 shadow-sm hover:border-orange-200 transition-colors">
+                                <div className="p-3 bg-white rounded-xl border border-gray-100 shadow-sm hover:border-primary/20 transition-colors">
                                     <p className="text-[10px] text-gray-400 uppercase font-black tracking-wider mb-1">Sub Category</p>
                                     <p className="text-sm font-bold text-gray-800 truncate">{product.category?.sub || '-'}</p>
                                 </div>
-                                <div className="p-3 bg-orange-50 rounded-xl border border-orange-200 shadow-sm">
-                                    <p className="text-[10px] text-orange-600 uppercase font-black tracking-wider mb-1">Total Stock</p>
+                                <div className="p-3 bg-primary/10 rounded-xl border border-primary/20 shadow-sm">
+                                    <p className="text-[10px] text-primary uppercase font-black tracking-wider mb-1">Total Stock</p>
                                     <div className="flex items-center gap-1.5">
                                         <div className={`w-1.5 h-1.5 rounded-full ${inStock ? 'bg-green-500 animate-pulse' : 'bg-red-500'}`}></div>
-                                        <p className="text-sm font-black text-orange-700">{product.stock || 0} Pcs</p>
+                                        <p className="text-sm font-black text-primary">{product.stock || 0} Pcs</p>
                                     </div>
                                 </div>
                             </div>
@@ -577,7 +577,7 @@ const Productview = () => {
                                 <button
                                     onClick={() => handleQuantityChange('decrease')}
                                     disabled={quantity <= 1}
-                                    className="w-12 h-12 border-2 border-gray-300 rounded-full flex items-center justify-center hover:border-orange-500 disabled:opacity-50"
+                                    className="w-12 h-12 border-2 border-gray-300 rounded-full flex items-center justify-center hover:border-primary disabled:opacity-50"
                                 >
                                     <FaMinus className="w-4 h-4 text-gray-700" />
                                 </button>
@@ -587,7 +587,7 @@ const Productview = () => {
                                 <button
                                     onClick={() => handleQuantityChange('increase')}
                                     disabled={quantity >= (product.stock || 0)}
-                                    className="w-12 h-12 border-2 border-gray-300 rounded-full flex items-center justify-center hover:border-orange-500 disabled:opacity-50"
+                                    className="w-12 h-12 border-2 border-gray-300 rounded-full flex items-center justify-center hover:border-primary disabled:opacity-50"
                                 >
                                     <FaPlus className="w-4 h-4 text-gray-700" />
                                 </button>
@@ -596,15 +596,15 @@ const Productview = () => {
 
                         <div className="grid grid-cols-3 gap-4 mb-6 pb-6 border-b border-gray-200">
                             <div className="flex flex-col items-center text-center p-4 bg-gray-50 rounded-lg">
-                                <MdLocalShipping className="w-10 h-10 text-orange-500 mb-2" />
+                                <MdLocalShipping className="w-10 h-10 text-primary mb-2" />
                                 <p className="text-xs font-bold text-gray-900">Free Delivery</p>
                             </div>
                             <div className="flex flex-col items-center text-center p-4 bg-gray-50 rounded-lg">
-                                <MdSecurity className="w-10 h-10 text-orange-500 mb-2" />
+                                <MdSecurity className="w-10 h-10 text-primary mb-2" />
                                 <p className="text-xs font-bold text-gray-900">Secure Payment</p>
                             </div>
                             <div className="flex flex-col items-center text-center p-4 bg-gray-50 rounded-lg">
-                                <MdVerified className="w-10 h-10 text-orange-500 mb-2" />
+                                <MdVerified className="w-10 h-10 text-primary mb-2" />
                                 <p className="text-xs font-bold text-gray-900">Certified Safe</p>
                             </div>
                         </div>
@@ -639,7 +639,7 @@ const Productview = () => {
                         {!userReview && (
                             <button
                                 onClick={() => setShowReviewForm(true)}
-                                className="px-6 py-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold rounded-lg shadow-md"
+                                className="px-6 py-2 bg-gradient-to-r from-primary to-primary/80 text-white font-semibold rounded-lg shadow-md"
                             >
                                 Write a Review
                             </button>
@@ -647,12 +647,12 @@ const Productview = () => {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                        <div className="bg-gradient-to-br from-orange-50 to-yellow-50 rounded-2xl p-6 border border-orange-200">
+                        <div className="bg-gradient-to-br from-primary/10 to-secondary/10 rounded-2xl p-6 border border-primary/20">
                             <div className="text-center">
                                 <div className="text-5xl font-bold text-gray-900 mb-2">{averageRating}</div>
                                 <div className="flex items-center justify-center gap-1 mb-2">
                                     {[...Array(5)].map((_, index) => (
-                                        <FaStar key={index} className={`w-6 h-6 ${index < Math.round(averageRating) ? 'text-yellow-400' : 'text-gray-300'}`} />
+                                        <FaStar key={index} className={`w-6 h-6 ${index < Math.round(averageRating) ? 'text-secondary' : 'text-gray-300'}`} />
                                     ))}
                                 </div>
                                 <p className="text-gray-600">Based on {reviews.length} reviews</p>
@@ -667,7 +667,7 @@ const Productview = () => {
                                     <div key={star} className="flex items-center gap-3 mb-2">
                                         <span className="text-sm font-semibold text-gray-700 w-8">{star}★</span>
                                         <div className="flex-1 bg-gray-200 rounded-full h-3">
-                                            <div className="bg-yellow-400 h-3 rounded-full" style={{ width: `${percentage}%` }}></div>
+                                            <div className="bg-secondary h-3 rounded-full" style={{ width: `${percentage}%` }}></div>
                                         </div>
                                         <span className="text-sm text-gray-600 w-8">{count}</span>
                                     </div>
@@ -677,7 +677,7 @@ const Productview = () => {
                     </div>
 
                     {showReviewForm && (
-                        <div className="bg-gradient-to-r from-orange-50 to-yellow-50 rounded-2xl p-6 border-2 border-orange-200 mb-8">
+                        <div className="bg-gradient-to-r from-primary/5 to-secondary/5 rounded-2xl p-6 border-2 border-primary/20 mb-8">
                             <div className="flex items-center justify-between mb-4">
                                 <h3 className="text-xl font-bold text-gray-900">{editingReview ? 'Edit Your Review' : 'Write a Review'}</h3>
                                 <button onClick={closeReviewForm} className="text-gray-600 font-bold text-xl">×</button>
@@ -688,7 +688,7 @@ const Productview = () => {
                                     <div className="flex gap-2">
                                         {[1, 2, 3, 4, 5].map((star) => (
                                             <button key={star} type="button" onClick={() => setReviewForm({ ...reviewForm, rating: star })}>
-                                                <FaStar className={`w-8 h-8 ${star <= reviewForm.rating ? 'text-yellow-400' : 'text-gray-300'}`} />
+                                                <FaStar className={`w-8 h-8 ${star <= reviewForm.rating ? 'text-secondary' : 'text-gray-300'}`} />
                                             </button>
                                         ))}
                                     </div>
@@ -698,13 +698,13 @@ const Productview = () => {
                                         value={reviewForm.reviewText}
                                         onChange={(e) => setReviewForm({ ...reviewForm, reviewText: e.target.value })}
                                         rows="4"
-                                        className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-orange-500 focus:outline-none"
+                                        className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-primary focus:outline-none"
                                         placeholder="Share your experience..."
                                     />
                                 </div>
                                 <div className="flex gap-3">
                                     <button type="button" onClick={closeReviewForm} className="px-6 py-3 bg-white border-2 border-gray-300 rounded-lg">Cancel</button>
-                                    <button type="submit" disabled={submittingReview} className="flex-1 px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold rounded-lg disabled:opacity-50">
+                                    <button type="submit" disabled={submittingReview} className="flex-1 px-6 py-3 bg-gradient-to-r from-primary to-primary/80 text-white font-semibold rounded-lg disabled:opacity-50">
                                         {submittingReview ? 'Submitting...' : 'Submit Review'}
                                     </button>
                                 </div>
@@ -716,20 +716,20 @@ const Productview = () => {
                         {reviews.map((review) => {
                             const isUserReview = userReview && userReview._id === review._id;
                             return (
-                                <div key={review._id} className={`p-6 rounded-2xl border-2 ${isUserReview ? 'border-orange-500 bg-orange-50' : 'border-gray-200 bg-white'}`}>
+                                <div key={review._id} className={`p-6 rounded-2xl border-2 ${isUserReview ? 'border-primary bg-primary/5' : 'border-gray-200 bg-white'}`}>
                                     <div className="flex items-start justify-between">
                                         <div className="flex-1">
                                             <h4 className="font-bold text-gray-900">{review.customerId?.name || 'Anonymous'}</h4>
                                             <div className="flex gap-1 my-2">
                                                 {[...Array(5)].map((_, i) => (
-                                                    <FaStar key={i} className={`w-4 h-4 ${i < review.rating ? 'text-yellow-400' : 'text-gray-300'}`} />
+                                                    <FaStar key={i} className={`w-4 h-4 ${i < review.rating ? 'text-secondary' : 'text-gray-300'}`} />
                                                 ))}
                                             </div>
                                             <p className="text-gray-700">{review.reviewText}</p>
                                         </div>
                                         {isUserReview && (
                                             <div className="flex gap-2">
-                                                <button onClick={() => openEditReview(review)} className="text-orange-600 text-sm font-bold">Edit</button>
+                                                <button onClick={() => openEditReview(review)} className="text-primary text-sm font-bold">Edit</button>
                                                 <button onClick={() => handleDeleteReview(review._id)} className="text-red-600 text-sm font-bold">Delete</button>
                                             </div>
                                         )}
@@ -792,7 +792,7 @@ const Productview = () => {
                                                 className="absolute top-2 sm:top-3 right-2 sm:right-3 w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-full flex items-center justify-center shadow-md hover:shadow-lg transition-all active:scale-90"
                                             >
                                                 {togglingWishlistSimilar === item._id ? (
-                                                    <div className="animate-spin rounded-full h-4 w-4 sm:h-5 sm:w-5 border-b-2 border-orange-500"></div>
+                                                    <div className="animate-spin rounded-full h-4 w-4 sm:h-5 sm:w-5 border-b-2 border-primary"></div>
                                                 ) : (
                                                     <BsFillBagHeartFill
                                                         className={`w-4 h-4 sm:w-5 sm:h-5 transition-colors ${wishlistItems.includes(item._id)
@@ -812,8 +812,8 @@ const Productview = () => {
                                         <div className="p-3 sm:p-4">
                                             <div className="flex items-start justify-between mb-2 sm:mb-3 gap-2">
                                                 <h3 className="text-sm sm:text-base font-semibold text-gray-800 line-clamp-2 flex-1">{item.name}</h3>
-                                                <div className="flex items-center gap-1 bg-gray-50 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded cursor-pointer flex-shrink-0">
-                                                    <FaStar className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-yellow-400" />
+                                                <div className="flex items-center gap-1 bg-secondary/10 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded cursor-pointer flex-shrink-0">
+                                                    <FaStar className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-secondary" />
                                                     <span className="text-xs sm:text-sm font-medium text-gray-700">4.2</span>
                                                 </div>
                                             </div>
@@ -825,7 +825,7 @@ const Productview = () => {
                                                 </div>
                                                 <div className="flex flex-col items-end">
                                                     <span className="text-[10px] sm:text-xs text-gray-500 font-medium mb-0.5 sm:mb-1">Brand</span>
-                                                    <span className="text-xs sm:text-sm font-bold text-orange-600 capitalize">
+                                                    <span className="text-xs sm:text-sm font-bold text-primary capitalize">
                                                         {brandName}
                                                     </span>
                                                 </div>
@@ -845,7 +845,7 @@ const Productview = () => {
                                                             e.stopPropagation();
                                                             navigate('/cart');
                                                         }}
-                                                        className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 md:px-4 py-1.5 sm:py-2 bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 text-white rounded-lg transition-all shadow-sm hover:shadow-md cursor-pointer active:scale-95"
+                                                        className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 md:px-4 py-1.5 sm:py-2 bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-white rounded-lg transition-all shadow-sm hover:shadow-md cursor-pointer active:scale-95"
                                                     >
                                                         <FaShoppingCart className="w-3 h-3 sm:w-4 sm:h-4" />
                                                         <span className="text-xs sm:text-sm font-medium whitespace-nowrap">
@@ -858,7 +858,7 @@ const Productview = () => {
                                                         disabled={addingToCartSimilar === item._id || availablePieces <= 0}
                                                         className={`flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 md:px-4 py-1.5 sm:py-2 text-white rounded-lg transition-all shadow-sm hover:shadow-md active:scale-95 ${addingToCartSimilar === item._id || availablePieces <= 0
                                                             ? 'bg-gray-400 cursor-not-allowed'
-                                                            : 'bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 cursor-pointer'
+                                                            : 'bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 cursor-pointer'
                                                             }`}
                                                     >
                                                         {addingToCartSimilar === item._id ? (
@@ -923,7 +923,7 @@ const Productview = () => {
                                             className="absolute top-3 right-3 w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-md hover:shadow-lg transition-all active:scale-90"
                                         >
                                             {togglingWishlistSimilar === item._id ? (
-                                                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-orange-500"></div>
+                                                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary"></div>
                                             ) : (
                                                 <BsFillBagHeartFill
                                                     className={`w-5 h-5 transition-colors ${wishlistItems.includes(item._id)
@@ -943,8 +943,8 @@ const Productview = () => {
                                     <div className="p-4">
                                         <div className="flex items-start justify-between mb-3 gap-2">
                                             <h3 className="text-base font-semibold text-gray-800 line-clamp-2 flex-1">{item.name}</h3>
-                                            <div className="flex items-center gap-1 bg-gray-50 px-2 py-1 rounded cursor-pointer flex-shrink-0">
-                                                <FaStar className="w-3 h-3 text-yellow-400" />
+                                            <div className="flex items-center gap-1 bg-secondary/10 px-2 py-1 rounded cursor-pointer flex-shrink-0">
+                                                <FaStar className="w-3 h-3 text-secondary" />
                                                 <span className="text-sm font-medium text-gray-700">4.2</span>
                                             </div>
                                         </div>
@@ -956,7 +956,7 @@ const Productview = () => {
                                             </div>
                                             <div className="flex flex-col items-end">
                                                 <span className="text-xs text-gray-500 font-medium mb-1">Brand</span>
-                                                <span className="text-sm font-bold text-orange-600 capitalize">
+                                                <span className="text-sm font-bold text-primary capitalize">
                                                     {brandName}
                                                 </span>
                                             </div>
@@ -976,7 +976,7 @@ const Productview = () => {
                                                         e.stopPropagation();
                                                         navigate('/cart');
                                                     }}
-                                                    className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 text-white rounded-lg transition-all shadow-sm hover:shadow-md cursor-pointer active:scale-95"
+                                                    className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-white rounded-lg transition-all shadow-sm hover:shadow-md cursor-pointer active:scale-95"
                                                 >
                                                     <FaShoppingCart className="w-4 h-4" />
                                                     <span className="text-sm font-medium whitespace-nowrap">
@@ -989,7 +989,7 @@ const Productview = () => {
                                                     disabled={addingToCartSimilar === item._id || availablePieces <= 0}
                                                     className={`flex items-center gap-2 px-4 py-2 text-white rounded-lg transition-all shadow-sm hover:shadow-md active:scale-95 ${addingToCartSimilar === item._id || availablePieces <= 0
                                                         ? 'bg-gray-400 cursor-not-allowed'
-                                                        : 'bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 cursor-pointer'
+                                                        : 'bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 cursor-pointer'
                                                         }`}
                                                 >
                                                     {addingToCartSimilar === item._id ? (
@@ -1030,10 +1030,10 @@ const Productview = () => {
 
             <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 shadow-lg z-50">
                 <div className="flex gap-3 pointer-events-auto">
-                    <button onClick={handleAddToCart} disabled={!inStock} className="flex-1 py-3 bg-orange-100 border-2 border-orange-500 text-orange-600 font-bold rounded-lg flex items-center justify-center gap-2">
+                    <button onClick={handleAddToCart} disabled={!inStock} className="flex-1 py-3 bg-primary/10 border-2 border-primary text-primary font-bold rounded-lg flex items-center justify-center gap-2">
                         <FaShoppingCart /> {isInCart ? 'GO TO CART' : 'CART'}
                     </button>
-                    <button onClick={handlePlaceOrder} disabled={!inStock} className="flex-1 py-3 bg-orange-500 text-white font-bold rounded-lg">BUY NOW</button>
+                    <button onClick={handlePlaceOrder} disabled={!inStock} className="flex-1 py-3 bg-primary text-white font-bold rounded-lg">BUY NOW</button>
                 </div>
             </div>
             <Footer />

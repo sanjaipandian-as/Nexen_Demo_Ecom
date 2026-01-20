@@ -1,11 +1,35 @@
 @import "tailwindcss";
 
+@theme {
+  --color-primary: #FF5FCF;
+  --color-secondary: #F7DB91;
+  --color-primary-foreground: #ffffff;
+  --color-secondary-foreground: #000000;
+}
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Story Script", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.story-script-regular {
+  font-family: "Story Script", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
 ::-webkit-scrollbar {

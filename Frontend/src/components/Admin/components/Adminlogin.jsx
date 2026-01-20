@@ -157,7 +157,7 @@ const Adminlogin = () => {
             <div className="w-full max-w-md relative z-10">
                 {/* Logo and Header */}
                 <div className="text-center mb-8">
-                    <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-purple-600 to-blue-600 rounded-2xl mb-4 shadow-2xl shadow-purple-500/50">
+                    <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-primary to-secondary rounded-2xl mb-4 shadow-2xl shadow-primary/50">
                         <FaShieldAlt className="w-10 h-10 text-white" />
                     </div>
                     <h1 className="text-4xl font-bold text-white mb-2">Admin Portal</h1>
@@ -187,7 +187,7 @@ const Adminlogin = () => {
                                     value={formData.username}
                                     onChange={handleInputChange}
                                     placeholder="Enter admin username"
-                                    className="w-full pl-12 pr-4 py-3 bg-white/10 border-2 border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition-all text-white placeholder-gray-400 backdrop-blur-sm"
+                                    className="w-full pl-12 pr-4 py-3 bg-white/10 border-2 border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all text-white placeholder-gray-400 backdrop-blur-sm"
                                     required
                                 />
                             </div>
@@ -206,7 +206,7 @@ const Adminlogin = () => {
                                     value={formData.password}
                                     onChange={handleInputChange}
                                     placeholder="Enter admin password"
-                                    className="w-full pl-12 pr-12 py-3 bg-white/10 border-2 border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition-all text-white placeholder-gray-400 backdrop-blur-sm"
+                                    className="w-full pl-12 pr-12 py-3 bg-white/10 border-2 border-white/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all text-white placeholder-gray-400 backdrop-blur-sm"
                                     required
                                 />
                                 <button
@@ -228,13 +228,13 @@ const Adminlogin = () => {
                             <label className="flex items-center cursor-pointer">
                                 <input
                                     type="checkbox"
-                                    className="w-4 h-4 text-purple-500 border-gray-300 rounded focus:ring-purple-500"
+                                    className="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary"
                                 />
                                 <span className="ml-2 text-sm text-gray-300">Remember me</span>
                             </label>
                             <button
                                 type="button"
-                                className="text-sm text-purple-400 hover:text-purple-300 font-semibold transition-colors"
+                                className="text-sm text-primary hover:text-primary/80 font-semibold transition-colors"
                             >
                                 Forgot Password?
                             </button>
@@ -246,7 +246,7 @@ const Adminlogin = () => {
                             disabled={loading}
                             className={`w-full py-3 text-white font-bold rounded-xl transition-all shadow-lg ${loading
                                 ? 'bg-gray-600 cursor-not-allowed'
-                                : 'bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 shadow-purple-500/50 hover:shadow-xl hover:shadow-purple-500/60 transform hover:-translate-y-0.5'
+                                : 'bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary shadow-primary/50 hover:shadow-xl hover:shadow-primary/60 transform hover:-translate-y-0.5'
                                 }`}
                         >
                             {loading ? (
@@ -264,12 +264,12 @@ const Adminlogin = () => {
                     </form>
 
                     {/* Security Notice */}
-                    <div className="mt-6 p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-lg backdrop-blur-sm">
+                    <div className="mt-6 p-4 bg-secondary/10 border border-secondary/30 rounded-lg backdrop-blur-sm">
                         <div className="flex items-start gap-3">
-                            <FaShieldAlt className="w-5 h-5 text-yellow-400 flex-shrink-0 mt-0.5" />
+                            <FaShieldAlt className="w-5 h-5 text-secondary flex-shrink-0 mt-0.5" />
                             <div>
-                                <p className="text-sm text-yellow-200 font-semibold mb-1">Security Notice</p>
-                                <p className="text-xs text-yellow-300/80">This is a restricted area. All login attempts are monitored and logged.</p>
+                                <p className="text-sm text-secondary font-semibold mb-1">Security Notice</p>
+                                <p className="text-xs text-secondary/80">This is a restricted area. All login attempts are monitored and logged.</p>
                             </div>
                         </div>
                     </div>

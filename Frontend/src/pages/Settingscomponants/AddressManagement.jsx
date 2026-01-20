@@ -19,7 +19,7 @@ const AddressManagement = () => {
         landmark: ''
     });
 
-    const inputClasses = "w-full px-4 py-3.5 rounded-xl border-2 border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500/30 focus:border-orange-500 transition-all placeholder:text-gray-400 bg-white hover:border-gray-300";
+    const inputClasses = "w-full px-4 py-3.5 rounded-xl border-2 border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all placeholder:text-gray-400 bg-white hover:border-gray-300";
     const labelClasses = "block text-sm font-semibold text-gray-700 mb-2.5";
 
     useEffect(() => {
@@ -129,8 +129,8 @@ const AddressManagement = () => {
         <div className="space-y-8">
             <div className="flex items-center justify-between pb-6 border-b border-gray-100">
                 <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center">
-                        <FaMapMarkerAlt className="w-6 h-6 text-orange-600" />
+                    <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
+                        <FaMapMarkerAlt className="w-6 h-6 text-primary" />
                     </div>
                     <div>
                         <h2 className="text-2xl font-bold text-gray-900">Delivery Addresses</h2>
@@ -142,7 +142,7 @@ const AddressManagement = () => {
                         resetAddressForm();
                         setShowAddressForm(true);
                     }}
-                    className="px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all shadow-lg shadow-orange-500/30 flex items-center gap-2"
+                    className="px-6 py-3 bg-gradient-to-r from-primary to-primary/90 text-white font-semibold rounded-xl hover:from-primary/90 hover:to-primary transition-all shadow-lg shadow-primary/30 flex items-center gap-2"
                 >
                     <FaPlus className="w-4 h-4" />
                     Add New Address
@@ -151,7 +151,7 @@ const AddressManagement = () => {
 
             {/* Address Form */}
             {showAddressForm && (
-                <div className="bg-gradient-to-r from-orange-50 to-yellow-50 rounded-2xl p-6 border-2 border-orange-200">
+                <div className="bg-gradient-to-r from-primary/5 to-secondary/5 rounded-2xl p-6 border-2 border-primary/20">
                     <div className="flex items-center justify-between mb-6">
                         <h3 className="text-xl font-bold text-gray-900">
                             {editingAddress ? 'Edit Address' : 'Add New Address'}
@@ -267,7 +267,7 @@ const AddressManagement = () => {
                             </button>
                             <button
                                 type="submit"
-                                className="flex-1 px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all shadow-lg shadow-orange-500/30"
+                                className="flex-1 px-6 py-3 bg-gradient-to-r from-primary to-primary/90 text-white font-semibold rounded-xl hover:from-primary/90 hover:to-primary transition-all shadow-lg shadow-primary/30"
                             >
                                 <FaSave className="inline mr-2" />
                                 {editingAddress ? 'Update Address' : 'Save Address'}
@@ -313,7 +313,7 @@ const AddressManagement = () => {
                             resetAddressForm();
                             setShowAddressForm(true);
                         }}
-                        className="px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all shadow-lg shadow-orange-500/30"
+                        className="px-6 py-3 bg-gradient-to-r from-primary to-primary/90 text-white font-semibold rounded-xl hover:from-primary/90 hover:to-primary transition-all shadow-lg shadow-primary/30"
                     >
                         <FaPlus className="inline mr-2" />
                         Add Address
@@ -325,13 +325,13 @@ const AddressManagement = () => {
                         <div
                             key={address._id}
                             className={`p-6 rounded-2xl border-2 transition-all ${address.isDefault
-                                ? 'border-orange-500 bg-gradient-to-r from-orange-50 to-yellow-50 shadow-lg shadow-orange-500/20'
+                                ? 'border-primary bg-gradient-to-r from-primary/5 to-secondary/5 shadow-lg shadow-primary/10'
                                 : 'border-gray-200 bg-white hover:border-gray-300 hover:shadow-md'
                                 }`}
                         >
                             <div className="flex items-start justify-between mb-4">
                                 <div className="flex items-center gap-3">
-                                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${address.isDefault ? 'bg-orange-500' : 'bg-gray-100'
+                                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${address.isDefault ? 'bg-primary' : 'bg-gray-100'
                                         }`}>
                                         <FaMapMarkerAlt className={`w-5 h-5 ${address.isDefault ? 'text-white' : 'text-gray-600'
                                             }`} />
@@ -339,7 +339,7 @@ const AddressManagement = () => {
                                     <div>
                                         <h4 className="font-bold text-gray-900">{address.fullname}</h4>
                                         {address.isDefault && (
-                                            <span className="inline-block px-2 py-1 bg-orange-500 text-white text-xs font-semibold rounded mt-1">
+                                            <span className="inline-block px-2 py-1 bg-primary text-white text-xs font-semibold rounded mt-1">
                                                 Default
                                             </span>
                                         )}
@@ -358,7 +358,7 @@ const AddressManagement = () => {
                                 {!address.isDefault && (
                                     <button
                                         onClick={() => handleSetDefaultAddress(address._id)}
-                                        className="flex-1 px-4 py-2 bg-orange-100 text-orange-600 font-semibold rounded-lg hover:bg-orange-200 transition-all text-sm"
+                                        className="flex-1 px-4 py-2 bg-primary/10 text-primary font-semibold rounded-lg hover:bg-primary/20 transition-all text-sm"
                                     >
                                         <FaCheck className="inline mr-1" />
                                         Set Default

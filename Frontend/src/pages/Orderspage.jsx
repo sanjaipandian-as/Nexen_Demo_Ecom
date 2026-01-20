@@ -52,7 +52,7 @@ const OrdersPage = () => {
 
     const getStatusColor = (status) => {
         const colors = {
-            'pending_payment': 'bg-yellow-100 text-yellow-800 border-yellow-300',
+            'pending_payment': 'bg-secondary/10 text-secondary border-secondary/30',
             'paid': 'bg-blue-100 text-blue-800 border-blue-300',
             'packed': 'bg-purple-100 text-purple-800 border-purple-300',
             'shipped': 'bg-indigo-100 text-indigo-800 border-indigo-300',
@@ -138,7 +138,7 @@ const OrdersPage = () => {
                 <p className="text-gray-600 text-base sm:text-lg mb-4 text-center">{error}</p>
                 <button
                     onClick={fetchOrders}
-                    className="px-6 py-3 bg-orange-500 text-white font-semibold rounded-xl hover:bg-orange-600 transition-all shadow-lg text-sm sm:text-base"
+                    className="px-6 py-3 bg-primary text-white font-semibold rounded-xl hover:bg-primary/90 transition-all shadow-lg text-sm sm:text-base"
                 >
                     Retry
                 </button>
@@ -154,7 +154,7 @@ const OrdersPage = () => {
                 <p className="text-gray-600 mb-4 sm:mb-6 text-sm sm:text-base text-center">Start shopping to see your orders here</p>
                 <button
                     onClick={() => window.location.href = '/'}
-                    className="px-6 sm:px-8 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all shadow-lg text-sm sm:text-base"
+                    className="px-6 sm:px-8 py-3 bg-gradient-to-r from-primary to-primary/90 text-white font-semibold rounded-xl hover:from-primary/90 hover:to-primary transition-all shadow-lg text-sm sm:text-base"
                 >
                     Start Shopping
                 </button>
@@ -170,15 +170,15 @@ const OrdersPage = () => {
                 return (
                     <div
                         key={order._id}
-                        className="bg-white rounded-xl sm:rounded-2xl border-2 border-gray-100 overflow-hidden hover:border-orange-200 hover:shadow-lg transition-all"
+                        className="bg-white rounded-xl sm:rounded-2xl border-2 border-gray-100 overflow-hidden hover:border-primary/20 hover:shadow-lg transition-all"
                     >
                         {/* Compact Order Card */}
                         <div className="p-4 sm:p-6">
                             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                                 {/* Left Side - Order Info */}
                                 <div className="flex items-start sm:items-center gap-3 sm:gap-4 flex-1">
-                                    <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-orange-100 to-orange-200 rounded-lg sm:rounded-xl flex items-center justify-center flex-shrink-0">
-                                        <FaBox className="w-6 h-6 sm:w-7 sm:h-7 text-orange-600" />
+                                    <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-primary/10 to-primary/5 rounded-lg sm:rounded-xl flex items-center justify-center flex-shrink-0">
+                                        <FaBox className="w-6 h-6 sm:w-7 sm:h-7 text-primary" />
                                     </div>
                                     <div className="flex-1 min-w-0">
                                         <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-2">
@@ -216,7 +216,7 @@ const OrdersPage = () => {
                                     </div>
                                     <button
                                         onClick={() => toggleOrderDetails(order._id)}
-                                        className="px-3 sm:px-5 py-2 sm:py-2.5 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold rounded-lg sm:rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all shadow-md hover:shadow-lg flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm whitespace-nowrap"
+                                        className="px-3 sm:px-5 py-2 sm:py-2.5 bg-gradient-to-r from-primary to-primary/90 text-white font-semibold rounded-lg sm:rounded-xl hover:from-primary/90 hover:to-primary transition-all shadow-md hover:shadow-lg flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm whitespace-nowrap"
                                     >
                                         <span className="hidden sm:inline">{isExpanded ? 'Hide Details' : 'View Details'}</span>
                                         <span className="sm:hidden">{isExpanded ? 'Hide' : 'View'}</span>
@@ -259,14 +259,14 @@ const OrdersPage = () => {
                                 {/* Order Items */}
                                 <div className="px-4 sm:px-6 pb-4 sm:pb-6">
                                     <h4 className="text-xs sm:text-sm font-bold text-gray-700 mb-3 sm:mb-4 flex items-center gap-2">
-                                        <FaShoppingBag className="w-3 h-3 sm:w-4 sm:h-4 text-orange-500" />
+                                        <FaShoppingBag className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
                                         Order Items
                                     </h4>
                                     <div className="space-y-2 sm:space-y-3">
                                         {order.items?.map((item, index) => (
                                             <div
                                                 key={index}
-                                                className="flex items-center justify-between p-3 sm:p-4 bg-white rounded-lg sm:rounded-xl border-2 border-gray-100 hover:border-orange-200 transition-all gap-3"
+                                                className="flex items-center justify-between p-3 sm:p-4 bg-white rounded-lg sm:rounded-xl border-2 border-gray-100 hover:border-primary/20 transition-all gap-3"
                                             >
                                                 <div className="flex items-center gap-3 sm:gap-4 flex-1 min-w-0">
                                                     <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gray-50 rounded-lg border-2 border-gray-200 flex items-center justify-center overflow-hidden flex-shrink-0">
@@ -303,7 +303,7 @@ const OrdersPage = () => {
                                 {/* Shipping Address */}
                                 <div className="px-4 sm:px-6 pb-4 sm:pb-6">
                                     <h4 className="text-xs sm:text-sm font-bold text-gray-700 mb-3 sm:mb-4 flex items-center gap-2">
-                                        <FaMapMarkerAlt className="w-3 h-3 sm:w-4 sm:h-4 text-orange-500" />
+                                        <FaMapMarkerAlt className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
                                         Shipping Address
                                     </h4>
                                     <div className="p-3 sm:p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg sm:rounded-xl border-2 border-blue-200">
@@ -315,7 +315,7 @@ const OrdersPage = () => {
                                 {order.status !== 'cancelled' && (
                                     <div className="px-4 sm:px-6 pb-4 sm:pb-6">
                                         <h4 className="text-xs sm:text-sm font-bold text-gray-700 mb-3 sm:mb-4 flex items-center gap-2">
-                                            <FaTruck className="w-3 h-3 sm:w-4 sm:h-4 text-orange-500" />
+                                            <FaTruck className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
                                             Order Timeline
                                         </h4>
                                         <div className="bg-white rounded-lg sm:rounded-xl border-2 border-gray-100 p-4 sm:p-6">
@@ -337,7 +337,7 @@ const OrdersPage = () => {
                                                                     {getStatusLabel(status)}
                                                                 </p>
                                                                 {isCurrent && (
-                                                                    <p className="text-xs text-orange-600 font-medium mt-1">Current Status</p>
+                                                                    <p className="text-xs text-primary font-medium mt-1">Current Status</p>
                                                                 )}
                                                             </div>
                                                         </div>
