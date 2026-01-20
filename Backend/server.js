@@ -131,6 +131,10 @@ app.get("/", (req, res) => {
 // ⭐ GLOBAL ERROR HANDLER
 // =========================
 app.use((err, req, res, next) => {
+  if (res.headersSent) {
+    return next(err);
+  }
+
   console.error("=== Global Error Handler ===");
   console.error(err);
 
@@ -142,7 +146,7 @@ app.use((err, req, res, next) => {
     });
   }
 
-  res.status(err.status || 500).json({
+  return res.status(err.status || 500).json({
     message: err.message || "Internal server error",
     error: err.name,
   });

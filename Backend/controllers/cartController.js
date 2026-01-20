@@ -34,9 +34,9 @@ export const addToCart = async (req, res) => {
       await cart.save();
     }
 
-    res.json({ message: "Added to cart", cart });
+    return res.json({ message: "Added to cart", cart });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: err.message });
   }
 };
 
@@ -59,9 +59,9 @@ export const getCart = async (req, res) => {
       console.log(`🧹 Cleaned up ${cart.items.length - validItems.length} deleted products from cart for user ${customerId}`);
     }
 
-    res.json({ ...cart.toObject(), items: validItems });
+    return res.json({ ...cart.toObject(), items: validItems });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: err.message });
   }
 };
 
@@ -86,9 +86,9 @@ export const updateCartItem = async (req, res) => {
     item.quantity = quantity;
     await cart.save();
 
-    res.json({ message: "Quantity updated", cart });
+    return res.json({ message: "Quantity updated", cart });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: err.message });
   }
 };
 
@@ -107,7 +107,7 @@ export const removeCartItem = async (req, res) => {
 
     await cart.save();
 
-    res.json({ message: "Item removed", cart });
+    return res.json({ message: "Item removed", cart });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

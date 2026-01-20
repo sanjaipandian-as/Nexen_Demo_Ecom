@@ -11,7 +11,7 @@ export const addToWishlist = async (req, res) => {
 
     const item = await Wishlist.create({ customerId, productId });
 
-    res.json({
+    return res.json({
       message: "Added to wishlist",
       item
     });
@@ -31,7 +31,7 @@ export const removeFromWishlist = async (req, res) => {
 
     await Wishlist.findOneAndDelete({ customerId, productId });
 
-    res.json({ message: "Removed from wishlist" });
+    return res.json({ message: "Removed from wishlist" });
 
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -58,7 +58,7 @@ export const getWishlist = async (req, res) => {
       console.log(`🧹 Cleaned up ${invalidItemIds.length} deleted products from wishlist for user ${customerId}`);
     }
 
-    res.json(validItems);
+    return res.json(validItems);
 
   } catch (err) {
     res.status(500).json({ error: err.message });

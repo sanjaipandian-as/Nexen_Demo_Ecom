@@ -65,7 +65,7 @@ export const registerCustomer = async (req, res) => {
     // remove password before response
     const { password: _, ...safeUser } = user._doc;
 
-    res.status(201).json({
+    return res.status(201).json({
       message: "Customer registered successfully",
       token,
       user: safeUser,
@@ -86,7 +86,7 @@ export const registerCustomer = async (req, res) => {
         message: `${field.charAt(0).toUpperCase() + field.slice(1)} already exists`,
       });
     }
-    res.status(500).json({
+    return res.status(500).json({
       message: "Customer registration failed",
     });
   }
@@ -126,14 +126,14 @@ export const loginCustomer = async (req, res) => {
 
     const { password: _, ...safeUser } = user._doc;
 
-    res.json({
+    return res.json({
       message: "Login successful",
       token,
       user: safeUser,
     });
   } catch (err) {
     console.error("Login error:", err);
-    res.status(500).json({
+    return res.status(500).json({
       message: "Login failed",
     });
   }
@@ -193,12 +193,12 @@ export const changePassword = async (req, res) => {
     user.password = hashedPassword;
     await user.save();
 
-    res.json({
+    return res.json({
       message: "Password changed successfully",
     });
   } catch (err) {
     console.error("Change password error:", err);
-    res.status(500).json({
+    return res.status(500).json({
       message: "Failed to change password",
     });
   }

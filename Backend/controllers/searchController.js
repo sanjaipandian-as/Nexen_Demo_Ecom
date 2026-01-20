@@ -28,7 +28,7 @@ export const searchProducts = async (req, res) => {
       is_deleted: false
     });
 
-    res.json({
+    return res.json({
       query: q,
       currentPage: page,
       totalPages: Math.ceil(total / limit),
@@ -56,7 +56,7 @@ export const searchSuggestions = async (req, res) => {
       .select("name")
       .limit(5);
 
-    res.json(suggestions);
+    return res.json(suggestions);
 
   } catch (err) {
     res.status(500).json({ error: err.message });

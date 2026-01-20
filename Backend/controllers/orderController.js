@@ -91,14 +91,14 @@ export const createOrder = async (req, res) => {
 
     const populatedOrder = await Order.findById(order._id).populate("items.productId");
 
-    res.json({
+    return res.json({
       message: "Order created successfully. Proceed to payment.",
       order: populatedOrder
     });
 
   } catch (err) {
     console.error("Order Creation Logic Error:", err);
-    res.status(500).json({
+    return res.status(500).json({
       message: "Failed to create order",
       error: err.message,
       stack: process.env.NODE_ENV === 'development' ? err.stack : undefined
@@ -117,13 +117,13 @@ export const getMyOrders = async (req, res) => {
       .populate("items.productId")
       .sort({ createdAt: -1 }); // Most recent first
 
-    res.json({
+    return res.json({
       count: orders.length,
       orders
     });
 
   } catch (err) {
-    res.status(500).json({
+    return res.status(500).json({
       message: "Failed to fetch orders",
       error: err.message
     });
@@ -140,10 +140,10 @@ export const getAllOrders = async (req, res) => {
       .populate("items.productId", "name images")
       .sort({ createdAt: -1 }); // Most recent first
 
-    res.json(orders);
+    return res.json(orders);
 
   } catch (err) {
-    res.status(500).json({
+    return res.status(500).json({
       message: "Failed to fetch all orders",
       error: err.message
     });
@@ -185,13 +185,13 @@ export const updateOrderStatus = async (req, res) => {
       type: "order"
     });
 
-    res.json({
+    return res.json({
       message: "Order status updated successfully",
       order
     });
 
   } catch (err) {
-    res.status(500).json({
+    return res.status(500).json({
       message: "Failed to update order status",
       error: err.message
     });

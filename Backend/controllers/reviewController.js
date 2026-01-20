@@ -24,7 +24,7 @@ export const addReview = async (req, res) => {
       totalReviews: reviews.length
     });
 
-    res.json({
+    return res.json({
       message: "Review added successfully",
       review
     });
@@ -35,7 +35,7 @@ export const addReview = async (req, res) => {
         message: "You have already reviewed this product"
       });
     }
-    res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: err.message });
   }
 };
 
@@ -64,13 +64,13 @@ export const updateReview = async (req, res) => {
       totalReviews: reviews.length
     });
 
-    res.json({
+    return res.json({
       message: "Review updated successfully",
       review
     });
 
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: err.message });
   }
 };
 
@@ -100,10 +100,10 @@ export const deleteReview = async (req, res) => {
       totalReviews: reviews.length
     });
 
-    res.json({ message: "Review deleted" });
+    return res.json({ message: "Review deleted" });
 
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: err.message });
   }
 };
 
@@ -114,9 +114,9 @@ export const getProductReviews = async (req, res) => {
     const reviews = await Review.find({ productId })
       .populate("customerId", "name");
 
-    res.json(reviews);
+    return res.json(reviews);
 
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: err.message });
   }
 };

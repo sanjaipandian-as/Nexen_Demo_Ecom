@@ -28,7 +28,7 @@ export const createSupportTicket = async (req, res) => {
             priority: "medium"
         });
 
-        res.status(201).json({
+        return res.status(201).json({
             message: "Support ticket created successfully! We'll get back to you within 24 hours.",
             ticket: {
                 id: supportTicket._id,
@@ -43,7 +43,7 @@ export const createSupportTicket = async (req, res) => {
 
     } catch (err) {
         console.error("Error creating support ticket:", err);
-        res.status(500).json({
+        return res.status(500).json({
             message: "Failed to create support ticket. Please try again later.",
             error: err.message
         });
@@ -68,7 +68,7 @@ export const getUserSupportTickets = async (req, res) => {
             .sort({ createdAt: -1 })
             .select("-__v");
 
-        res.json({
+        return res.json({
             message: "Support tickets retrieved successfully",
             count: tickets.length,
             tickets
@@ -76,7 +76,7 @@ export const getUserSupportTickets = async (req, res) => {
 
     } catch (err) {
         console.error("Error fetching support tickets:", err);
-        res.status(500).json({
+        return res.status(500).json({
             message: "Failed to fetch support tickets",
             error: err.message
         });
@@ -100,14 +100,14 @@ export const getSupportTicketById = async (req, res) => {
             return res.status(403).json({ message: "You don't have permission to view this ticket" });
         }
 
-        res.json({
+        return res.json({
             message: "Support ticket retrieved successfully",
             ticket
         });
 
     } catch (err) {
         console.error("Error fetching support ticket:", err);
-        res.status(500).json({
+        return res.status(500).json({
             message: "Failed to fetch support ticket",
             error: err.message
         });
@@ -136,7 +136,7 @@ export const getAllSupportTickets = async (req, res) => {
 
         const total = await Support.countDocuments(filter);
 
-        res.json({
+        return res.json({
             message: "Support tickets retrieved successfully",
             count: tickets.length,
             total,
@@ -147,7 +147,7 @@ export const getAllSupportTickets = async (req, res) => {
 
     } catch (err) {
         console.error("Error fetching all support tickets:", err);
-        res.status(500).json({
+        return res.status(500).json({
             message: "Failed to fetch support tickets",
             error: err.message
         });
@@ -178,14 +178,14 @@ export const updateSupportTicketStatus = async (req, res) => {
             return res.status(404).json({ message: "Support ticket not found" });
         }
 
-        res.json({
+        return res.json({
             message: "Support ticket updated successfully",
             ticket
         });
 
     } catch (err) {
         console.error("Error updating support ticket:", err);
-        res.status(500).json({
+        return res.status(500).json({
             message: "Failed to update support ticket",
             error: err.message
         });
@@ -203,7 +203,7 @@ export const deleteSupportTicket = async (req, res) => {
             return res.status(404).json({ message: "Support ticket not found" });
         }
 
-        res.json({
+        return res.json({
             message: "Support ticket deleted successfully",
             deletedTicket: {
                 id: ticket._id,
@@ -213,7 +213,7 @@ export const deleteSupportTicket = async (req, res) => {
 
     } catch (err) {
         console.error("Error deleting support ticket:", err);
-        res.status(500).json({
+        return res.status(500).json({
             message: "Failed to delete support ticket",
             error: err.message
         });
@@ -249,7 +249,7 @@ export const getSupportStatistics = async (req, res) => {
             }
         ]);
 
-        res.json({
+        return res.json({
             message: "Support statistics retrieved successfully",
             statistics: {
                 total: totalTickets,
@@ -266,7 +266,7 @@ export const getSupportStatistics = async (req, res) => {
 
     } catch (err) {
         console.error("Error fetching support statistics:", err);
-        res.status(500).json({
+        return res.status(500).json({
             message: "Failed to fetch support statistics",
             error: err.message
         });

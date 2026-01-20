@@ -5,9 +5,9 @@ import Product from "../models/Product.js";
 export const getAllProducts = async (req, res) => {
   try {
     const products = await Product.find({ is_deleted: false });
-    res.json(products);
+    return res.json(products);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: err.message });
   }
 };
 
@@ -30,11 +30,11 @@ export const getProductById = async (req, res) => {
     if (!product)
       return res.status(404).json({ message: "Product not found" });
 
-    res.json(product);
+    return res.json(product);
 
   } catch (err) {
     console.error("❌ Error in getProductById:", err);
-    res.status(500).json({ error: "Internal Server Error", details: err.message });
+    return res.status(500).json({ error: "Internal Server Error", details: err.message });
   }
 };
 
@@ -51,7 +51,7 @@ export const searchProducts = async (req, res) => {
     res.json(products);
 
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: err.message });
   }
 };
 
@@ -68,7 +68,7 @@ export const filterByCategory = async (req, res) => {
     res.json(products);
 
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: err.message });
   }
 };
 
@@ -85,7 +85,7 @@ export const getPaginatedProducts = async (req, res) => {
 
     const total = await Product.countDocuments({ is_deleted: false });
 
-    res.json({
+    return res.json({
       currentPage: page,
       totalPages: Math.ceil(total / limit),
       products
@@ -288,7 +288,7 @@ export const filterProducts = async (req, res) => {
 
     const total = await Product.countDocuments(query);
 
-    res.json({
+    return res.json({
       currentPage: page,
       totalPages: Math.ceil(total / limit),
       totalProducts: total,
@@ -401,7 +401,7 @@ export const getFilterOptions = async (req, res) => {
       }
     ]);
 
-    res.json({
+    return res.json({
       brands: brands.filter(Boolean).sort(),
       priceRange: {
         min: priceStats[0]?.minPrice || 0,

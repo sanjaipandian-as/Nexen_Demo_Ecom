@@ -16,13 +16,13 @@ export const addCategory = async (req, res) => {
       icon
     });
 
-    res.json({
+    return res.json({
       message: "Category created successfully",
       category
     });
 
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: err.message });
   }
 };
 
@@ -31,9 +31,9 @@ export const getCategories = async (req, res) => {
     console.log("=== Hitting getCategories ===");
     const categories = await Category.find({ isActive: true }).sort({ name: 1 });
     console.log(`Found ${categories.length} categories`);
-    res.json(categories);
+    return res.json(categories);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: err.message });
   }
 };
 
@@ -51,13 +51,13 @@ export const updateCategory = async (req, res) => {
       { new: true }
     );
 
-    res.json({
+    return res.json({
       message: "Category updated",
       updated
     });
 
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: err.message });
   }
 };
 
@@ -67,7 +67,7 @@ export const deleteCategory = async (req, res) => {
 
     await Category.findByIdAndUpdate(categoryId, { isActive: false });
 
-    res.json({
+    return res.json({
       message: "Category disabled"
     });
 

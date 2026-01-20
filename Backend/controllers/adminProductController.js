@@ -74,13 +74,13 @@ export const createProduct = async (req, res) => {
 
     await product.save();
 
-    res.status(201).json({
+    return res.status(201).json({
       message: "Product created successfully",
       product,
     });
   } catch (err) {
     console.error("Create product error:", err);
-    res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: err.message });
   }
 };
 
@@ -95,9 +95,9 @@ export const getAllProducts = async (req, res) => {
 
     const products = await Product.find(query).sort({ createdAt: -1 });
 
-    res.json(products);
+    return res.json(products);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: err.message });
   }
 };
 
@@ -198,10 +198,10 @@ export const updateProduct = async (req, res) => {
       return res.status(404).json({ message: "Product not found" });
     }
 
-    res.json({ message: "Product updated successfully", product });
+    return res.json({ message: "Product updated successfully", product });
   } catch (err) {
     console.error("Update product error:", err);
-    res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: err.message });
   }
 };
 
@@ -220,9 +220,9 @@ export const deleteProduct = async (req, res) => {
       return res.status(404).json({ message: "Product not found" });
     }
 
-    res.json({ message: "Product deleted successfully", product });
+    return res.json({ message: "Product deleted successfully", product });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: err.message });
   }
 };
 
@@ -237,9 +237,9 @@ export const getProductById = async (req, res) => {
       return res.status(404).json({ message: "Product not found" });
     }
 
-    res.json(product);
+    return res.json(product);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: err.message });
   }
 };
 
@@ -247,8 +247,8 @@ export const getProductById = async (req, res) => {
 export const getAllProductsCount = async (req, res) => {
   try {
     const totalProducts = await Product.countDocuments({ is_deleted: false });
-    res.json({ totalProducts });
+    return res.json({ totalProducts });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: err.message });
   }
 };

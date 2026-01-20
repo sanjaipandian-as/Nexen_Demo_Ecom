@@ -30,13 +30,13 @@ export const createPaymentOrder = async (req, res) => {
 
     const paymentOrder = await razorpayInstance.orders.create(options);
 
-    res.json({
+    return res.json({
       message: "Payment order created",
       paymentOrder,
       razorpayKey: process.env.RAZORPAY_KEY_ID,
     });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: err.message });
   }
 };
 
@@ -83,12 +83,12 @@ export const verifyPayment = async (req, res) => {
       "payment"
     );
 
-    res.json({
+    return res.json({
       message: "Payment verified successfully",
       order,
     });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: err.message });
   }
 };
 
@@ -109,11 +109,11 @@ export const paymentFailed = async (req, res) => {
     order.status = "pending_payment";
     await order.save();
 
-    res.json({
+    return res.json({
       message: "Payment failed",
       order,
     });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    return res.status(500).json({ error: err.message });
   }
 };

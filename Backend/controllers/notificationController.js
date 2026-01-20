@@ -33,15 +33,15 @@ export const getNotifications = async (req, res) => {
     const notifications = await Notification.find({ userId, userType })
       .sort({ createdAt: -1 });
 
-    res.json({
+    return res.json({
       success: true,
       notifications
     });
 
   } catch (err) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
-      message: "Failed to load notifications",
+      message: "Failed to update notifications",
       error: err.message
     });
   }
@@ -57,7 +57,7 @@ export const markAsRead = async (req, res) => {
 
     await Notification.findByIdAndUpdate(id, { isRead: true });
 
-    res.json({
+    return res.json({
       success: true,
       message: "Notification marked as read"
     });
@@ -82,7 +82,7 @@ export const markAllAsRead = async (req, res) => {
       { isRead: true }
     );
 
-    res.json({
+    return res.json({
       success: true,
       message: "All notifications marked as read"
     });
