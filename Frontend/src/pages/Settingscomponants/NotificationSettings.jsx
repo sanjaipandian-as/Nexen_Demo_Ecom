@@ -44,8 +44,8 @@ const NotificationSettings = () => {
     return (
         <div className="space-y-8">
             <div className="flex items-center gap-3 pb-6 border-b border-gray-100">
-                <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
-                    <FaBell className="w-6 h-6 text-primary" />
+                <div className="w-12 h-12 bg-[#E91E63]/10 rounded-xl flex items-center justify-center">
+                    <FaBell className="w-6 h-6 text-[#E91E63]" />
                 </div>
                 <div>
                     <h2 className="text-2xl font-bold text-gray-900">Notification Preferences</h2>
@@ -57,10 +57,10 @@ const NotificationSettings = () => {
                 {notificationOptions.map((item) => {
                     const ItemIcon = item.icon;
                     return (
-                        <div key={item.key} className="flex items-center justify-between p-5 bg-gradient-to-r from-gray-50 to-white rounded-xl border border-gray-100 hover:border-primary/20 transition-all group">
+                        <div key={item.key} className="flex items-center justify-between p-5 bg-gradient-to-r from-gray-50 to-white rounded-xl border border-gray-100 hover:border-[#E91E63]/20 transition-all group">
                             <div className="flex items-center gap-4 flex-1">
                                 <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center shadow-sm group-hover:shadow transition-all">
-                                    <ItemIcon className="w-5 h-5 text-primary" />
+                                    <ItemIcon className="w-5 h-5 text-[#E91E63]" />
                                 </div>
                                 <div>
                                     <h4 className="font-semibold text-gray-900">{item.title}</h4>
@@ -74,7 +74,7 @@ const NotificationSettings = () => {
                                     onChange={(e) => handleChange(item.key, e.target.checked)}
                                     className="sr-only peer"
                                 />
-                                <div className="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/30 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-gradient-to-r peer-checked:from-primary peer-checked:to-primary/90 shadow-inner"></div>
+                                <div className="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-[#E91E63]/30 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-gradient-to-r peer-checked:from-[#E91E63] peer-checked:to-[#E91E63]/90 shadow-inner"></div>
                             </label>
                         </div>
                     );
@@ -86,7 +86,7 @@ const NotificationSettings = () => {
                 <p className="text-sm text-gray-500">Changes will be saved to your account</p>
                 <button
                     onClick={handleSaveSettings}
-                    className="px-8 py-3 bg-gradient-to-r from-primary to-primary/90 text-white font-semibold rounded-xl hover:from-primary hover:to-primary/80 transition-all shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 flex items-center gap-2"
+                    className="px-8 py-3 bg-gradient-to-r from-[#E91E63] to-[#E91E63]/90 text-white font-semibold rounded-xl hover:from-[#E91E63] hover:to-[#E91E63]/80 transition-all shadow-lg shadow-[#E91E63]/30 hover:shadow-xl hover:shadow-[#E91E63]/40 flex items-center gap-2"
                 >
                     <FaSave className="w-4 h-4" />
                     Save Changes

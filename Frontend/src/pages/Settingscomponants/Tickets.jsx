@@ -58,9 +58,9 @@ const Tickets = () => {
                 label: 'In Progress',
                 icon: FaSpinner,
                 color: 'primary',
-                bgColor: 'bg-primary/10',
-                textColor: 'text-primary',
-                borderColor: 'border-primary/50',
+                bgColor: 'bg-[#E91E63]/10',
+                textColor: 'text-[#E91E63]',
+                borderColor: 'border-[#E91E63]/50',
                 description: 'Our team is actively working on your request'
             },
             'resolved': {
@@ -196,7 +196,7 @@ const Tickets = () => {
                         key={tab.value}
                         onClick={() => setFilter(tab.value)}
                         className={`px-4 py-2 rounded-lg font-semibold text-sm transition-all ${filter === tab.value
-                            ? 'bg-gradient-to-r from-primary to-primary/90 text-white shadow-md'
+                            ? 'bg-gradient-to-r from-[#E91E63] to-[#E91E63]/90 text-white shadow-md'
                             : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                             }`}
                     >
@@ -290,7 +290,7 @@ const Tickets = () => {
                                         {/* Your Message */}
                                         <div>
                                             <h4 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
-                                                <FaEye className="w-4 h-4 text-primary" />
+                                                <FaEye className="w-4 h-4 text-[#E91E63]" />
                                                 Your Message
                                             </h4>
                                             <div className="bg-white border-2 border-gray-200 rounded-lg p-4">
@@ -373,8 +373,8 @@ const Tickets = () => {
 
             {/* Help Text */}
             {tickets.length > 0 && (
-                <div className="bg-primary/5 border-2 border-primary/20 rounded-xl p-4">
-                    <p className="text-sm text-primary">
+                <div className="bg-[#E91E63]/5 border-2 border-[#E91E63]/20 rounded-xl p-4">
+                    <p className="text-sm text-[#E91E63]">
                         <strong>Need more help?</strong> Our support team typically responds within 24 hours.
                         You can create a new ticket from the Support page.
                     </p>
