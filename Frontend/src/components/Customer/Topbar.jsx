@@ -83,7 +83,7 @@ const Searchbar = () => {
             '/Affiliate': 'Affiliate Program',
             '/BrandRegistry': 'Brand Registry',
             '/advertise': 'Advertise Your Products',
-            '/sell': 'Sell on APK Crackers',
+            '/sell': 'Sell on Glow Beauty',
 
 
             '/careers': 'Careers',
@@ -116,7 +116,7 @@ const Searchbar = () => {
             return settingsTitles[settingsPage] || 'Settings';
         }
 
-        return routeTitles[path] || 'APK Crackers';
+        return routeTitles[path] || 'Glow Beauty';
     };
 
     useEffect(() => {
@@ -238,7 +238,7 @@ const Searchbar = () => {
             '/Affiliate': 'Affiliate Program',
             '/BrandRegistry': 'Brand Registry',
             '/advertise': 'Advertise Your Products',
-            '/sell': 'Sell on APK Crackers',
+            '/sell': 'Sell on Glow Beauty',
 
             // Footer Links
             '/careers': 'Careers',
@@ -249,7 +249,7 @@ const Searchbar = () => {
             '/legal': 'Legal Information',
         };
 
-        let pageTitle = 'APK Crackers';
+        let pageTitle = 'Glow Beauty';
 
         // Check for exact route match first
         if (routeTitles[path]) {
@@ -285,7 +285,7 @@ const Searchbar = () => {
             pageTitle = settingsTitles[settingsPage] || 'Settings';
         }
 
-        document.title = `${pageTitle} - APK Crackers`;
+        document.title = `${pageTitle} - Glow Beauty`;
     }, [location.pathname]);
 
     // Close suggestions when clicking outside

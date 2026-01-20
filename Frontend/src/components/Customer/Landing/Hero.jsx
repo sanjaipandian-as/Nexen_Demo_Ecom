@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import API from '../../../../api';
+import Skeleton from '../../Common/Skeleton';
 
 const Hero = () => {
     const navigate = useNavigate();
@@ -63,9 +64,11 @@ const Hero = () => {
     };
 
     if (isLoading) {
-        return <div className="mt-2 sm:mt-4 h-[200px] sm:h-[300px] md:h-[400px] lg:h-[500px] bg-gray-900 flex items-center justify-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
-        </div>;
+        return (
+            <div className="mt-2 sm:mt-4 px-0">
+                <Skeleton className="h-[200px] sm:h-[300px] md:h-[400px] lg:h-[500px] w-full" />
+            </div>
+        );
     }
 
     if (heroSlides.length === 0) return null;
@@ -99,27 +102,13 @@ const Hero = () => {
 
             {heroSlides.length > 1 && (
                 <>
-                    <button
-                        onClick={prevSlide}
-                        disabled={isTransitioning}
-                        className="opacity-0 group-hover:opacity-100 absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-black/30 backdrop-blur-md hover:bg-black/50 text-white rounded-full flex items-center justify-center transition-all z-20 hover:scale-110 disabled:opacity-50 cursor-pointer"
-                    >
-                        <FaChevronLeft className="w-5 h-5" />
-                    </button>
-                    <button
-                        onClick={nextSlide}
-                        disabled={isTransitioning}
-                        className="opacity-0 group-hover:opacity-100 absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-black/30 backdrop-blur-md hover:bg-black/50 text-white rounded-full flex items-center justify-center transition-all z-20 hover:scale-110 disabled:opacity-50 cursor-pointer"
-                    >
-                        <FaChevronRight className="w-5 h-5" />
-                    </button>
 
                     <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-20 flex gap-2">
                         {heroSlides.map((_, index) => (
                             <button
                                 key={index}
                                 onClick={() => goToSlide(index)}
-                                className={`transition-all duration-300 rounded-full h-2 ${index === currentSlide ? 'w-8 bg-orange-500' : 'w-2 bg-white/50 hover:bg-white'
+                                className={`transition-all duration-300 rounded-full h-2 ${index === currentSlide ? 'w-8 bg-[#E91E63]' : 'w-2 bg-white/50 hover:bg-white'
                                     }`}
                             />
                         ))}

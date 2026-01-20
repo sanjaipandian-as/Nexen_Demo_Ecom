@@ -42,7 +42,7 @@ const AboutUs = () => {
     ];
 
     const milestones = [
-        { year: '1998', event: 'APK Crackers founded in Sivakasi, Tamil Nadu' },
+        { year: '1998', event: 'Glow Beauty founded in Sivakasi, Tamil Nadu' },
         { year: '2005', event: 'Received BIS certification for all products' },
         { year: '2010', event: 'Expanded to online sales platform' },
         { year: '2015', event: 'Launched eco-friendly green crackers range' },
@@ -55,7 +55,7 @@ const AboutUs = () => {
             {/* Header */}
             <header className="bg-white border-b border-gray-200">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                    <h1 className="text-4xl font-bold text-gray-900">About APK Crackers</h1>
+                    <h1 className="text-4xl font-bold text-gray-900">About Glow Beauty</h1>
                     <p className="text-lg text-gray-600 mt-2">Lighting up celebrations since 1998</p>
                 </div>
             </header>
@@ -65,7 +65,7 @@ const AboutUs = () => {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                     <h2 className="text-4xl font-bold mb-6">India's Trusted Crackers Brand</h2>
                     <p className="text-xl text-primary-foreground/80 max-w-3xl mx-auto leading-relaxed">
-                        For over 25 years, APK Crackers has been bringing joy and light to millions of celebrations
+                        For over 25 years, Glow Beauty has been bringing joy and light to millions of celebrations
                         across India. Based in Sivakasi, the fireworks capital of India, we combine traditional
                         craftsmanship with modern safety standards.
                     </p>
@@ -93,7 +93,7 @@ const AboutUs = () => {
                         <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Our Story</h2>
                         <div className="space-y-6 text-lg text-gray-700 leading-relaxed">
                             <p>
-                                APK Crackers was founded in 1998 in Sivakasi, Tamil Nadu, the fireworks capital of India.
+                                Glow Beauty was founded in 1998 in Sivakasi, Tamil Nadu, the fireworks capital of India.
                                 What started as a small family business has grown into one of India's most trusted names
                                 in the crackers industry.
                             </p>
@@ -166,7 +166,7 @@ const AboutUs = () => {
             {/* Why Choose Us */}
             <section className="py-16 bg-white">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center">Why Choose APK Crackers?</h2>
+                    <h2 className="text-3xl font-bold text-gray-900 mb-12 text-center">Why Choose Glow Beauty?</h2>
                     <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
                         <div className="bg-gray-50 border border-gray-200 rounded-lg p-8">
                             <h3 className="text-xl font-bold text-gray-900 mb-4">100% Certified Products</h3>
@@ -206,7 +206,7 @@ const AboutUs = () => {
                     <div className="max-w-4xl mx-auto text-center">
                         <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Commitment to You</h2>
                         <p className="text-lg text-gray-700 leading-relaxed mb-8">
-                            At APK Crackers, we're committed to making your celebrations memorable, safe, and
+                            At Glow Beauty, we're committed to making your celebrations memorable, safe, and
                             environmentally responsible. We continuously invest in research and development to
                             bring you innovative products that meet the highest safety standards.
                         </p>
@@ -224,7 +224,7 @@ const AboutUs = () => {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Visit Us</h2>
                     <div className="max-w-3xl mx-auto bg-gray-50 border border-gray-200 rounded-lg p-8 text-center">
-                        <h3 className="text-xl font-bold text-gray-900 mb-4">APK Crackers Headquarters</h3>
+                        <h3 className="text-xl font-bold text-gray-900 mb-4">Glow Beauty Headquarters</h3>
                         <p className="text-gray-700 mb-2">123, Sivakasi Main Road</p>
                         <p className="text-gray-700 mb-2">Sivakasi, Tamil Nadu</p>
                         <p className="text-gray-700 mb-6">India - 626123</p>
@@ -247,7 +247,7 @@ const AboutUs = () => {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                     <h2 className="text-3xl font-bold mb-6">Join Our Family</h2>
                     <p className="text-xl text-primary-foreground/80 mb-8 max-w-2xl mx-auto">
-                        Experience the APK Crackers difference. Safe, certified, and joyful celebrations await you.
+                        Experience the Glow Beauty difference. Safe, certified, and joyful celebrations await you.
                     </p>
                     <button className="bg-white hover:bg-gray-100 text-primary font-semibold px-8 py-4 rounded-lg text-lg transition-colors">
                         Shop Now

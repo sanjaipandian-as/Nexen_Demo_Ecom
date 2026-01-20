@@ -96,7 +96,7 @@ const Register = () => {
                         Create Your Account
                     </h1>
                     <p className="text-sm sm:text-base md:text-lg text-gray-500">
-                        Join APK Crackers and light up your celebrations
+                        Join Glow Beauty and light up your celebrations
                     </p>
                 </div>
 
@@ -376,9 +376,9 @@ const Register = () => {
                     <button
                         type="submit"
                         disabled={loading}
-                        className={`w-full font-semibold text-sm sm:text-base md:text-lg py-3 sm:py-3.5 md:py-4 rounded-lg focus:outline-none focus:ring-4 focus:ring-primary/20 transition-all shadow-sm active:scale-95 ${loading
-                            ? 'bg-primary/70 text-white cursor-not-allowed'
-                            : 'bg-primary text-white hover:bg-primary/90'
+                        className={`w-full font-semibold text-sm sm:text-base md:text-lg py-3 sm:py-3.5 md:py-4 rounded-lg focus:outline-none focus:ring-4 focus:ring-pink-500/20 transition-all shadow-sm active:scale-95 ${loading
+                            ? 'bg-pink-400 text-white cursor-not-allowed'
+                            : 'bg-pink-600 text-white hover:bg-pink-700'
                             }`}
                     >
                         {loading ? 'Creating Account...' : 'Create Account'}

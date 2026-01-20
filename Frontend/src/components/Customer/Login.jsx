@@ -93,7 +93,7 @@ const Login = () => {
                         Welcome Back
                     </h1>
                     <p className="text-sm sm:text-base md:text-lg text-gray-500">
-                        Sign in to your APK Crackers account
+                        Sign in to your Glow Beauty account
                     </p>
                 </div>
 
@@ -201,9 +201,9 @@ const Login = () => {
                     <button
                         type="submit"
                         disabled={loading}
-                        className={`w-full font-semibold text-sm sm:text-base md:text-lg py-3 sm:py-3.5 md:py-4 rounded-lg focus:outline-none focus:ring-4 focus:ring-primary/20 transition-all shadow-sm active:scale-95 ${loading
-                            ? 'bg-primary/60 text-white cursor-not-allowed'
-                            : 'bg-primary text-white hover:bg-primary/90'
+                        className={`w-full font-semibold text-sm sm:text-base md:text-lg py-3 sm:py-3.5 md:py-4 rounded-lg focus:outline-none focus:ring-4 focus:ring-pink-500/20 transition-all shadow-sm active:scale-95 ${loading
+                            ? 'bg-pink-400 text-white cursor-not-allowed'
+                            : 'bg-pink-600 text-white hover:bg-pink-700'
                             }`}
                     >
                         {loading ? 'Signing In...' : 'Sign In'}

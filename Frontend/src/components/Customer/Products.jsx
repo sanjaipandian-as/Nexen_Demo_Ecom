@@ -248,7 +248,7 @@ const Products = ({ filters = defaultFilters }) => {
         return (
             <div
                 onClick={() => handleProductClick(product._id)}
-                className="bg-[#FFF9FC] rounded-[16px] overflow-hidden shadow-sm hover:shadow-md sm:hover:-translate-y-1 transition-all duration-300 border border-pink-100 cursor-pointer active:scale-98 animate-fadeIn flex flex-row sm:flex-col min-w-[280px] sm:min-w-0"
+                className="bg-white rounded-[16px] overflow-hidden shadow-sm hover:shadow-md sm:hover:-translate-y-1 transition-all duration-300 border border-pink-100 cursor-pointer active:scale-98 animate-fadeIn flex flex-row sm:flex-col min-w-[280px] sm:min-w-0"
             >
                 <div className="relative w-[120px] sm:w-full aspect-square sm:aspect-[4/3] overflow-hidden flex-shrink-0">
                     <img
@@ -272,7 +272,7 @@ const Products = ({ filters = defaultFilters }) => {
                     <button
                         onClick={(e) => toggleWishlist(e, product._id)}
                         disabled={togglingWishlist === product._id}
-                        className="absolute top-2 right-2 w-7 h-7 sm:w-10 sm:h-10 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center shadow-md hover:shadow-lg transition-all active:scale-90"
+                        className="absolute top-2 right-2 w-7 h-7 sm:w-10 sm:h-10 bg-white backdrop-blur-sm rounded-full flex items-center justify-center shadow-md hover:shadow-lg transition-all active:scale-90"
                     >
                         {togglingWishlist === product._id ? (
                             <div className="animate-spin rounded-full h-3 w-3 sm:h-5 sm:w-5 border-b-2 border-pink-600"></div>

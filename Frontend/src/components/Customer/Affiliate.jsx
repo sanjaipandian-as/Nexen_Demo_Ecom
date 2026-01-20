@@ -110,10 +110,10 @@ const Affiliate = () => {
                 {/* Introduction */}
                 <div className="mb-16">
                     <h3 className="text-3xl font-bold text-gray-900 mb-4">
-                        APK Crackers Associates - Our affiliate marketing program
+                        Glow Beauty Associates - Our affiliate marketing program
                     </h3>
                     <p className="text-gray-700 leading-relaxed max-w-4xl">
-                        Welcome to one of the largest affiliate marketing programs in the world. The APK Crackers Associates Program helps content creators, publishers and bloggers monetize their traffic. With millions of products and programs available on our platform, associates use easy link-building tools to direct their audience to their recommendations, and earn from qualifying purchases and programs.
+                        Welcome to one of the largest affiliate marketing programs in the world. The Glow Beauty Associates Program helps content creators, publishers and bloggers monetize their traffic. With millions of products and programs available on our platform, associates use easy link-building tools to direct their audience to their recommendations, and earn from qualifying purchases and programs.
                     </p>
                 </div>
 
@@ -131,7 +131,7 @@ const Affiliate = () => {
                             onClick={() => navigate('/seller-register')}
                             className="text-xl font-bold text-gray-900 mb-3 cursor-pointer">Sign up</h4>
                         <p className="text-gray-600">
-                            Join tens of thousands of creators, publishers and bloggers who are earning with the APK Crackers Associates Program.
+                            Join tens of thousands of creators, publishers and bloggers who are earning with the Glow Beauty Associates Program.
                         </p>
                     </div>
 
@@ -269,7 +269,7 @@ const Affiliate = () => {
             <footer className="bg-gray-900 text-white py-8 mt-16">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                     <p className="text-gray-400">
-                        © 2024 APK Crackers Associates. All rights reserved.
+                        © 2024 Glow Beauty Associates. All rights reserved.
                     </p>
                 </div>
             </footer>

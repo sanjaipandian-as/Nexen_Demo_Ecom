@@ -36,7 +36,7 @@ const Settings = () => {
             'tickets': 'Support Tickets',
             'notifications': 'Notifications'
         };
-        document.title = `${tabTitles[activeTab] || 'Settings'} - APK Crackers`;
+        document.title = `${tabTitles[activeTab] || 'Settings'} - Glow Beauty`;
     }, [activeTab]);
 
     // Fetch user profile data

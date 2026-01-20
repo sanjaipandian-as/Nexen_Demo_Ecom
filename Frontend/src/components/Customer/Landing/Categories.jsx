@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback } from "react"
+import React, { useState, useEffect, useMemo, useCallback, useRef } from "react"
 import { useNavigate } from "react-router-dom"
 import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react"
 import API from "../../../../api"
@@ -11,6 +11,7 @@ const Categories = () => {
     const [visibleCards, setVisibleCards] = useState(1)
     const [cardWidth, setCardWidth] = useState(280)
     const [gap, setGap] = useState(24)
+    const scrollRef = useRef(null)
 
     const categorySublabels = useMemo(() => ({
         'skincare': 'radiate confidence',
@@ -84,13 +85,6 @@ const Categories = () => {
         }
     }, [])
 
-    const prev = useCallback(() => {
-        setIndex(prev => (prev === 0 ? Math.max(0, categories.length - visibleCards) : prev - 1))
-    }, [categories.length, visibleCards])
-
-    const next = useCallback(() => {
-        setIndex(prev => (prev >= categories.length - visibleCards ? 0 : prev + 1))
-    }, [categories.length, visibleCards])
 
     const handleCategoryClick = useCallback((slug) => {
         navigate(`/category/${slug}`)
@@ -98,10 +92,32 @@ const Categories = () => {
 
     const handleDotClick = useCallback((i) => {
         setIndex(i)
-    }, [])
+        if (scrollRef.current) {
+            scrollRef.current.scrollTo({
+                left: i * (cardWidth + gap),
+                behavior: 'smooth'
+            })
+        }
+    }, [cardWidth, gap])
 
-    const isAtStart = index === 0
-    const isAtEnd = index >= categories.length - visibleCards
+    useEffect(() => {
+        const handleScroll = () => {
+            if (scrollRef.current) {
+                const scrollPosition = scrollRef.current.scrollLeft
+                const newIndex = Math.round(scrollPosition / (cardWidth + gap))
+                if (newIndex !== index) {
+                    setIndex(newIndex)
+                }
+            }
+        }
+
+        const container = scrollRef.current
+        if (container) {
+            container.addEventListener('scroll', handleScroll)
+            return () => container.removeEventListener('scroll', handleScroll)
+        }
+    }, [index, cardWidth, gap])
+
     const totalSlides = Math.ceil(categories.length / visibleCards)
 
     return (
@@ -118,19 +134,10 @@ const Categories = () => {
                 </div>
 
                 <div className="relative px-0 md:px-2">
-                    <button
-                        onClick={prev}
-                        className="hidden md:flex absolute -left-6 lg:-left-10 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full shadow-lg items-center justify-center transition-all duration-300 border opacity-100"
-                        style={{ backgroundColor: '#E91E63', borderColor: '#E91E63', color: '#FFFFFF' }}
-                        onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#C2185B'; e.currentTarget.style.transform = 'translateY(-50%) scale(1.1)'; }}
-                        onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = '#E91E63'; e.currentTarget.style.transform = 'translateY(-50%) scale(1)'; }}
-                        aria-label="Previous categories"
-                    >
-                        <ChevronLeft className="w-6 h-6" />
-                    </button>
 
                     <div
-                        className="w-full overflow-x-auto md:overflow-hidden scrollbar-hide scroll-smooth snap-x snap-mandatory"
+                        ref={scrollRef}
+                        className="w-full overflow-x-auto scrollbar-hide scroll-smooth snap-x snap-mandatory"
                         style={{
                             WebkitOverflowScrolling: 'touch',
                             scrollbarWidth: 'none',
@@ -157,10 +164,8 @@ const Categories = () => {
                             </div>
                         ) : (
                             <div
-                                className="flex justify-center gap-4 md:gap-6 lg:gap-8 transition-transform duration-500 ease-out md:transition-transform pb-4 md:pb-0"
+                                className="flex justify-center gap-4 md:gap-6 lg:gap-8 pb-4 md:pb-0"
                                 style={{
-                                    transform: window.innerWidth >= 768 ? `translateX(-${index * (cardWidth + gap)}px)` : 'none',
-                                    willChange: 'transform',
                                     justifyContent: categories.length <= visibleCards ? 'center' : 'flex-start'
                                 }}
                             >
@@ -207,7 +212,7 @@ const Categories = () => {
                                                 </p>
                                             </div>
 
-                                            <button className="flex items-center gap-2 px-4 sm:px-6 py-2 bg-transparent border-2 rounded-full transition-all duration-300 font-bold text-[10px] sm:text-xs uppercase tracking-widest group-hover:bg-[#E91E63] group-hover:text-white group-hover:border-[#E91E63] mt-auto" style={{ borderColor: '#F8BBD0', color: '#E91E63' }}>
+                                            <button className="flex items-center gap-2 px-4 sm:px-6 py-2 bg-transparent border-2 border-[#F8BBD0] text-[#E91E63] rounded-full transition-all duration-300 font-bold text-[10px] sm:text-xs uppercase tracking-widest group-hover:bg-[#E91E63] group-hover:text-white group-hover:border-[#E91E63] mt-auto">
                                                 <span>Explore Now</span>
                                                 <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
                                             </button>
@@ -218,16 +223,6 @@ const Categories = () => {
                         )}
                     </div>
 
-                    <button
-                        onClick={next}
-                        className="hidden md:flex absolute -right-6 lg:-right-10 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full shadow-lg items-center justify-center transition-all duration-300 border opacity-100"
-                        style={{ backgroundColor: '#E91E63', borderColor: '#E91E63', color: '#FFFFFF' }}
-                        onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#C2185B'; e.currentTarget.style.transform = 'translateY(-50%) scale(1.1)'; }}
-                        onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = '#E91E63'; e.currentTarget.style.transform = 'translateY(-50%) scale(1)'; }}
-                        aria-label="Next categories"
-                    >
-                        <ChevronRight className="w-6 h-6" />
-                    </button>
                 </div>
 
                 <div className="md:hidden flex justify-center items-center gap-2 mt-6 text-sm font-medium" style={{ color: '#E91E63' }}>

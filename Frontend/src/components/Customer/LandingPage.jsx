@@ -1,6 +1,5 @@
 import React from 'react';
 import Hero from './Landing/Hero';
-import Features from './Landing/Features';
 import Categories from './Landing/Categories';
 // import StatsGrid from './Landing/StatsGrid';
 
@@ -11,7 +10,6 @@ const LandingPage = () => {
             <Hero />
             <Categories />
 
-            <Features />
         </div>
     );
 };
