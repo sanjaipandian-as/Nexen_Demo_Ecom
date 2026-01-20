@@ -117,14 +117,14 @@ const AdminHeroManagement = ({ refreshId }) => {
     return (
         <div className="p-8 bg-slate-50/50 min-h-screen font-sans text-slate-900">
             {/* Header */}
-            <div className="mb-10 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
+            <div className="mb-8 md:mb-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 md:gap-6 animate-slideUp">
                 <div>
-                    <h1 className="text-2xl font-black text-slate-900 tracking-tight">Hero Section</h1>
-                    <p className="text-slate-500 font-medium text-sm mt-1">Manage the rotating banners on your home page</p>
+                    <h1 className="text-xl md:text-2xl font-black text-slate-900 tracking-tight font-hero">Hero Section</h1>
+                    <p className="text-slate-500 font-medium text-xs md:text-sm mt-1">Manage the rotating banners on your home page</p>
                 </div>
                 <button
                     onClick={() => handleOpenModal()}
-                    className="flex items-center gap-3 px-6 py-4 bg-rose-600 hover:bg-rose-700 text-white text-xs font-black uppercase tracking-widest rounded-2xl transition-all shadow-lg shadow-rose-200 active:scale-[0.98] cursor-pointer"
+                    className="w-full md:w-auto flex items-center justify-center gap-2 px-6 py-3 md:py-4 bg-rose-600 hover:bg-rose-700 text-white text-[10px] md:text-xs font-black uppercase tracking-widest rounded-2xl transition-all shadow-lg shadow-rose-200 active:scale-[0.98]"
                 >
                     <MdAdd className="text-lg" />
                     Add New Slide
@@ -147,7 +147,7 @@ const AdminHeroManagement = ({ refreshId }) => {
                     <p className="text-slate-400 font-bold text-sm max-w-xs">Add your first banner image to get started.</p>
                 </div>
             ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 animate-slideUp" style={{ animationDelay: '0.1s' }}>
                     {slides.map((slide) => (
                         <div key={slide._id} className="group bg-white rounded-[24px] border border-slate-100 overflow-hidden shadow-[0_4px_24px_rgba(0,0,0,0.02)] hover:shadow-xl hover:scale-105 transition-all duration-300 relative flex flex-col cursor-pointer">
                             {/* Image Section */}
@@ -163,19 +163,37 @@ const AdminHeroManagement = ({ refreshId }) => {
                                         Order: {slide.order}
                                     </span>
                                 </div>
+                                {/* Desktop Hover Actions */}
+                                <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity hidden md:flex items-center justify-center gap-3">
+                                    <button
+                                        onClick={(e) => { e.stopPropagation(); handleOpenModal(slide); }}
+                                        className="p-3 bg-white text-slate-900 rounded-xl hover:scale-110 transition-transform shadow-lg"
+                                        title="Edit Slide"
+                                    >
+                                        <MdEdit className="text-lg" />
+                                    </button>
+                                    <button
+                                        onClick={(e) => { e.stopPropagation(); handleDelete(slide._id); }}
+                                        className="p-3 bg-white text-rose-600 rounded-xl hover:scale-110 transition-transform shadow-lg"
+                                        title="Delete Slide"
+                                    >
+                                        <MdDelete className="text-lg" />
+                                    </button>
+                                </div>
                             </div>
 
-                            <div className="p-4 flex gap-3 mt-auto bg-white border-t border-slate-50">
+                            {/* Mobile Bottom Actions */}
+                            <div className="flex md:hidden p-3 gap-3 bg-white border-t border-slate-50">
                                 <button
                                     onClick={(e) => { e.stopPropagation(); handleOpenModal(slide); }}
-                                    className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-white border border-slate-200 text-slate-600 text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-slate-50 hover:text-slate-900 hover:border-slate-300 transition-all"
+                                    className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-slate-50 border border-slate-200 text-slate-600 text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-slate-100 transition-all active:bg-slate-200"
                                 >
                                     <MdEdit className="text-base" />
                                     Edit
                                 </button>
                                 <button
                                     onClick={(e) => { e.stopPropagation(); handleDelete(slide._id); }}
-                                    className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-rose-50 border border-rose-100 text-rose-600 text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-rose-100 hover:border-rose-200 hover:text-rose-700 transition-all"
+                                    className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-rose-50 border border-rose-100 text-rose-600 text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-rose-100 transition-all active:bg-rose-200"
                                 >
                                     <MdDelete className="text-base" />
                                     Delete
@@ -189,20 +207,20 @@ const AdminHeroManagement = ({ refreshId }) => {
             {/* Modal */}
             {showModal && (
                 <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                    <div className="bg-white rounded-[32px] w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-2xl animate-modalScale">
-                        <div className="px-8 py-6 border-b border-slate-100 flex justify-between items-center sticky top-0 bg-white z-10">
+                    <div className="bg-white rounded-[24px] md:rounded-[32px] w-[95%] md:w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-2xl animate-modalScale mx-auto">
+                        <div className="px-5 py-4 md:px-8 md:py-6 border-b border-slate-100 flex justify-between items-center sticky top-0 bg-white z-10">
                             <div>
-                                <h2 className="text-xl font-black text-slate-900 tracking-tight">
+                                <h2 className="text-lg md:text-xl font-black text-slate-900 tracking-tight font-hero">
                                     {editingSlide ? 'Edit Slide' : 'New Slide'}
                                 </h2>
-                                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">Hero Management</p>
+                                <p className="text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">Hero Management</p>
                             </div>
-                            <button onClick={handleCloseModal} className="w-10 h-10 rounded-full bg-slate-50 text-slate-400 hover:bg-slate-100 hover:text-slate-600 flex items-center justify-center transition-all">
-                                <MdCancel size={22} />
+                            <button onClick={handleCloseModal} className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-slate-50 text-slate-400 hover:bg-slate-100 hover:text-slate-600 flex items-center justify-center transition-all">
+                                <MdCancel size={20} className="md:text-2xl" />
                             </button>
                         </div>
 
-                        <form onSubmit={handleSubmit} className="p-8 space-y-8">
+                        <form onSubmit={handleSubmit} className="p-5 md:p-8 space-y-6 md:space-y-8">
                             {/* Image Upload */}
                             <div className="space-y-4">
                                 <label className="block text-xs font-black text-slate-400 uppercase tracking-widest">Banner Image</label>
@@ -245,7 +263,7 @@ const AdminHeroManagement = ({ refreshId }) => {
                                 </div>
                             </div>
 
-                            <div className="pt-2 flex gap-4">
+                            <div className="pt-2 flex flex-col-reverse md:flex-row gap-3 md:gap-4">
                                 <button
                                     type="button"
                                     onClick={handleCloseModal}

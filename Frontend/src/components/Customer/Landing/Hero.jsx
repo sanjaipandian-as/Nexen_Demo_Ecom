@@ -63,7 +63,7 @@ const Hero = () => {
     };
 
     if (isLoading) {
-        return <div className="mt-2 sm:mt-4 h-[180px] sm:h-[250px] md:h-[320px] lg:h-[380px] bg-gray-900 flex items-center justify-center">
+        return <div className="mt-2 sm:mt-4 h-[200px] sm:h-[300px] md:h-[400px] lg:h-[500px] bg-gray-900 flex items-center justify-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
         </div>;
     }
@@ -71,7 +71,7 @@ const Hero = () => {
     if (heroSlides.length === 0) return null;
 
     return (
-        <div className="relative mt-2 sm:mt-4 h-[180px] sm:h-[250px] md:h-[320px] lg:h-[380px] overflow-hidden bg-gray-900 group">
+        <div className="relative mt-2 sm:mt-4 h-[200px] sm:h-[300px] md:h-[400px] lg:h-[500px] overflow-hidden bg-gray-900 group">
             {heroSlides.map((slide, index) => (
                 <div
                     key={index}

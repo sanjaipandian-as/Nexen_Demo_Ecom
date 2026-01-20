@@ -172,21 +172,21 @@ const AdminAllProducts = ({ refreshId }) => {
     return (
         <div className="min-h-screen bg-[#F8FAFC] font-body p-8 space-y-8">
             {/* Header */}
-            <div className="flex items-center justify-between mb-8 animate-slideUp">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 animate-slideUp">
                 <div>
                     <div className="flex items-center gap-3">
-                        <h1 className="text-3xl font-black text-slate-900 tracking-tight font-hero">Global Product Catalog</h1>
-                        <span className="px-3 py-1 bg-rose-50 text-rose-600 text-[11px] font-bold uppercase tracking-widest rounded-full border border-rose-100">
+                        <h1 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight font-hero">Global Product Catalog</h1>
+                        <span className="px-3 py-1 bg-rose-50 text-rose-600 text-[11px] font-bold uppercase tracking-widest rounded-full border border-rose-100 hidden md:inline-block">
                             Database
                         </span>
                     </div>
-                    <p className="text-sm font-medium text-slate-500 mt-1">
+                    <p className="text-xs md:text-sm font-medium text-slate-500 mt-1 max-w-md">
                         Centralized inventory management system.
                     </p>
                 </div>
                 <button
                     onClick={handleAddProduct}
-                    className="flex items-center gap-2 px-6 py-3 bg-slate-900 hover:bg-rose-600 text-white font-bold rounded-2xl transition-all shadow-xl hover:shadow-rose-500/20 active:scale-95 text-xs uppercase tracking-widest"
+                    className="flex items-center justify-center gap-2 px-6 py-3 bg-slate-900 hover:bg-rose-600 text-white font-bold rounded-2xl transition-all shadow-xl hover:shadow-rose-500/20 active:scale-95 text-xs uppercase tracking-widest w-full md:w-auto"
                 >
                     <MdAdd className="text-lg" />
                     <span>Add New Product</span>
@@ -224,7 +224,7 @@ const AdminAllProducts = ({ refreshId }) => {
                     <MdSearch className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-rose-500 transition-colors text-xl" />
                     <input
                         type="text"
-                        placeholder="Search by name, brand, or category..."
+                        placeholder="Search products..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         className="w-full pl-14 pr-6 py-4 bg-slate-50 border-none rounded-2xl text-slate-700 font-bold placeholder:text-slate-400 focus:bg-white focus:ring-2 focus:ring-rose-500/10 transition-all outline-none"
@@ -233,7 +233,7 @@ const AdminAllProducts = ({ refreshId }) => {
 
                 <div className="flex items-center gap-3 w-full md:w-auto">
                     {/* Category Filter - Custom Dropdown */}
-                    <div className="relative min-w-[200px]">
+                    <div className="relative flex-1 md:flex-none md:min-w-[200px]">
                         <button
                             onClick={() => setIsCategoryDropdownOpen(!isCategoryDropdownOpen)}
                             onBlur={() => setTimeout(() => setIsCategoryDropdownOpen(false), 200)}
@@ -296,130 +296,196 @@ const AdminAllProducts = ({ refreshId }) => {
                         </p>
                     </div>
                 ) : (
-                    <div className="overflow-x-auto">
-                        <table className="w-full">
-                            <thead>
-                                <tr className="bg-slate-50/50 border-b border-slate-100">
-                                    <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest font-hero">Product Info</th>
-                                    <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest font-hero">Category</th>
-                                    <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest font-hero">Price</th>
-                                    <th className="px-8 py-5 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest font-hero">Status</th>
-                                    <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest font-hero">Inventory</th>
-                                    <th className="px-8 py-5 text-right text-[10px] font-black text-slate-400 uppercase tracking-widest font-hero">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-slate-50">
+                    <>
+                        {/* Mobile Card View */}
+                        <div className="md:hidden">
+                            <ul className="divide-y divide-slate-100">
                                 {filteredProducts.map((product) => {
                                     const stockStatus = getStockStatus(product.stock);
                                     return (
-                                        <tr key={product._id} className="group hover:bg-slate-50/50 transition-colors">
-                                            {/* Product Info */}
-                                            <td className="px-8 py-5">
-                                                <div className="flex items-center gap-4">
-                                                    <div className="w-16 h-16 rounded-2xl bg-slate-50 border border-slate-100 p-1 flex-shrink-0 relative overflow-hidden">
-                                                        <img
-                                                            src={product.images?.[0] || PlaceholderImage}
-                                                            alt={product.name}
-                                                            className="w-full h-full object-cover rounded-xl"
-                                                            onError={(e) => {
-                                                                e.target.onerror = null;
-                                                                e.target.src = PlaceholderImage;
-                                                            }}
-                                                        />
-                                                    </div>
-                                                    <div className="min-w-0">
-                                                        <h4 className="font-bold text-slate-900 text-sm truncate max-w-[200px] mb-1 group-hover:text-rose-600 transition-colors font-hero">
+                                        <li key={product._id} className="p-4 bg-white hover:bg-slate-50 transition-colors">
+                                            <div className="flex gap-4">
+                                                {/* Image */}
+                                                <div className="w-20 h-20 rounded-xl bg-slate-50 border border-slate-100 flex-shrink-0 overflow-hidden">
+                                                    <img
+                                                        src={product.images?.[0] || PlaceholderImage}
+                                                        alt={product.name}
+                                                        className="w-full h-full object-cover"
+                                                        onError={(e) => {
+                                                            e.target.onerror = null;
+                                                            e.target.src = PlaceholderImage;
+                                                        }}
+                                                    />
+                                                </div>
+
+                                                {/* Content */}
+                                                <div className="flex-1 min-w-0">
+                                                    <div className="flex justify-between items-start mb-1">
+                                                        <h4 className="font-bold text-slate-900 text-sm truncate pr-2 font-hero">
                                                             {product.name}
                                                         </h4>
-                                                        <div className="flex items-center gap-2">
-                                                            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider bg-slate-100 px-2 py-0.5 rounded-md">
-                                                                {product.brand}
-                                                            </span>
+                                                        <button
+                                                            onClick={(e) => { e.stopPropagation(); handleEdit(product); }}
+                                                            className="text-slate-400 hover:text-emerald-600 p-1 -mt-1 -mr-1"
+                                                        >
+                                                            <MdEdit size={18} />
+                                                        </button>
+                                                    </div>
+
+                                                    <p className="text-xs text-slate-500 font-bold mb-2">{product.brand}</p>
+
+                                                    <div className="flex items-center justify-between mb-2">
+                                                        <div className="flex items-center gap-1 font-black text-slate-900 text-sm">
+                                                            <FaRupeeSign className="text-[10px] text-slate-400" />
+                                                            {(product.pricing?.selling_price || 0).toLocaleString('en-IN')}
+                                                        </div>
+                                                        <div className={`px-2 py-1 rounded-full text-[9px] font-black uppercase tracking-widest ${stockStatus.color}`}>
+                                                            {stockStatus.label}
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </td>
 
-                                            {/* Category */}
-                                            <td className="px-8 py-5">
-                                                <span className="px-3 py-1.5 rounded-lg text-[11px] font-bold uppercase tracking-wide bg-white border border-slate-100 text-slate-600 shadow-sm">
-                                                    {product.category?.main || 'Uncategorized'}
-                                                </span>
-                                            </td>
-
-                                            {/* Pricing */}
-                                            <td className="px-8 py-5">
-                                                <div className="font-black text-slate-900 flex items-center gap-0.5 text-sm">
-                                                    <FaRupeeSign className="text-[10px] text-slate-400" />
-                                                    {(product.pricing?.selling_price || 0).toLocaleString('en-IN')}
-                                                </div>
-                                                {product.pricing?.mrp > product.pricing?.selling_price && (
-                                                    <div className="text-[10px] text-slate-400 line-through mt-0.5 font-bold">
-                                                        ₹{product.pricing?.mrp?.toLocaleString('en-IN')}
+                                                    <div className="flex items-center justify-between">
+                                                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wide">
+                                                            {product.category?.main || 'Uncategorized'}
+                                                        </span>
+                                                        <span className="text-[10px] font-bold text-slate-500">
+                                                            {product.stock || 0} in stock
+                                                        </span>
                                                     </div>
-                                                )}
-                                            </td>
-
-                                            {/* Stock Status */}
-                                            <td className="px-8 py-5 text-center">
-                                                <div className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest ${stockStatus.color}`}>
-                                                    {stockStatus.label}
                                                 </div>
-                                            </td>
-
-                                            {/* Quantity */}
-                                            <td className="px-8 py-5">
-                                                <div className="flex items-center gap-3">
-                                                    <div className="flex-1 w-24 h-1.5 bg-slate-100 rounded-full overflow-hidden">
-                                                        <div
-                                                            className={`h-full rounded-full ${(product.stock || 0) > 10 ? 'bg-emerald-500' :
-                                                                (product.stock || 0) > 0 ? 'bg-amber-500' : 'bg-rose-500'
-                                                                }`}
-                                                            style={{ width: `${Math.min(((product.stock || 0) / 100) * 100, 100)}%` }}
-                                                        ></div>
-                                                    </div>
-                                                    <span className="text-[11px] font-bold text-slate-500 min-w-[3rem]">
-                                                        {product.stock || 0} left
-                                                    </span>
-                                                </div>
-                                            </td>
-
-                                            {/* Actions */}
-                                            <td className="px-8 py-5 text-right">
-                                                <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                    <button
-                                                        onClick={() => handleEdit(product)}
-                                                        className="p-2 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-xl transition-colors"
-                                                        title="Edit Product"
-                                                    >
-                                                        <MdEdit className="text-lg" />
-                                                    </button>
-                                                    <button
-                                                        onClick={() => handleDeleteClick(product)}
-                                                        className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-colors"
-                                                        title="Delete"
-                                                    >
-                                                        <MdDelete className="text-lg" />
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                            </div>
+                                        </li>
                                     );
                                 })}
-                            </tbody>
-                        </table>
-                    </div>
+                            </ul>
+                        </div>
+
+                        {/* Desktop Table View */}
+                        <div className="hidden md:block overflow-x-auto">
+                            <table className="w-full">
+                                <thead>
+                                    <tr className="bg-slate-50/50 border-b border-slate-100">
+                                        <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest font-hero">Product Info</th>
+                                        <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest font-hero">Category</th>
+                                        <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest font-hero">Price</th>
+                                        <th className="px-8 py-5 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest font-hero">Status</th>
+                                        <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest font-hero">Inventory</th>
+                                        <th className="px-8 py-5 text-right text-[10px] font-black text-slate-400 uppercase tracking-widest font-hero">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-slate-50">
+                                    {filteredProducts.map((product) => {
+                                        const stockStatus = getStockStatus(product.stock);
+                                        return (
+                                            <tr key={product._id} className="group hover:bg-slate-50/50 transition-colors">
+                                                {/* Product Info */}
+                                                <td className="px-8 py-5">
+                                                    <div className="flex items-center gap-4">
+                                                        <div className="w-16 h-16 rounded-2xl bg-slate-50 border border-slate-100 p-1 flex-shrink-0 relative overflow-hidden">
+                                                            <img
+                                                                src={product.images?.[0] || PlaceholderImage}
+                                                                alt={product.name}
+                                                                className="w-full h-full object-cover rounded-xl"
+                                                                onError={(e) => {
+                                                                    e.target.onerror = null;
+                                                                    e.target.src = PlaceholderImage;
+                                                                }}
+                                                            />
+                                                        </div>
+                                                        <div className="min-w-0">
+                                                            <h4 className="font-bold text-slate-900 text-sm truncate max-w-[200px] mb-1 group-hover:text-rose-600 transition-colors font-hero">
+                                                                {product.name}
+                                                            </h4>
+                                                            <div className="flex items-center gap-2">
+                                                                <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider bg-slate-100 px-2 py-0.5 rounded-md">
+                                                                    {product.brand}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+
+                                                {/* Category */}
+                                                <td className="px-8 py-5">
+                                                    <span className="px-3 py-1.5 rounded-lg text-[11px] font-bold uppercase tracking-wide bg-white border border-slate-100 text-slate-600 shadow-sm">
+                                                        {product.category?.main || 'Uncategorized'}
+                                                    </span>
+                                                </td>
+
+                                                {/* Pricing */}
+                                                <td className="px-8 py-5">
+                                                    <div className="font-black text-slate-900 flex items-center gap-0.5 text-sm">
+                                                        <FaRupeeSign className="text-[10px] text-slate-400" />
+                                                        {(product.pricing?.selling_price || 0).toLocaleString('en-IN')}
+                                                    </div>
+                                                    {product.pricing?.mrp > product.pricing?.selling_price && (
+                                                        <div className="text-[10px] text-slate-400 line-through mt-0.5 font-bold">
+                                                            ₹{product.pricing?.mrp?.toLocaleString('en-IN')}
+                                                        </div>
+                                                    )}
+                                                </td>
+
+                                                {/* Stock Status */}
+                                                <td className="px-8 py-5 text-center">
+                                                    <div className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest ${stockStatus.color}`}>
+                                                        {stockStatus.label}
+                                                    </div>
+                                                </td>
+
+                                                {/* Quantity */}
+                                                <td className="px-8 py-5">
+                                                    <div className="flex items-center gap-3">
+                                                        <div className="flex-1 w-24 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                                                            <div
+                                                                className={`h-full rounded-full ${(product.stock || 0) > 10 ? 'bg-emerald-500' :
+                                                                    (product.stock || 0) > 0 ? 'bg-amber-500' : 'bg-rose-500'
+                                                                    }`}
+                                                                style={{ width: `${Math.min(((product.stock || 0) / 100) * 100, 100)}%` }}
+                                                            ></div>
+                                                        </div>
+                                                        <span className="text-[11px] font-bold text-slate-500 min-w-[3rem]">
+                                                            {product.stock || 0} left
+                                                        </span>
+                                                    </div>
+                                                </td>
+
+                                                {/* Actions */}
+                                                <td className="px-8 py-5 text-right">
+                                                    <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                        <button
+                                                            onClick={() => handleEdit(product)}
+                                                            className="p-2 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-xl transition-colors"
+                                                            title="Edit Product"
+                                                        >
+                                                            <MdEdit className="text-lg" />
+                                                        </button>
+                                                        <button
+                                                            onClick={() => handleDeleteClick(product)}
+                                                            className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-colors"
+                                                            title="Delete"
+                                                        >
+                                                            <MdDelete className="text-lg" />
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
+                    </>
                 )}
 
                 {/* Footer Pagination (Visual Only) */}
                 {!loading && filteredProducts.length > 0 && (
-                    <div className="px-8 py-5 border-t border-slate-50 bg-slate-50/50 flex justify-between items-center">
-                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                    <div className="p-6 md:px-8 md:py-5 border-t border-slate-50 bg-slate-50/50 flex flex-col md:flex-row justify-between items-center gap-4">
+                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest text-center md:text-left">
                             Showing {filteredProducts.length} of {stats.total} Products
                         </span>
-                        <div className="flex gap-2">
-                            <button className="px-4 py-2 bg-white border border-slate-200 rounded-xl text-slate-500 text-[10px] font-black uppercase tracking-widest hover:border-rose-200 hover:text-rose-600 transition-all">Previous</button>
-                            <button className="px-4 py-2 bg-white border border-slate-200 rounded-xl text-slate-500 text-[10px] font-black uppercase tracking-widest hover:border-rose-200 hover:text-rose-600 transition-all">Next</button>
+                        <div className="flex gap-2 w-full md:w-auto">
+                            <button className="flex-1 md:flex-none px-4 py-2 bg-white border border-slate-200 rounded-xl text-slate-500 text-[10px] font-black uppercase tracking-widest hover:border-rose-200 hover:text-rose-600 transition-all">Previous</button>
+                            <button className="flex-1 md:flex-none px-4 py-2 bg-white border border-slate-200 rounded-xl text-slate-500 text-[10px] font-black uppercase tracking-widest hover:border-rose-200 hover:text-rose-600 transition-all">Next</button>
                         </div>
                     </div>
                 )}
@@ -437,34 +503,36 @@ const AdminAllProducts = ({ refreshId }) => {
             />
 
             {/* Delete Confirmation Modal */}
-            {showDeleteModal && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4">
-                    <div className="bg-white rounded-[2rem] p-8 max-w-sm w-full shadow-2xl animate-slideUp">
-                        <div className="w-16 h-16 bg-rose-50 rounded-2xl flex items-center justify-center mx-auto mb-6 rotate-3">
-                            <MdDelete className="text-3xl text-rose-500" />
-                        </div>
-                        <h3 className="text-xl font-black text-slate-900 text-center mb-2 font-hero">Delete Product?</h3>
-                        <p className="text-sm text-slate-500 text-center mb-8 font-medium">
-                            Are you sure you want to delete <span className="font-bold text-slate-900">"{productToDelete?.name}"</span>? This action cannot be undone.
-                        </p>
-                        <div className="flex gap-3">
-                            <button
-                                onClick={() => setShowDeleteModal(false)}
-                                className="flex-1 px-4 py-3.5 bg-slate-50 text-slate-700 font-black uppercase tracking-widest text-xs rounded-xl hover:bg-slate-100 transition-colors"
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                onClick={confirmDelete}
-                                className="flex-1 px-4 py-3.5 bg-rose-600 text-white font-black uppercase tracking-widest text-xs rounded-xl hover:bg-rose-700 transition-colors shadow-lg shadow-rose-200"
-                            >
-                                Delete
-                            </button>
+            {
+                showDeleteModal && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4">
+                        <div className="bg-white rounded-[2rem] p-8 max-w-sm w-full shadow-2xl animate-slideUp">
+                            <div className="w-16 h-16 bg-rose-50 rounded-2xl flex items-center justify-center mx-auto mb-6 rotate-3">
+                                <MdDelete className="text-3xl text-rose-500" />
+                            </div>
+                            <h3 className="text-xl font-black text-slate-900 text-center mb-2 font-hero">Delete Product?</h3>
+                            <p className="text-sm text-slate-500 text-center mb-8 font-medium">
+                                Are you sure you want to delete <span className="font-bold text-slate-900">"{productToDelete?.name}"</span>? This action cannot be undone.
+                            </p>
+                            <div className="flex gap-3">
+                                <button
+                                    onClick={() => setShowDeleteModal(false)}
+                                    className="flex-1 px-4 py-3.5 bg-slate-50 text-slate-700 font-black uppercase tracking-widest text-xs rounded-xl hover:bg-slate-100 transition-colors"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    onClick={confirmDelete}
+                                    className="flex-1 px-4 py-3.5 bg-rose-600 text-white font-black uppercase tracking-widest text-xs rounded-xl hover:bg-rose-700 transition-colors shadow-lg shadow-rose-200"
+                                >
+                                    Delete
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            )}
-        </div>
+                )
+            }
+        </div >
     );
 };
 

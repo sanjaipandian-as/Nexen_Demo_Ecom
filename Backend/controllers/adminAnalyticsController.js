@@ -28,6 +28,54 @@ export const getAdminDashboard = async (req, res) => {
       totalProducts
     });
 
+    // Calculate Growth (Current Month vs Last Month)
+    const now = new Date();
+    const currentMonth = now.getMonth();
+    const currentYear = now.getFullYear();
+
+    const lastMonthDate = new Date(now);
+    lastMonthDate.setMonth(now.getMonth() - 1);
+    const lastMonth = lastMonthDate.getMonth();
+    const lastMonthYear = lastMonthDate.getFullYear();
+
+    // -- Revenue Growth (based on successful payments)
+    const currentMonthRevenue = orders
+      .filter(o => o.paymentStatus === "success" && new Date(o.createdAt).getMonth() === currentMonth && new Date(o.createdAt).getFullYear() === currentYear)
+      .reduce((sum, o) => sum + o.totalAmount, 0);
+
+    const lastMonthRevenue = orders
+      .filter(o => o.paymentStatus === "success" && new Date(o.createdAt).getMonth() === lastMonth && new Date(o.createdAt).getFullYear() === lastMonthYear)
+      .reduce((sum, o) => sum + o.totalAmount, 0);
+
+    let revenueGrowth = 0;
+    if (lastMonthRevenue > 0) {
+      revenueGrowth = ((currentMonthRevenue - lastMonthRevenue) / lastMonthRevenue) * 100;
+    } else if (currentMonthRevenue > 0) {
+      revenueGrowth = 100;
+    }
+
+    // -- Order Growth (based on total order count)
+    const currentMonthOrders = orders.filter(o => new Date(o.createdAt).getMonth() === currentMonth && new Date(o.createdAt).getFullYear() === currentYear).length;
+    const lastMonthOrders = orders.filter(o => new Date(o.createdAt).getMonth() === lastMonth && new Date(o.createdAt).getFullYear() === lastMonthYear).length;
+
+    let orderGrowth = 0;
+    if (lastMonthOrders > 0) {
+      orderGrowth = ((currentMonthOrders - lastMonthOrders) / lastMonthOrders) * 100;
+    } else if (currentMonthOrders > 0) {
+      orderGrowth = 100;
+    }
+
+    res.json({
+      totalOrders,
+      deliveredOrders,
+      totalSales,
+      totalSellers: 0,
+      totalCustomers,
+      totalProducts,
+      revenueGrowth: Number(revenueGrowth.toFixed(1)),
+      orderGrowth: Number(orderGrowth.toFixed(1))
+    });
+
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

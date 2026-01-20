@@ -718,12 +718,12 @@ const Searchbar = () => {
                             <>
 
                                 <button
-                                    onClick={() => navigate(userRole === 'seller' ? '/seller-home' : '/Settings')}
+                                    onClick={() => navigate(userRole === 'admin' ? '/admin-Dashboard' : userRole === 'seller' ? '/seller-home' : '/Settings')}
                                     className="hidden md:flex w-10 h-10 rounded-full items-center justify-center cursor-pointer transition-all"
                                     style={{ backgroundColor: '#E91E63' }}
                                     onMouseEnter={(e) => e.target.style.backgroundColor = 'rgba(233, 30, 99, 0.9)'}
                                     onMouseLeave={(e) => e.target.style.backgroundColor = '#E91E63'}
-                                    title={userRole === 'seller' ? "Go to Seller Dashboard" : "Go to Settings"}
+                                    title={userRole === 'admin' ? "Go to Admin Dashboard" : userRole === 'seller' ? "Go to Seller Dashboard" : "Go to Settings"}
                                 >
                                     <FaCog className="w-5 h-5 text-white" />
                                 </button>
@@ -903,12 +903,18 @@ const Searchbar = () => {
                             <div className="px-4 py-4">
 
                                 <div className="pb-4 mb-4 border-b border-gray-200">
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ backgroundColor: '#E91E63' }}>
+                                    <div
+                                        onClick={() => {
+                                            navigate(userRole === 'admin' ? '/admin-Dashboard' : userRole === 'seller' ? '/seller-home' : '/Settings');
+                                            setIsMobileMenuOpen(false);
+                                        }}
+                                        className="flex items-center gap-3 cursor-pointer p-2 rounded-xl transition-all hover:bg-gray-50 active:bg-gray-100 group"
+                                    >
+                                        <div className="w-12 h-12 rounded-full flex items-center justify-center transition-transform group-hover:scale-105" style={{ backgroundColor: '#E91E63' }}>
                                             <FaUser className="w-6 h-6 text-white" />
                                         </div>
                                         <div className="flex-1">
-                                            <h3 className="text-sm font-bold text-gray-900">{userName}</h3>
+                                            <h3 className="text-sm font-bold text-gray-900 group-hover:text-[#E91E63] transition-colors">{userName}</h3>
                                             <p className="text-xs text-gray-500 capitalize">{userRole}</p>
                                         </div>
                                     </div>

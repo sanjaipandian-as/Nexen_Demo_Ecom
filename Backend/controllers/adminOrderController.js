@@ -38,14 +38,33 @@ export const adminUpdateOrderStatus = async (req, res) => {
 
     const allowedStatus = ["pending_payment", "paid", "packed", "shipped", "delivered", "cancelled"];
 
+    console.log(`[AdminUpdateOrder] ID: ${orderIdToUse}, Status: ${status}`);
+
     if (!allowedStatus.includes(status)) {
+      console.log('[AdminUpdateOrder] Invalid status');
       return res.status(400).json({ message: "Invalid status" });
+    }
+
+    // Determine payment status based on order status
+    let paymentStatusUpdate = {};
+    if (status === 'cancelled') {
+      paymentStatusUpdate = { paymentStatus: 'failed' };
+      console.log('[AdminUpdateOrder] Setting paymentStatus to failed');
+    } else if (status === 'paid' || status === 'shipped' || status === 'delivered') {
+      // Only set to success if it wasn't already (though usually it should remain success)
+      // Ideally we assume if it's shipped/delivered it must be paid.
+      paymentStatusUpdate = { paymentStatus: 'success' };
+    } else if (status === 'pending_payment') {
+      paymentStatusUpdate = { paymentStatus: 'pending' };
     }
 
     const order = await Order.findByIdAndUpdate(
       orderIdToUse,
-      { status },
-      { new: true, runValidators: false } // Disable validators to handle legacy data without sellerId
+      {
+        status,
+        ...paymentStatusUpdate
+      },
+      { new: true, runValidators: false }
     ).populate("customerId");
 
     if (!order) return res.status(404).json({ message: "Order not found" });

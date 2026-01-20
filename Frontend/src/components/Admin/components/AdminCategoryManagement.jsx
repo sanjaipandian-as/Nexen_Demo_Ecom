@@ -133,21 +133,21 @@ const AdminCategoryManagement = () => {
     return (
         <div className="min-h-screen bg-[#F8FAFC] font-body p-8 space-y-8">
             {/* Header */}
-            <div className="flex items-center justify-between mb-8 animate-slideUp">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 animate-slideUp">
                 <div>
                     <div className="flex items-center gap-3">
-                        <h1 className="text-3xl font-black text-slate-900 tracking-tight font-hero">Category Management</h1>
-                        <span className="px-3 py-1 bg-rose-50 text-rose-600 text-[11px] font-bold uppercase tracking-widest rounded-full border border-rose-100">
+                        <h1 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight font-hero">Category Management</h1>
+                        <span className="px-3 py-1 bg-rose-50 text-rose-600 text-[11px] font-bold uppercase tracking-widest rounded-full border border-rose-100 hidden md:inline-block">
                             Structure
                         </span>
                     </div>
-                    <p className="text-sm font-medium text-slate-500 mt-1">
+                    <p className="text-xs md:text-sm font-medium text-slate-500 mt-1 max-w-md">
                         Organize your store's product hierarchy.
                     </p>
                 </div>
                 <button
                     onClick={openCreateModal}
-                    className="flex items-center gap-2 px-6 py-3 bg-slate-900 hover:bg-rose-600 text-white font-bold rounded-2xl transition-all shadow-xl hover:shadow-rose-500/20 active:scale-95 text-xs uppercase tracking-widest"
+                    className="flex items-center justify-center gap-2 px-6 py-3 bg-slate-900 hover:bg-rose-600 text-white font-bold rounded-2xl transition-all shadow-xl hover:shadow-rose-500/20 active:scale-95 text-xs uppercase tracking-widest w-full md:w-auto"
                 >
                     <MdAdd className="text-lg" />
                     <span>Add Category</span>
@@ -155,7 +155,7 @@ const AdminCategoryManagement = () => {
             </div>
 
             {/* Filters */}
-            <div className="flex justify-between items-center bg-white p-4 rounded-[2rem] border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.02)] animate-slideUp" style={{ animationDelay: '0.1s' }}>
+            <div className="flex flex-col md:flex-row gap-4 justify-between items-center bg-white p-4 rounded-[2rem] border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.02)] animate-slideUp" style={{ animationDelay: '0.1s' }}>
                 <div className="relative w-full md:w-96 group">
                     <MdSearch className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-rose-500 transition-colors text-xl" />
                     <input
@@ -168,9 +168,10 @@ const AdminCategoryManagement = () => {
                 </div>
                 <button
                     onClick={fetchCategories}
-                    className="p-4 bg-white border border-slate-200 text-slate-400 rounded-2xl hover:text-rose-600 hover:border-rose-200 transition-all active:scale-95 shadow-sm"
+                    className="w-full md:w-auto p-4 bg-white border border-slate-200 text-slate-400 rounded-2xl hover:text-rose-600 hover:border-rose-200 transition-all active:scale-95 shadow-sm flex items-center justify-center"
                     title="Refresh Data"
                 >
+                    <span className="md:hidden font-bold text-xs uppercase tracking-widest mr-2">Refresh</span>
                     <MdRefresh className="text-xl" />
                 </button>
             </div>
@@ -209,8 +210,8 @@ const AdminCategoryManagement = () => {
                                         <span className="text-[10px] font-bold uppercase tracking-widest">No Image</span>
                                     </div>
                                 )}
-                                {/* Overlay Actions */}
-                                <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
+                                {/* Desktop Overlay Actions */}
+                                <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity hidden md:flex items-center justify-center gap-3">
                                     <button
                                         onClick={() => handleEdit(category)}
                                         className="p-3 bg-white text-slate-900 rounded-xl hover:scale-110 transition-transform shadow-lg"
@@ -236,6 +237,22 @@ const AdminCategoryManagement = () => {
                                     <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
                                     <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Active</span>
                                 </div>
+                            </div>
+
+                            {/* Mobile Bottom Actions */}
+                            <div className="flex md:hidden border-t border-slate-100 divide-x divide-slate-100">
+                                <button
+                                    onClick={() => handleEdit(category)}
+                                    className="flex-1 py-4 flex items-center justify-center gap-2 text-slate-600 font-black text-[10px] uppercase tracking-widest hover:bg-slate-50 transition-colors active:bg-slate-100"
+                                >
+                                    <MdEdit className="text-lg" /> Edit
+                                </button>
+                                <button
+                                    onClick={() => handleDelete(category._id)}
+                                    className="flex-1 py-4 flex items-center justify-center gap-2 text-rose-600 font-black text-[10px] uppercase tracking-widest hover:bg-rose-50 transition-colors active:bg-rose-100"
+                                >
+                                    <MdDelete className="text-lg" /> Delete
+                                </button>
                             </div>
                         </div>
                     ))

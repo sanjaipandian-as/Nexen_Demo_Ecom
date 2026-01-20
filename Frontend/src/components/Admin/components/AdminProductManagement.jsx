@@ -56,21 +56,21 @@ const AdminProductManagement = ({ onOpenUploadModal, refreshId }) => {
     );
 
     return (
-        <div className="px-6 py-6 bg-[#F3F6FA] min-h-screen">
+        <div className="p-4 md:p-6 bg-[#F3F6FA] min-h-screen">
             {/* Header / Top Bar */}
-            <div className="mb-10 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
+            <div className="mb-6 md:mb-10 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 md:gap-6">
                 <div className="space-y-1">
-                    <div className="flex items-center gap-2 text-[11px] font-black uppercase tracking-widest text-[#2563EB] mb-1">
+                    <div className="flex items-center gap-2 text-[10px] md:text-[11px] font-black uppercase tracking-widest text-[#2563EB] mb-1">
                         <span>Admin</span>
                         <span className="text-slate-300">/</span>
                         <span className="text-slate-900">Products</span>
                     </div>
-                    <h1 className="text-[28px] font-bold text-[#1E293B] leading-tight">Product Management</h1>
-                    <p className="text-[#64748B] text-[15px] font-medium italic">Manage your entire product catalog from one place</p>
+                    <h1 className="text-2xl md:text-[28px] font-bold text-[#1E293B] leading-tight">Product Management</h1>
+                    <p className="text-[#64748B] text-xs md:text-[15px] font-medium italic">Manage your entire product catalog from one place</p>
                 </div>
                 <button
                     onClick={onOpenUploadModal}
-                    className="flex items-center gap-2 px-8 py-4 bg-[#2563EB] hover:bg-[#1E40AF] text-white text-[13px] font-black uppercase tracking-widest rounded-2xl transition-all active:scale-[0.98] shadow-xl shadow-blue-100"
+                    className="w-full lg:w-auto flex items-center justify-center gap-2 px-8 py-3 md:py-4 bg-[#2563EB] hover:bg-[#1E40AF] text-white text-[13px] font-black uppercase tracking-widest rounded-2xl transition-all active:scale-[0.98] shadow-xl shadow-blue-100"
                 >
                     <MdAdd className="text-xl" />
                     Add New Product
@@ -78,7 +78,7 @@ const AdminProductManagement = ({ onOpenUploadModal, refreshId }) => {
             </div>
 
             {/* Filters Area - Modern Unified Row */}
-            <div className="flex flex-col md:flex-row gap-6 mb-10">
+            <div className="flex flex-col md:flex-row gap-4 md:gap-6 mb-8 md:mb-10">
                 {/* Search Bar (60%) */}
                 <div className="relative flex-1 group">
                     <MdSearch className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 text-xl group-focus-within:text-[#2563EB] transition-colors" />
@@ -87,7 +87,7 @@ const AdminProductManagement = ({ onOpenUploadModal, refreshId }) => {
                         placeholder="Search products, brands, or tags..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full pl-16 pr-8 py-5 bg-white border border-slate-100 rounded-[20px] outline-none transition-all focus:border-[#2563EB]/30 focus:shadow-[0_8px_30px_rgb(37,99,235,0.06)] text-slate-700 font-bold placeholder:text-slate-300"
+                        className="w-full pl-16 pr-8 py-4 md:py-5 bg-white border border-slate-100 rounded-[20px] outline-none transition-all focus:border-[#2563EB]/30 focus:shadow-[0_8px_30px_rgb(37,99,235,0.06)] text-slate-700 font-bold placeholder:text-slate-300 text-sm md:text-base"
                     />
                 </div>
 
@@ -97,7 +97,7 @@ const AdminProductManagement = ({ onOpenUploadModal, refreshId }) => {
                     <select
                         value={selectedCategory}
                         onChange={(e) => setSelectedCategory(e.target.value)}
-                        className="w-full pl-16 pr-12 py-5 bg-white border border-slate-100 rounded-[20px] outline-none transition-all focus:border-[#2563EB]/30 focus:shadow-[0_8px_30_rgba(37,99,235,0.06)] text-slate-700 font-black appearance-none cursor-pointer tracking-tight"
+                        className="w-full pl-16 pr-12 py-4 md:py-5 bg-white border border-slate-100 rounded-[20px] outline-none transition-all focus:border-[#2563EB]/30 focus:shadow-[0_8px_30_rgba(37,99,235,0.06)] text-slate-700 font-black appearance-none cursor-pointer tracking-tight text-sm md:text-base"
                     >
                         {categories.map(cat => (
                             <option key={cat} value={cat}>
@@ -129,15 +129,15 @@ const AdminProductManagement = ({ onOpenUploadModal, refreshId }) => {
                     ))}
                 </div>
             ) : filteredProducts.length === 0 ? (
-                <div className="bg-white rounded-[32px] border border-slate-100 p-24 text-center shadow-[0_8px_24px_rgba(0,0,0,0.04)]">
-                    <div className="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-8 shadow-inner">
+                <div className="bg-white rounded-[32px] border border-slate-100 p-8 md:p-24 text-center shadow-[0_8px_24px_rgba(0,0,0,0.04)]">
+                    <div className="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6 md:mb-8 shadow-inner">
                         <MdInventory className="text-4xl text-slate-200" />
                     </div>
-                    <h3 className="text-2xl font-bold text-[#1E293B] mb-3">No Products Found</h3>
-                    <p className="text-[#64748B] mb-10 max-w-xs mx-auto font-medium">Your search didn't match any products in your catalog.</p>
+                    <h3 className="text-xl md:text-2xl font-bold text-[#1E293B] mb-2 md:mb-3">No Products Found</h3>
+                    <p className="text-[#64748B] mb-8 md:mb-10 max-w-xs mx-auto font-medium text-sm md:text-base">Your search didn't match any products in your catalog.</p>
                     <button
                         onClick={onOpenUploadModal}
-                        className="px-10 py-4 bg-[#2563EB] text-white font-black uppercase tracking-widest text-[13px] rounded-2xl hover:bg-[#1E40AF] transition-all shadow-lg shadow-blue-100"
+                        className="w-full md:w-auto px-10 py-4 bg-[#2563EB] text-white font-black uppercase tracking-widest text-[13px] rounded-2xl hover:bg-[#1E40AF] transition-all shadow-lg shadow-blue-100"
                     >
                         Add Your First Product
                     </button>
@@ -180,7 +180,7 @@ const AdminProductManagement = ({ onOpenUploadModal, refreshId }) => {
                             </div>
 
                             {/* Product Info Section */}
-                            <div className="p-8">
+                            <div className="p-6 md:p-8">
                                 <div className="mb-4">
                                     <div className="flex items-center gap-2 mb-1.5">
                                         <div className="w-1.5 h-1.5 rounded-full bg-blue-600"></div>
@@ -241,7 +241,7 @@ const AdminProductManagement = ({ onOpenUploadModal, refreshId }) => {
             {/* Delete Confirmation Modal */}
             {showDeleteModal && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-                    <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-6">
+                    <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-6 animate-modalScale">
                         <h3 className="text-xl font-bold text-gray-900 mb-4">Delete Product?</h3>
                         <p className="text-gray-600 mb-6">
                             Are you sure you want to delete "{productToDelete?.name}"? This action cannot be undone.
@@ -252,13 +252,13 @@ const AdminProductManagement = ({ onOpenUploadModal, refreshId }) => {
                                     setShowDeleteModal(false);
                                     setProductToDelete(null);
                                 }}
-                                className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                                className="flex-1 px-4 py-3 border border-gray-300 text-gray-700 font-bold rounded-lg hover:bg-gray-50 transition-colors"
                             >
                                 Cancel
                             </button>
                             <button
                                 onClick={handleDelete}
-                                className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                                className="flex-1 px-4 py-3 bg-red-600 text-white font-bold rounded-lg hover:bg-red-700 transition-colors"
                             >
                                 Delete
                             </button>

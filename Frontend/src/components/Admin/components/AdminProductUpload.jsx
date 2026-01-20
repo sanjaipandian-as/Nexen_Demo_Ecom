@@ -174,16 +174,16 @@ const AdminProductUpload = () => {
     };
 
     // Styling Constants
-    const inputClasses = "w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-rose-500 focus:ring-4 focus:ring-rose-500/10 transition-all outline-none text-slate-900 font-bold placeholder:text-slate-400 placeholder:font-medium font-body text-sm";
+    const inputClasses = "w-full px-5 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-rose-500 focus:ring-4 focus:ring-rose-500/10 transition-all outline-none text-slate-900 font-bold placeholder:text-slate-400 placeholder:font-medium font-body text-base md:text-sm";
     const labelClasses = "block text-[11px] font-black text-slate-400 uppercase tracking-widest mb-2 ml-1 font-hero";
-    const sectionClasses = "bg-white rounded-[2rem] border border-slate-100 p-8 shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:border-slate-200 transition-colors animate-slideUp";
+    const sectionClasses = "bg-white rounded-[2rem] border border-slate-100 p-5 md:p-8 shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:border-slate-200 transition-colors animate-slideUp";
 
     return (
-        <div className="min-h-screen bg-[#F8FAFC] py-8 px-8 font-body">
+        <div className="min-h-screen bg-[#F8FAFC] p-4 md:p-8 font-body">
             <div className="max-w-7xl mx-auto">
                 <form onSubmit={handleSubmit}>
                     {/* Header */}
-                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 sticky top-0 z-30 bg-[#F8FAFC]/95 backdrop-blur-xl py-4 border-b border-white/0 animate-slideUp">
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 md:mb-8 sticky top-0 z-30 bg-[#F8FAFC]/95 backdrop-blur-xl py-4 border-b border-white/0 animate-slideUp">
                         <div>
                             <button
                                 type="button"
@@ -192,21 +192,21 @@ const AdminProductUpload = () => {
                             >
                                 <FaArrowLeft className="group-hover:-translate-x-1 transition-transform" /> Back to Dashboard
                             </button>
-                            <h1 className="text-3xl font-black text-slate-900 tracking-tight font-hero">Add New Product</h1>
-                            <p className="text-slate-500 font-medium mt-1">Create a new product card for your store inventory.</p>
+                            <h1 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight font-hero">Add New Product</h1>
+                            <p className="text-slate-500 font-medium mt-1 text-sm md:text-base">Create a new product card for your store inventory.</p>
                         </div>
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-3 w-full sm:w-auto">
                             <button
                                 type="button"
                                 onClick={() => navigate('/admin-dashboard')}
-                                className="px-6 py-3 border border-slate-200 text-slate-500 font-bold rounded-2xl hover:bg-white hover:text-slate-900 transition-all text-xs uppercase tracking-widest hover:shadow-lg"
+                                className="flex-1 sm:flex-none px-6 py-3 border border-slate-200 text-slate-500 font-bold rounded-2xl hover:bg-white hover:text-slate-900 transition-all text-xs uppercase tracking-widest hover:shadow-lg"
                             >
                                 Cancel
                             </button>
                             <button
                                 type="submit"
                                 disabled={loading}
-                                className="flex items-center gap-2 px-8 py-3 bg-slate-900 text-white font-bold rounded-2xl hover:bg-rose-600 disabled:bg-slate-300 disabled:cursor-not-allowed transition-all shadow-xl hover:shadow-rose-500/20 hover:-translate-y-0.5 active:translate-y-0 text-xs uppercase tracking-widest"
+                                className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-8 py-3 bg-slate-900 text-white font-bold rounded-2xl hover:bg-rose-600 disabled:bg-slate-300 disabled:cursor-not-allowed transition-all shadow-xl hover:shadow-rose-500/20 hover:-translate-y-0.5 active:translate-y-0 text-xs uppercase tracking-widest"
                             >
                                 {loading ? (
                                     <>
@@ -223,13 +223,13 @@ const AdminProductUpload = () => {
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
                         {/* Left Column - Main Info */}
-                        <div className="lg:col-span-2 space-y-8">
+                        <div className="lg:col-span-2 space-y-6 md:space-y-8">
 
                             {/* General Info */}
                             <div className={sectionClasses} style={{ animationDelay: '0.1s' }}>
-                                <h2 className="text-lg font-black text-slate-900 mb-8 flex items-center gap-3 border-b border-slate-50 pb-4 font-hero">
+                                <h2 className="text-lg font-black text-slate-900 mb-6 md:mb-8 flex items-center gap-3 border-b border-slate-50 pb-4 font-hero">
                                     <div className="p-2.5 bg-rose-50 text-rose-600 rounded-xl">
                                         <FaBoxOpen className="text-lg" />
                                     </div>
@@ -264,7 +264,7 @@ const AdminProductUpload = () => {
 
                             {/* Media Section */}
                             <div className={sectionClasses} style={{ animationDelay: '0.2s' }}>
-                                <h2 className="text-lg font-black text-slate-900 mb-8 flex items-center gap-3 border-b border-slate-50 pb-4 font-hero">
+                                <h2 className="text-lg font-black text-slate-900 mb-6 md:mb-8 flex items-center gap-3 border-b border-slate-50 pb-4 font-hero">
                                     <div className="p-2.5 bg-rose-50 text-rose-600 rounded-xl">
                                         <FaImage className="text-lg" />
                                     </div>
@@ -324,7 +324,7 @@ const AdminProductUpload = () => {
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                     {/* Pricing */}
                                     <div>
-                                        <h2 className="text-lg font-black text-slate-900 mb-8 flex items-center gap-2 font-hero">
+                                        <h2 className="text-lg font-black text-slate-900 mb-6 md:mb-8 flex items-center gap-2 font-hero">
                                             Pricing Strategy
                                         </h2>
                                         <div className="space-y-5">
@@ -373,7 +373,7 @@ const AdminProductUpload = () => {
 
                                     {/* Inventory */}
                                     <div>
-                                        <h2 className="text-lg font-black text-slate-900 mb-8 flex items-center gap-2 font-hero">
+                                        <h2 className="text-lg font-black text-slate-900 mb-6 md:mb-8 flex items-center gap-2 font-hero">
                                             Stock Control
                                         </h2>
                                         <div>
@@ -395,7 +395,7 @@ const AdminProductUpload = () => {
 
                             {/* Specifications */}
                             <div className={sectionClasses} style={{ animationDelay: '0.4s' }}>
-                                <div className="flex items-center justify-between mb-8 border-b border-slate-50 pb-4">
+                                <div className="flex items-center justify-between mb-6 md:mb-8 border-b border-slate-50 pb-4">
                                     <h2 className="text-lg font-black text-slate-900 flex items-center gap-3 font-hero">
                                         <div className="p-2.5 bg-rose-50 text-rose-600 rounded-xl">
                                             <FaLayerGroup className="text-lg" />
@@ -412,8 +412,8 @@ const AdminProductUpload = () => {
                                 </div>
                                 <div className="space-y-4">
                                     {formData.specifications.map((spec, index) => (
-                                        <div key={index} className="flex gap-4 items-start group animate-fadeIn">
-                                            <div className="flex-1">
+                                        <div key={index} className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-start sm:items-center group animate-fadeIn">
+                                            <div className="flex-1 w-full">
                                                 <input
                                                     type="text"
                                                     value={spec.key}
@@ -422,7 +422,7 @@ const AdminProductUpload = () => {
                                                     placeholder="Key (e.g. Material)"
                                                 />
                                             </div>
-                                            <div className="flex-1">
+                                            <div className="flex-1 w-full">
                                                 <input
                                                     type="text"
                                                     value={spec.value}
@@ -434,7 +434,7 @@ const AdminProductUpload = () => {
                                             <button
                                                 type="button"
                                                 onClick={() => removeSpecification(index)}
-                                                className="mt-4 text-slate-300 hover:text-rose-600 p-2 rounded-xl hover:bg-rose-50 transition-colors"
+                                                className="self-end sm:self-auto text-slate-300 hover:text-rose-600 p-2 rounded-xl hover:bg-rose-50 transition-colors"
                                             >
                                                 <FaTrash />
                                             </button>
@@ -451,11 +451,11 @@ const AdminProductUpload = () => {
                         </div>
 
                         {/* Right Column - Sidebar */}
-                        <div className="space-y-8 animate-slideUp" style={{ animationDelay: '0.2s' }}>
+                        <div className="space-y-6 md:space-y-8 animate-slideUp" style={{ animationDelay: '0.2s' }}>
 
                             {/* Organization */}
-                            <div className="bg-white rounded-[2rem] border border-slate-100 p-8 shadow-[0_4px_20px_rgba(0,0,0,0.02)]">
-                                <h2 className="text-lg font-black text-slate-900 mb-8 flex items-center gap-3 border-b border-slate-50 pb-4 font-hero">
+                            <div className="bg-white rounded-[2rem] border border-slate-100 p-5 md:p-8 shadow-[0_4px_20px_rgba(0,0,0,0.02)]">
+                                <h2 className="text-lg font-black text-slate-900 mb-6 md:mb-8 flex items-center gap-3 border-b border-slate-50 pb-4 font-hero">
                                     <div className="p-2.5 bg-rose-50 text-rose-600 rounded-xl">
                                         <FaTag className="text-lg" />
                                     </div>
@@ -521,8 +521,8 @@ const AdminProductUpload = () => {
                             </div>
 
                             {/* Status */}
-                            <div className="bg-white rounded-[2rem] border border-slate-100 p-8 shadow-[0_4px_20px_rgba(0,0,0,0.02)]">
-                                <h2 className="text-lg font-black text-slate-900 mb-8 flex items-center gap-3 border-b border-slate-50 pb-4 font-hero">
+                            <div className="bg-white rounded-[2rem] border border-slate-100 p-5 md:p-8 shadow-[0_4px_20px_rgba(0,0,0,0.02)]">
+                                <h2 className="text-lg font-black text-slate-900 mb-6 md:mb-8 flex items-center gap-3 border-b border-slate-50 pb-4 font-hero">
                                     Visibility
                                 </h2>
                                 <div className="space-y-4">

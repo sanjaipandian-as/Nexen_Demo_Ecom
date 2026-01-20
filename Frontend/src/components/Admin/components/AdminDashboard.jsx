@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { AreaChart, Area, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import {
     MdTrendingUp,
     MdTrendingDown,
@@ -59,8 +59,8 @@ const AdminDashboard = ({ onOpenUploadModal, refreshId }) => {
                 totalOrders: s.totalOrders || 0,
                 totalProducts: s.totalProducts || 0,
                 totalCustomers: s.totalCustomers || 0,
-                revenueGrowth: 12.5,
-                orderGrowth: -2.4
+                revenueGrowth: s.revenueGrowth || 0,
+                orderGrowth: s.orderGrowth || 0
             });
 
             setSalesData(salesRes.data || []);
@@ -131,18 +131,18 @@ const AdminDashboard = ({ onOpenUploadModal, refreshId }) => {
     }
 
     return (
-        <div className="p-8 bg-slate-50/50 min-h-screen font-body text-slate-900">
+        <div className="p-4 md:p-8 bg-slate-50/50 min-h-screen font-body text-slate-900">
             {/* Header */}
-            <div className="flex items-center justify-between mb-10 animate-slideUp">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 md:mb-10 animate-slideUp">
                 <div>
-                    <h1 className="text-3xl font-black text-slate-900 tracking-tight font-hero mb-1">Dashboard</h1>
-                    <p className="text-slate-500 font-medium text-sm">Here's what's happening with your store today.</p>
+                    <h1 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight font-hero mb-1">Dashboard</h1>
+                    <p className="text-slate-500 font-medium text-xs md:text-sm">Here's what's happening with your store today.</p>
                 </div>
-                <div className="flex gap-3">
-                    <button className="flex items-center gap-2 bg-white border border-slate-200 px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-slate-600 hover:text-slate-900 hover:border-slate-300 hover:shadow-lg hover:shadow-slate-100 transition-all duration-300">
+                <div className="flex gap-3 overflow-x-auto pb-2 md:pb-0">
+                    <button className="flex-shrink-0 flex items-center gap-2 bg-white border border-slate-200 px-4 md:px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider text-slate-600 hover:text-slate-900 hover:border-slate-300 hover:shadow-lg hover:shadow-slate-100 transition-all duration-300">
                         <MdCalendarToday /> Last 30 Days
                     </button>
-                    <button className="flex items-center gap-2 bg-slate-900 text-white px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-slate-800 transition-colors shadow-lg shadow-slate-900/20 active:scale-95 duration-200">
+                    <button className="flex-shrink-0 flex items-center gap-2 bg-slate-900 text-white px-4 md:px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-slate-800 transition-colors shadow-lg shadow-slate-900/20 active:scale-95 duration-200">
                         <MdFilterList /> Filter View
                     </button>
                 </div>
@@ -183,12 +183,12 @@ const AdminDashboard = ({ onOpenUploadModal, refreshId }) => {
                         </button>
                     </div>
                     {salesData.length > 0 ? (
-                        <div className="h-[320px] w-full">
-                            <ResponsiveContainer width="100%" height="100%">
-                                <LineChart data={salesData}>
+                        <div className="h-[320px] w-full min-w-0 bg-white" style={{ minHeight: '320px' }}>
+                            <ResponsiveContainer width="99%" height="100%">
+                                <AreaChart data={salesData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
                                     <defs>
                                         <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                                            <stop offset="5%" stopColor="#e11d48" stopOpacity={0.1} />
+                                            <stop offset="5%" stopColor="#e11d48" stopOpacity={0.2} />
                                             <stop offset="95%" stopColor="#e11d48" stopOpacity={0} />
                                         </linearGradient>
                                     </defs>
@@ -210,19 +210,17 @@ const AdminDashboard = ({ onOpenUploadModal, refreshId }) => {
                                         contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 40px rgba(0,0,0,0.1)', fontFamily: 'Manrope', padding: '12px 16px' }}
                                         itemStyle={{ color: '#1e293b', fontWeight: 700, fontSize: '13px' }}
                                         labelStyle={{ color: '#94a3b8', marginBottom: '4px', fontSize: '11px', textTransform: 'uppercase', fontWeight: 800 }}
-                                        cursor={{ stroke: '#e11d48', strokeWidth: 2, strokeDasharray: '4 4' }}
+                                        cursor={{ stroke: '#e11d48', strokeWidth: 1, strokeDasharray: '4 4' }}
                                     />
-                                    <Line
+                                    <Area
                                         type="monotone"
                                         dataKey="sales"
                                         stroke="#e11d48"
-                                        strokeWidth={4}
-                                        dot={{ fill: 'white', stroke: '#e11d48', strokeWidth: 3, r: 6 }}
-                                        activeDot={{ r: 8, fill: '#e11d48', stroke: 'white', strokeWidth: 3 }}
+                                        strokeWidth={3}
+                                        fillOpacity={1}
                                         fill="url(#colorRevenue)"
-                                        animationDuration={1500}
                                     />
-                                </LineChart>
+                                </AreaChart>
                             </ResponsiveContainer>
                         </div>
                     ) : (
@@ -234,8 +232,8 @@ const AdminDashboard = ({ onOpenUploadModal, refreshId }) => {
                 <div className="bg-white rounded-[2rem] p-8 border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:shadow-lg transition-shadow duration-300 flex flex-col">
                     <h3 className="text-xl font-black text-slate-900 tracking-tight mb-8 font-hero">Inventory Split</h3>
                     {categoryData.length > 0 ? (
-                        <div className="h-[320px] w-full relative">
-                            <ResponsiveContainer width="100%" height="100%">
+                        <div className="h-[320px] w-full min-w-0 relative" style={{ minHeight: '320px' }}>
+                            <ResponsiveContainer width="99%" height="100%">
                                 <PieChart>
                                     <Pie
                                         data={categoryData}
@@ -272,16 +270,54 @@ const AdminDashboard = ({ onOpenUploadModal, refreshId }) => {
 
             {/* Recent Orders Table */}
             <div className="bg-white rounded-[2rem] border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.02)] overflow-hidden animate-slideUp" style={{ animationDelay: '0.3s' }}>
-                <div className="p-8 border-b border-slate-50 flex items-center justify-between">
+                <div className="p-6 md:p-8 border-b border-slate-50 flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div>
                         <h3 className="text-xl font-black text-slate-900 tracking-tight font-hero">Live Transactions</h3>
                         <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mt-1">Real-time order feed</p>
                     </div>
-                    <button onClick={() => window.location.href = '/admin/orders'} className="group flex items-center gap-2 text-rose-600 text-xs font-bold uppercase tracking-widest hover:text-rose-800 transition-colors">
+                    <button onClick={() => window.location.href = '/admin/orders'} className="group flex items-center gap-2 text-rose-600 text-xs font-bold uppercase tracking-widest hover:text-rose-800 transition-colors align-self-start md:align-self-auto">
                         View All Orders <MdArrowForward className="group-hover:translate-x-1 transition-transform" />
                     </button>
                 </div>
-                <div className="overflow-x-auto">
+
+                {/* Mobile Card View */}
+                <div className="md:hidden p-4 space-y-4 bg-slate-50/50">
+                    {recentOrders.length > 0 ? (
+                        recentOrders.map((order) => (
+                            <div key={order._id} className="bg-white p-4 rounded-xl border border-slate-100 shadow-sm">
+                                <div className="flex justify-between items-start mb-3">
+                                    <span className="font-bold text-slate-900">#{order._id.slice(-6).toUpperCase()}</span>
+                                    <span className={`px-2 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border ${order.status === 'delivered' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' :
+                                        order.status === 'shipped' ? 'bg-blue-50 text-blue-600 border-blue-100' :
+                                            'bg-amber-50 text-amber-600 border-amber-100'
+                                        }`}>
+                                        {order.status}
+                                    </span>
+                                </div>
+                                <div className="flex items-center justify-between mb-3">
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-[10px] font-black text-slate-500">
+                                            {order.customerId?.name ? order.customerId.name.charAt(0) : 'G'}
+                                        </div>
+                                        <span className="text-xs font-bold text-slate-600">{order.customerId?.name || 'Guest'}</span>
+                                    </div>
+                                    <span className="font-bold text-slate-900">₹{order.totalAmount?.toLocaleString('en-IN')}</span>
+                                </div>
+                                <div className="flex justify-between items-center pt-3 border-t border-slate-50">
+                                    <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Date</span>
+                                    <span className="text-[10px] font-bold text-slate-400">
+                                        {new Date(order.createdAt).toLocaleDateString('en-IN', { month: 'short', day: 'numeric', year: 'numeric' })}
+                                    </span>
+                                </div>
+                            </div>
+                        ))
+                    ) : (
+                        <div className="text-center py-8 text-slate-400 italic text-sm">No recent orders</div>
+                    )}
+                </div>
+
+                {/* Desktop Table View */}
+                <div className="hidden md:block overflow-x-auto">
                     <table className="w-full">
                         <thead className="bg-slate-50/50">
                             <tr>
