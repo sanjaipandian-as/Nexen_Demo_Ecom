@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { FaStar, FaShoppingCart, FaHeart, FaSearch, FaFilter, FaTimes, FaCheckCircle, FaExclamationCircle } from 'react-icons/fa';
+import { FaStar, FaShoppingCart, FaHeart, FaSearch, FaFilter, FaTimes, FaCheckCircle, FaExclamationCircle, FaEye, FaRegHeart } from 'react-icons/fa';
 import API from '../../api';
 import Skeleton from '../components/Common/Skeleton';
 import placeholderImg from '../assets/Placeholder.png';
@@ -57,7 +57,6 @@ const SearchResults = () => {
     const [searchParams] = useSearchParams();
     const query = searchParams.get('q') || '';
 
-    const [searchResults, setSearchResults] = useState([]);
     const [allResults, setAllResults] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
@@ -85,49 +84,8 @@ const SearchResults = () => {
         }
     }, [query]);
 
-    // Apply filters when they change
-    useEffect(() => {
-        applyFilters();
-    }, [filters, allResults]);
-
-
-    const fetchSearchResults = async () => {
-        try {
-            setLoading(true);
-            const response = await API.get(`/search?q=${encodeURIComponent(query)}`);
-            const products = response.data.products || [];
-            setAllResults(products);
-            setSearchResults(products);
-
-            // Extract unique categories and their counts
-            const categoryMap = {};
-            products.forEach(product => {
-                const categoryName = product.category?.main || product.category || 'Other';
-                if (!categoryMap[categoryName]) {
-                    categoryMap[categoryName] = { name: categoryName, count: 0 };
-                }
-                categoryMap[categoryName].count++;
-            });
-            setCategories(Object.values(categoryMap));
-
-            // Calculate max price
-            const prices = products.map(p => p.pricing?.selling_price || p.price || 0);
-            const max = prices.length > 0 ? Math.max(...prices) : 50000;
-            setMaxPrice(max);
-            setFilters(prev => ({ ...prev, priceRange: [0, max] }));
-
-            setError('');
-        } catch (err) {
-            console.error('Search error:', err);
-            setError('Failed to fetch search results');
-            setAllResults([]);
-            setSearchResults([]);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    const applyFilters = () => {
+    // Derived search results using useMemo for performance
+    const searchResults = useMemo(() => {
         let filtered = [...allResults];
 
         // Filter by categories
@@ -165,7 +123,41 @@ const SearchResults = () => {
                 break;
         }
 
-        setSearchResults(filtered);
+        return filtered;
+    }, [filters, allResults]);
+
+    const fetchSearchResults = async () => {
+        try {
+            setLoading(true);
+            const response = await API.get(`/search?q=${encodeURIComponent(query)}`);
+            const products = response.data.products || [];
+            setAllResults(products);
+
+            // Extract unique categories and their counts
+            const categoryMap = {};
+            products.forEach(product => {
+                const categoryName = product.category?.main || product.category || 'Other';
+                if (!categoryMap[categoryName]) {
+                    categoryMap[categoryName] = { name: categoryName, count: 0 };
+                }
+                categoryMap[categoryName].count++;
+            });
+            setCategories(Object.values(categoryMap));
+
+            // Calculate max price
+            const prices = products.map(p => p.pricing?.selling_price || p.price || 0);
+            const max = prices.length > 0 ? Math.max(...prices) : 50000;
+            setMaxPrice(max);
+            setFilters(prev => ({ ...prev, priceRange: [0, max] }));
+
+            setError('');
+        } catch (err) {
+            console.error('Search error:', err);
+            setError('Failed to fetch search results');
+            setAllResults([]);
+        } finally {
+            setLoading(false);
+        }
     };
 
     const handleFiltersChange = useCallback((newFilters) => {
@@ -351,106 +343,101 @@ const SearchResults = () => {
                                     const cartItem = cartItems.find(item => (item.productId?._id || item.productId) === product._id);
 
                                     return (
+
                                         <div
                                             key={product._id}
                                             onClick={() => navigate(`/product/${product._id}`)}
-                                            className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-gray-100 cursor-pointer"
+                                            className="group relative bg-white rounded-[2.5rem] overflow-hidden border border-gray-50 shadow-sm hover:shadow-2xl hover:shadow-pink-100/50 transition-all duration-500 cursor-pointer"
                                         >
-                                            <div className="relative w-full aspect-[4/3] overflow-hidden cursor-pointer">
+                                            <div className="relative aspect-[4/5] overflow-hidden bg-gray-50/30 flex items-center justify-center p-8 transition-all duration-500 group-hover:p-4">
                                                 <img
                                                     src={product.images?.[0] || placeholderImg}
                                                     alt={product.name}
-                                                    className="w-full h-full object-cover"
+                                                    className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-110"
                                                     onError={(e) => {
                                                         e.target.src = placeholderImg;
                                                         e.target.onerror = null;
                                                     }}
                                                 />
+
                                                 <button
                                                     onClick={(e) => toggleWishlist(e, product._id)}
                                                     disabled={togglingWishlist === product._id}
-                                                    className="absolute top-3 right-3 w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-md hover:shadow-lg transition-shadow"
+                                                    className={`absolute top-4 right-4 p-3 rounded-2xl shadow-xl transition-all duration-300 ${wishlistItems.includes(product._id)
+                                                        ? 'bg-[#E91E63] text-white shadow-pink-500/30'
+                                                        : 'bg-white text-gray-400 hover:text-[#E91E63] hover:bg-white'
+                                                        }`}
                                                 >
                                                     {togglingWishlist === product._id ? (
-                                                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary"></div>
+                                                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current"></div>
                                                     ) : (
-                                                        <FaHeart
-                                                            className={`w-5 h-5 transition-colors ${wishlistItems.includes(product._id)
-                                                                ? 'text-red-500'
-                                                                : 'text-gray-300 hover:text-red-400'
-                                                                }`}
-                                                        />
+                                                        wishlistItems.includes(product._id) ? <FaHeart className="w-4 h-4" /> : <FaRegHeart className="w-4 h-4" />
                                                     )}
                                                 </button>
+
                                                 {product.stock <= 0 && (
-                                                    <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                                                        <span className="text-white font-bold text-lg">Out of Stock</span>
+                                                    <div className="absolute inset-0 bg-black/50 flex items-center justify-center backdrop-blur-sm">
+                                                        <span className="text-white font-black text-lg tracking-widest uppercase border-2 border-white px-4 py-2">Out of Stock</span>
                                                     </div>
                                                 )}
+
+                                                {/* Static Quick View */}
+                                                <div className="absolute bottom-4 left-4 right-4">
+                                                    <div className="w-full py-3 bg-[#E91E63] text-white rounded-xl text-[10px] font-black text-center shadow-lg shadow-pink-500/30 tracking-widest uppercase flex items-center justify-center gap-2 hover:bg-pink-600 transition-colors">
+                                                        <FaEye className="w-3 h-3" />
+                                                        QUICK VIEW
+                                                    </div>
+                                                </div>
                                             </div>
 
-                                            <div className="p-4">
-                                                <div className="flex items-start justify-between mb-3">
-                                                    <h3 className="text-base font-semibold text-gray-800">{product.name}</h3>
-                                                    <div className="flex items-center gap-1 bg-gray-50 px-2 py-1 rounded cursor-pointer">
-                                                        <FaStar className="w-3 h-3 text-secondary" />
-                                                        <span className="text-sm font-medium text-gray-700">4.2</span>
-                                                        <span className="text-xs text-gray-500">(0)</span>
-                                                    </div>
+                                            <div className="p-6">
+                                                <div className="flex flex-col gap-1 mb-3">
+                                                    <span className="text-[10px] font-black text-[#E91E63] uppercase tracking-widest">{product.category?.main || product.category || 'General'}</span>
+                                                    <h3 className="text-base font-black text-gray-900 leading-tight line-clamp-2 min-h-[2.5rem]">{product.name}</h3>
                                                 </div>
 
-                                                <div className="flex items-center justify-between mb-3">
-                                                    <div className="flex flex-col">
-                                                        <span className="text-xs text-gray-500 font-medium mb-1">Category</span>
-                                                        <span className="text-sm font-bold text-gray-800 capitalize">{product.category?.main || product.category || 'General'}</span>
+                                                <div className="flex items-center justify-between mb-6">
+                                                    <div className="flex items-center gap-1 bg-gray-100/50 px-2 py-1 rounded-lg">
+                                                        <FaStar className="w-3 h-3 text-yellow-400" />
+                                                        <span className="text-xs font-bold text-gray-700">4.2</span>
                                                     </div>
-                                                    <div className="flex flex-col items-end">
-                                                        <span className="text-xs text-gray-500 font-medium mb-1">Stock</span>
-                                                        <span className={`text-sm font-bold ${product.stock > 10 ? 'text-green-600' : product.stock > 0 ? 'text-primary' : 'text-red-600'
-                                                            }`}>
-                                                            {product.stock > 0 ? `${product.stock} units` : 'Out of stock'}
+                                                    <span className={`text-[10px] font-black uppercase tracking-wider ${product.stock > 0 ? 'text-green-600' : 'text-red-500'}`}>
+                                                        {product.stock > 0 ? 'In Stock' : 'Sold Out'}
+                                                    </span>
+                                                </div>
+
+                                                <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+                                                    <div className="flex flex-col">
+                                                        <span className="text-xs text-gray-400 font-bold line-through">₹{(product.pricing?.mrp || product.price * 1.2 || 0).toFixed(0)}</span>
+                                                        <span className="text-xl font-black text-gray-900">
+                                                            ₹{(product.pricing?.selling_price || product.price || 0).toFixed(0)}
                                                         </span>
                                                     </div>
-                                                </div>
 
-                                                <div className="flex items-center justify-between pt-3 border-t border-gray-100">
-                                                    <span className="text-lg font-bold text-gray-800">
-                                                        ₹{(product.pricing?.selling_price || product.price || 0).toFixed(2)}
-                                                    </span>
                                                     {isInCart ? (
                                                         <button
                                                             onClick={(e) => {
                                                                 e.stopPropagation();
                                                                 navigate('/cart');
                                                             }}
-                                                            className="flex items-center gap-2 px-4 py-2 bg-white border-2 border-primary text-primary rounded-lg transition-all shadow-sm hover:shadow-md hover:bg-primary/5 cursor-pointer"
+                                                            className="h-10 px-4 flex items-center gap-2 bg-white border-2 border-[#E91E63] text-[#E91E63] rounded-xl font-bold text-xs hover:bg-[#E91E63] hover:text-white transition-all shadow-lg shadow-pink-500/10"
                                                         >
-                                                            <FaCheckCircle className="w-4 h-4" />
-                                                            <span className="text-sm font-medium">
-                                                                Added ({cartItem?.quantity || 1})
-                                                            </span>
+                                                            <FaCheckCircle />
+                                                            CART
                                                         </button>
                                                     ) : (
                                                         <button
                                                             onClick={(e) => addToCart(e, product)}
                                                             disabled={addingToCart === product._id || product.stock <= 0}
-                                                            className={`flex items-center gap-2 px-4 py-2 text-white rounded-lg transition-all shadow-sm hover:shadow-md ${addingToCart === product._id || product.stock <= 0
-                                                                ? 'bg-gray-400 cursor-not-allowed'
-                                                                : 'bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 cursor-pointer'
+                                                            className={`h-10 w-10 flex items-center justify-center rounded-xl transition-all shadow-lg ${product.stock <= 0
+                                                                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                                                                : 'bg-[#E91E63] text-white shadow-pink-500/30 hover:scale-105 active:scale-95'
                                                                 }`}
                                                         >
                                                             {addingToCart === product._id ? (
-                                                                <>
-                                                                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                                                                    <span className="text-sm font-medium">Adding...</span>
-                                                                </>
+                                                                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
                                                             ) : (
-                                                                <>
-                                                                    <FaShoppingCart className="w-4 h-4" />
-                                                                    <span className="text-sm font-medium">
-                                                                        {product.stock <= 0 ? 'Out of Stock' : 'Add to Cart'}
-                                                                    </span>
-                                                                </>
+                                                                <FaShoppingCart className="w-4 h-4" />
                                                             )}
                                                         </button>
                                                     )}

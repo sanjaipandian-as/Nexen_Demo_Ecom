@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { FaStar, FaShoppingCart, FaMinus, FaPlus, FaShare, FaTag, FaInfoCircle, FaBox, FaChevronDown, FaChevronUp, FaRegHeart, FaHeart } from 'react-icons/fa';
+import { FaStar, FaShoppingCart, FaMinus, FaPlus, FaShare, FaTag, FaInfoCircle, FaBox, FaChevronDown, FaChevronUp, FaRegHeart, FaHeart, FaEye } from 'react-icons/fa';
 import { BsFillBagHeartFill, BsArrowRight } from 'react-icons/bs';
 import { MdLocalShipping, MdSecurity, MdVerified, MdOutlineFlashOn } from 'react-icons/md';
 import API from '../../../api';
@@ -18,13 +18,13 @@ const AccordionItem = ({ title, isOpen, onClick, children, icon: Icon }) => (
             className="w-full flex items-center justify-between py-5 bg-white hover:bg-pink-50/30 transition-all duration-300 group"
         >
             <div className="flex items-center gap-4">
-                <div className={`p-2 rounded-xl transition-colors duration-300 ${isOpen ? 'bg-primary text-white' : 'bg-pink-50 text-primary group-hover:bg-primary/10'}`}>
+                <div className={`p-2 rounded-xl transition-colors duration-300 ${isOpen ? 'bg-[#E91E63] text-white' : 'bg-pink-50 text-[#E91E63] group-hover:bg-[#E91E63]/10'}`}>
                     {Icon && <Icon className="w-4 h-4" />}
                 </div>
                 <span className={`font-bold text-base transition-colors duration-300 ${isOpen ? 'text-gray-900' : 'text-gray-600'}`}>{title}</span>
             </div>
             <div className={`transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}>
-                <FaChevronDown className={`text-sm ${isOpen ? 'text-primary' : 'text-gray-400'}`} />
+                <FaChevronDown className={`text-sm ${isOpen ? 'text-[#E91E63]' : 'text-gray-400'}`} />
             </div>
         </button>
         <div className={`overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${isOpen ? 'max-h-[2000px] opacity-100 pb-6' : 'max-h-0 opacity-0'}`}>
@@ -211,17 +211,17 @@ const Productview = () => {
                             <div className="absolute top-6 right-6 flex flex-col gap-3">
                                 <button
                                     onClick={toggleWishlist}
-                                    className={`p-4 rounded-2xl shadow-lg backdrop-blur-md transition-all duration-300 active:scale-90 ${isInWishlist ? 'bg-primary text-white shadow-primary/30' : 'bg-white/80 text-gray-400 hover:text-primary shadow-black/5'}`}
+                                    className={`p-4 rounded-2xl shadow-lg backdrop-blur-md transition-all duration-300 active:scale-90 ${isInWishlist ? 'bg-[#E91E63] text-white shadow-pink-500/30' : 'bg-white/90 text-gray-400 hover:text-[#E91E63] shadow-black/5 hover:bg-white'}`}
                                 >
                                     {isInWishlist ? <FaHeart className="w-5 h-5 animate-sparkle" /> : <FaRegHeart className="w-5 h-5" />}
                                 </button>
-                                <button className="p-4 bg-white/80 text-gray-400 hover:text-primary rounded-2xl shadow-lg shadow-black/5 backdrop-blur-md transition-all duration-300">
+                                <button className="p-4 bg-white/90 text-gray-400 hover:text-[#E91E63] rounded-2xl shadow-lg shadow-black/5 backdrop-blur-md transition-all duration-300 hover:bg-white">
                                     <FaShare className="w-5 h-5" />
                                 </button>
                             </div>
 
                             {discount > 0 && (
-                                <div className="absolute top-6 left-6 bg-gradient-to-r from-primary to-pink-500 text-white text-sm font-black px-5 py-2 rounded-2xl shadow-lg shadow-primary/20 animate-slideDown">
+                                <div className="absolute top-6 left-6 bg-gradient-to-r from-[#E91E63] to-pink-500 text-white text-sm font-black px-5 py-2 rounded-2xl shadow-lg shadow-pink-500/20 animate-slideDown">
                                     {discount}% OFF
                                 </div>
                             )}
@@ -233,7 +233,7 @@ const Productview = () => {
                                 <button
                                     key={i}
                                     onClick={() => setSelectedImage(i)}
-                                    className={`flex-shrink-0 w-20 h-20 rounded-2xl overflow-hidden border-2 transition-all duration-300 p-2 ${selectedImage === i ? 'border-primary ring-4 ring-primary/10 scale-105' : 'border-gray-50 bg-gray-50/50 grayscale-[0.5] hover:grayscale-0 hover:border-pink-100'}`}
+                                    className={`flex-shrink-0 w-20 h-20 rounded-2xl overflow-hidden border-2 transition-all duration-300 p-2 ${selectedImage === i ? 'border-[#E91E63] ring-4 ring-[#E91E63]/10 scale-105' : 'border-gray-50 bg-gray-50/50 grayscale-[0.5] hover:grayscale-0 hover:border-pink-100'}`}
                                 >
                                     <img src={img} className="w-full h-full object-contain" alt="thumbnail" />
                                 </button>
@@ -245,7 +245,7 @@ const Productview = () => {
                     <div className="w-full lg:w-[45%] px-6 lg:px-0 animate-slideUp">
                         {/* Status Badges */}
                         <div className="flex flex-wrap items-center gap-3 mb-6">
-                            <span className="bg-primary/10 text-primary text-[10px] font-black px-3 py-1.5 rounded-full uppercase tracking-[0.1em] border border-primary/20">
+                            <span className="bg-[#E91E63]/10 text-[#E91E63] text-[10px] font-black px-3 py-1.5 rounded-full uppercase tracking-[0.1em] border border-[#E91E63]/20">
                                 {product.brand || 'Official Collection'}
                             </span>
                             <div className="flex items-center gap-2 bg-yellow-50 text-yellow-600 px-3 py-1.5 rounded-full text-[10px] font-black border border-yellow-100">
@@ -274,8 +274,8 @@ const Productview = () => {
                                     <span className="text-5xl font-black text-gray-900 tracking-tighter">₹{sellingPrice.toFixed(0)}</span>
                                     {mrp > sellingPrice && (
                                         <div className="flex flex-col">
-                                            <span className="text-lg text-gray-400 line-through decoration-primary/30 font-medium">₹{mrp.toFixed(0)}</span>
-                                            <span className="text-primary font-black text-xs">SAVE ₹{(mrp - sellingPrice).toFixed(0)}</span>
+                                            <span className="text-lg text-gray-400 line-through decoration-[#E91E63]/30 font-medium">₹{mrp.toFixed(0)}</span>
+                                            <span className="text-[#E91E63] font-black text-xs">SAVE ₹{(mrp - sellingPrice).toFixed(0)}</span>
                                         </div>
                                     )}
                                 </div>
@@ -291,14 +291,14 @@ const Productview = () => {
                         <div className="hidden lg:flex flex-col gap-6 mb-10">
                             <div className="flex items-center gap-6">
                                 <div className="flex items-center bg-gray-50 border border-gray-100 rounded-[1.5rem] p-2 h-[4.5rem]">
-                                    <button onClick={() => handleQuantityChange('decrease')} className="w-12 h-full flex items-center justify-center text-gray-400 hover:text-primary transition-colors"><FaMinus /></button>
+                                    <button onClick={() => handleQuantityChange('decrease')} className="w-12 h-full flex items-center justify-center text-gray-400 hover:text-[#E91E63] transition-colors"><FaMinus /></button>
                                     <span className="w-12 text-center font-black text-xl text-gray-900">{quantity}</span>
-                                    <button onClick={() => handleQuantityChange('increase')} className="w-12 h-full flex items-center justify-center text-gray-400 hover:text-primary transition-colors"><FaPlus /></button>
+                                    <button onClick={() => handleQuantityChange('increase')} className="w-12 h-full flex items-center justify-center text-gray-400 hover:text-[#E91E63] transition-colors"><FaPlus /></button>
                                 </div>
 
                                 <button
                                     onClick={() => addToCartAction(false)}
-                                    className={`flex-1 h-[4.5rem] rounded-[1.5rem] font-black text-lg transition-all duration-300 flex items-center justify-center gap-3 ${isInCart ? 'bg-white border-2 border-primary text-primary shadow-lg shadow-primary/5' : 'bg-primary text-white shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-95'}`}
+                                    className={`flex-1 h-[4.5rem] rounded-[1.5rem] font-black text-lg transition-all duration-300 flex items-center justify-center gap-3 ${isInCart ? 'bg-white border-2 border-[#E91E63] text-[#E91E63] shadow-lg shadow-pink-500/5' : 'bg-[#E91E63] text-white shadow-xl shadow-pink-500/20 hover:scale-[1.02] active:scale-95'}`}
                                     disabled={!inStock}
                                 >
                                     <FaShoppingCart />
@@ -325,7 +325,7 @@ const Productview = () => {
                                 { icon: FaBox, label: "Easy Returns" }
                             ].map((s, i) => (
                                 <div key={i} className="flex flex-col items-center text-center p-4 bg-gray-50/50 border border-gray-100 rounded-3xl group hover:bg-white hover:shadow-lg transition-all duration-300">
-                                    <div className="w-12 h-12 bg-white rounded-2xl shadow-sm flex items-center justify-center mb-3 text-primary transition-transform duration-300 group-hover:scale-110">
+                                    <div className="w-12 h-12 bg-white rounded-2xl shadow-sm flex items-center justify-center mb-3 text-[#E91E63] transition-transform duration-300 group-hover:scale-110">
                                         <s.icon className="w-6 h-6" />
                                     </div>
                                     <span className="text-[10px] font-black text-gray-500 uppercase tracking-tight leading-tight">{s.label}</span>
@@ -341,7 +341,9 @@ const Productview = () => {
                                 isOpen={expandedSection === 'description'}
                                 onClick={() => setExpandedSection(expandedSection === 'description' ? '' : 'description')}
                             >
-                                <p className="text-gray-600 text-base leading-relaxed whitespace-pre-line pr-4">{product.description || 'No detailed description available for this item.'}</p>
+                                <div className="p-4 bg-gray-50/50 rounded-2xl border border-gray-100/50">
+                                    <p className="text-gray-700 text-base leading-7 tracking-wide whitespace-pre-line font-medium">{product.description || 'No detailed description available for this item.'}</p>
+                                </div>
                             </AccordionItem>
 
                             {product.specifications?.length > 0 && (
@@ -463,7 +465,7 @@ const Productview = () => {
 
                                         {/* Overlay Bagde */}
                                         {pDiscount > 0 && (
-                                            <div className="absolute top-4 left-4 bg-primary text-white text-[10px] font-black px-3 py-1.5 rounded-full shadow-lg shadow-primary/20">
+                                            <div className="absolute top-4 left-4 bg-[#E91E63] text-white text-[10px] font-black px-3 py-1.5 rounded-full shadow-lg shadow-pink-500/20">
                                                 -{pDiscount}%
                                             </div>
                                         )}
@@ -476,8 +478,9 @@ const Productview = () => {
                                         </div>
 
                                         {/* Bottom Action Bar */}
-                                        <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-500">
-                                            <div className="w-full py-3 bg-gray-900 text-white rounded-2xl text-[10px] font-black text-center shadow-2xl tracking-widest uppercase">
+                                        <div className="absolute bottom-4 left-4 right-4">
+                                            <div className="w-full py-3 bg-[#E91E63] text-white rounded-xl text-[10px] font-black text-center shadow-lg shadow-pink-500/30 tracking-widest uppercase flex items-center justify-center gap-2 hover:bg-pink-600 transition-colors">
+                                                <FaEye className="w-3 h-3" />
                                                 QUICK VIEW
                                             </div>
                                         </div>
@@ -506,14 +509,14 @@ const Productview = () => {
                 <div className="flex gap-4">
                     {/* Quantity Control Pink */}
                     <div className="flex items-center bg-gray-50 border border-gray-100 rounded-2xl h-16 px-2 shrink-0">
-                        <button onClick={() => handleQuantityChange('decrease')} className="w-10 h-full flex items-center justify-center text-gray-400 active:text-primary"><FaMinus className="w-3 h-3" /></button>
+                        <button onClick={() => handleQuantityChange('decrease')} className="w-10 h-full flex items-center justify-center text-gray-400 active:text-[#E91E63]"><FaMinus className="w-3 h-3" /></button>
                         <span className="w-8 text-center font-black text-lg text-gray-900">{quantity}</span>
-                        <button onClick={() => handleQuantityChange('increase')} className="w-10 h-full flex items-center justify-center text-gray-400 active:text-primary"><FaPlus className="w-3 h-3" /></button>
+                        <button onClick={() => handleQuantityChange('increase')} className="w-10 h-full flex items-center justify-center text-gray-400 active:text-[#E91E63]"><FaPlus className="w-3 h-3" /></button>
                     </div>
 
                     <button
                         onClick={() => addToCartAction(false)}
-                        className={`flex-1 h-16 transition-all duration-300 font-bold rounded-2xl text-sm flex items-center justify-center gap-2 active:scale-95 ${isInCart ? 'bg-white border-2 border-primary text-primary' : 'bg-primary text-white shadow-lg shadow-primary/30'}`}
+                        className={`flex-1 h-16 transition-all duration-300 font-bold rounded-2xl text-sm flex items-center justify-center gap-2 active:scale-95 ${isInCart ? 'bg-white border-2 border-[#E91E63] text-[#E91E63]' : 'bg-[#E91E63] text-white shadow-lg shadow-pink-500/30'}`}
                         disabled={!inStock}
                     >
                         <FaShoppingCart className="w-4 h-4" />
