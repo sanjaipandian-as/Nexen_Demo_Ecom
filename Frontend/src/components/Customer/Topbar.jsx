@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
-import { FaSearch, FaBell, FaUser, FaSignOutAlt, FaInfinity, FaBars, FaTimes } from 'react-icons/fa';
+import { FaSearch, FaBell, FaUser, FaSignOutAlt, FaInfinity, FaBars, FaTimes, FaHome, FaShoppingBag, FaCog } from 'react-icons/fa';
+import { BsFillBagHeartFill } from 'react-icons/bs';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import API from '../../../api';
@@ -14,6 +15,7 @@ const Searchbar = () => {
     const [loadingSuggestions, setLoadingSuggestions] = useState(false);
     const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(-1);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [showSearchBar, setShowSearchBar] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
     const searchRef = useRef(null);
@@ -25,35 +27,35 @@ const Searchbar = () => {
     const [loadingNotifications, setLoadingNotifications] = useState(false);
     const [unreadCount, setUnreadCount] = useState(0);
 
-    // Get page title based on current route
+
     const getPageTitle = () => {
         const path = location.pathname;
         const routeTitles = {
-            // Main Pages
+
             '/': 'Home',
             '/products': 'Products',
             '/search': 'Search Results',
 
-            // Cart & Wishlist
+
             '/Cart': 'Shopping Cart',
             '/Wishlist': 'My Wishlist',
             '/checkout': 'Checkout',
             '/Payment': 'Payment',
 
-            // Customer Auth
+
             '/Login': 'Customer Login',
             '/Register': 'Customer Sign Up',
 
-            // Seller Auth & Dashboard
+
             '/seller-login': 'Seller Login',
             '/seller-register': 'Seller Registration',
             '/seller-home': 'Seller Dashboard',
 
-            // Admin
+
             '/admin-login': 'Admin Login',
             '/admin-Dashboard': 'Admin Dashboard',
 
-            // Settings & Profile
+
             '/Settings': 'Account Settings',
             '/Settings/profile': 'My Profile',
             '/Settings/orders': 'My Orders',
@@ -62,28 +64,28 @@ const Searchbar = () => {
             '/Settings/security': 'Security Settings',
             '/Settings/payment-methods': 'Payment Methods',
 
-            // Company Pages
+
             '/about': 'About Us',
             '/contact': 'Contact Us',
 
-            // Support & Help
+
             '/Support': 'Customer Support',
             '/shipping': 'Shipping & Delivery',
             '/returns': 'Returns & Refunds',
             '/track-order': 'Track Your Order',
             '/faqs': 'Frequently Asked Questions',
 
-            // Legal & Policies
+
             '/privacy-policy': 'Privacy Policy',
             '/terms-and-conditions': 'Terms & Conditions',
 
-            // Business & Partnerships
+
             '/Affiliate': 'Affiliate Program',
             '/BrandRegistry': 'Brand Registry',
             '/advertise': 'Advertise Your Products',
             '/sell': 'Sell on APK Crackers',
 
-            // Footer Links
+
             '/careers': 'Careers',
             '/press': 'Press & Media',
             '/stores': 'Our Stores',
@@ -92,7 +94,7 @@ const Searchbar = () => {
             '/legal': 'Legal Information',
         };
 
-        // Check for dynamic routes
+
         if (path.startsWith('/product/')) return 'Product Details';
         if (path.startsWith('/category/')) {
             const category = path.split('/')[2];
@@ -461,42 +463,63 @@ const Searchbar = () => {
 
 
     return (
-        <div className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
-            {/* Main Topbar */}
-            <div className="px-2 sm:px-3 md:px-4 lg:px-6 py-2.5 sm:py-3 md:py-3.5">
-                <div className="flex items-center justify-between gap-1 sm:gap-2 md:gap-3 lg:gap-6">
-                    {/* Left Section - Dynamic Page Title */}
-                    <div className="flex items-center gap-2">
+        <div
+            className="sticky top-0 z-50 border-b border-gray-100 shadow-sm transition-all duration-300"
+            style={{ backgroundColor: 'rgba(255, 255, 255, 0.8)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
+        >
+
+            <div className="px-4 md:px-6 lg:px-8 py-3.5 md:py-4">
+                <div className="flex items-center justify-between gap-3 md:gap-4 lg:gap-6">
+                    <div className="flex items-center">
                         <button
                             onClick={() => navigate('/')}
-                            className="cursor-pointer hover:opacity-80 transition-opacity"
+                            className="cursor-pointer group"
                         >
-                            <h1 className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-bold text-primary whitespace-nowrap transition-all duration-300">
-                                APK Crackers
+                            <h1 className="text-lg md:text-xl lg:text-2xl font-bold whitespace-nowrap transition-all duration-300 group-hover:animate-sparkle" style={{ color: '#2E2E2E' }}>
+                                <span style={{ color: '#E91E63' }}>Glam</span> Beauty
                             </h1>
                         </button>
                     </div>
 
-                    {/* Desktop Search Bar - Hidden on Mobile */}
-                    <div className="hidden md:flex flex-1 max-w-md lg:max-w-2xl" ref={searchRef}>
-                        <div className="relative group w-full">
-                            <FaSearch className="absolute left-3 lg:left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-3.5 h-3.5 lg:w-4 lg:h-4 group-focus-within:text-primary transition-colors z-10" />
+
+                    <div className="hidden md:flex flex-1 max-w-xl lg:max-w-2xl" ref={searchRef}>
+                        <div className="relative w-full">
+                            <FaSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 z-10" />
                             <input
                                 type="text"
-                                placeholder="Search crackers..."
+                                placeholder="Search skincare, makeup, brands…"
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 onKeyDown={handleKeyDown}
-                                onFocus={() => searchQuery.trim().length > 1 && setShowSuggestions(true)}
-                                className="w-full pl-9 lg:pl-12 pr-3 lg:pr-4 py-2 lg:py-3 bg-gray-50 border-2 border-gray-200 rounded-full text-sm lg:text-md text-gray-700 placeholder-gray-400 focus:outline-none focus:bg-white focus:border-primary hover:border-gray-300 transition-all cursor-text shadow-sm"
+                                onFocus={(e) => {
+                                    e.target.style.borderColor = '#E91E63';
+                                    searchQuery.trim().length > 1 && setShowSuggestions(true);
+                                }}
+                                onBlur={(e) => {
+                                    e.target.style.borderColor = '#E5E7EB';
+                                    setTimeout(() => {
+                                        if (!searchQuery.trim()) {
+                                            setShowSearchBar(false);
+                                        }
+                                    }, 200);
+                                }}
+                                autoFocus
+                                className="w-full pl-12 pr-12 py-3 border border-gray-200 rounded-full text-sm placeholder-gray-400 focus:outline-none focus:bg-white focus:shadow-md transition-all"
+                                style={{ backgroundColor: '#F5F5F5', color: '#2E2E2E' }}
+                                onMouseEnter={(e) => e.target.style.borderColor = '#F8BBD0'}
+                                onMouseLeave={(e) => e.target.style.borderColor = '#E5E7EB'}
                             />
 
-                            {/* Suggestions Dropdown */}
+
+
                             {showSuggestions && (
-                                <div className="absolute top-full left-0 right-0 mt-2 bg-white border-2 border-gray-200 rounded-2xl shadow-xl z-50 max-h-96 overflow-y-auto">
+                                <div
+                                    className="absolute top-full left-0 right-0 mt-2 border border-gray-200 rounded-xl shadow-xl z-50 max-h-96 overflow-y-auto"
+                                    style={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
+                                >
                                     {loadingSuggestions ? (
                                         <div className="p-4 text-center text-gray-500">
-                                            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary mx-auto"></div>
+                                            <div className="animate-spin rounded-full h-6 w-6 border-b-2 mx-auto" style={{ borderBottomColor: '#E91E63' }}></div>
                                         </div>
                                     ) : suggestions.length > 0 ? (
                                         <div className="py-2">
@@ -504,11 +527,13 @@ const Searchbar = () => {
                                                 <button
                                                     key={suggestion._id}
                                                     onClick={() => handleSearch(suggestion.name)}
-                                                    className={`w-full px-4 py-3 text-left hover:bg-primary/10 transition-colors flex items-center gap-3 ${index === selectedSuggestionIndex ? 'bg-primary/10' : ''
-                                                        }`}
+                                                    className={`w-full px-4 py-3 text-left transition-colors flex items-center gap-3`}
+                                                    style={{ backgroundColor: index === selectedSuggestionIndex ? 'rgba(248, 187, 208, 0.2)' : 'transparent' }}
+                                                    onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'rgba(248, 187, 208, 0.2)'; }}
+                                                    onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = index === selectedSuggestionIndex ? 'rgba(248, 187, 208, 0.2)' : 'transparent'; }}
                                                 >
-                                                    <FaSearch className="w-4 h-4 text-gray-400" />
-                                                    <span className="text-gray-700">{suggestion.name}</span>
+                                                    <FaSearch className="w-4 h-4" style={{ color: '#E91E63' }} />
+                                                    <span className="text-charcoal">{suggestion.name}</span>
                                                 </button>
                                             ))}
                                         </div>
@@ -522,26 +547,54 @@ const Searchbar = () => {
                         </div>
                     </div>
 
-                    {/* Right Section - Icons and Buttons */}
-                    <div className="flex items-center gap-1 sm:gap-1.5 md:gap-2 lg:gap-3">
-                        {/* Notification Bell */}
+
+                    <div className="hidden md:flex items-center gap-3">
+
+                        <button
+                            onClick={() => navigate('/Cart')}
+                            className="flex items-center gap-2 px-4 py-2 rounded-full border border-gray-200 transition-all duration-300 group"
+                            onMouseEnter={(e) => { e.currentTarget.style.borderColor = '#E91E63'; e.currentTarget.style.backgroundColor = 'rgba(248, 187, 208, 0.2)'; }}
+                            onMouseLeave={(e) => { e.currentTarget.style.borderColor = '#E5E7EB'; e.currentTarget.style.backgroundColor = 'transparent'; }}
+                            title="Cart"
+                        >
+                            <FaShoppingBag className="w-4 h-4 transition-colors" style={{ color: '#2E2E2E' }} onMouseEnter={(e) => e.target.style.color = '#E91E63'} onMouseLeave={(e) => e.target.style.color = '#2E2E2E'} />
+                            <span className="text-sm font-medium transition-colors" style={{ color: '#2E2E2E' }} onMouseEnter={(e) => e.target.style.color = '#E91E63'} onMouseLeave={(e) => e.target.style.color = '#2E2E2E'}>Cart</span>
+                        </button>
+
+
+                        <button
+                            onClick={() => navigate('/Wishlist')}
+                            className="flex items-center gap-2 px-4 py-2 rounded-full border border-gray-200 transition-all duration-300 group"
+                            onMouseEnter={(e) => { e.currentTarget.style.borderColor = '#E91E63'; e.currentTarget.style.backgroundColor = 'rgba(248, 187, 208, 0.2)'; }}
+                            onMouseLeave={(e) => { e.currentTarget.style.borderColor = '#E5E7EB'; e.currentTarget.style.backgroundColor = 'transparent'; }}
+                            title="Wishlist"
+                        >
+                            <BsFillBagHeartFill className="w-4 h-4 transition-colors" style={{ color: '#2E2E2E' }} onMouseEnter={(e) => e.target.style.color = '#E91E63'} onMouseLeave={(e) => e.target.style.color = '#2E2E2E'} />
+                            <span className="text-sm font-medium transition-colors" style={{ color: '#2E2E2E' }} onMouseEnter={(e) => e.target.style.color = '#E91E63'} onMouseLeave={(e) => e.target.style.color = '#2E2E2E'}>Wishlist</span>
+                        </button>
+                    </div>
+
+
+                    <div className="flex items-center gap-3">
+
                         <div className="relative" ref={notificationRef}>
                             <button
                                 onClick={() => setShowNotifications(!showNotifications)}
-                                className="relative p-1.5 sm:p-2 md:p-2.5 hover:bg-primary/10 rounded-full transition-all cursor-pointer group"
+                                className="relative p-2 hover:bg-secondary/30 rounded-full transition-all cursor-pointer group"
+                                title="Notifications"
                             >
-                                <FaBell className="w-4 h-4 md:w-5 md:h-5 text-gray-600 group-hover:text-primary transition-colors" />
+                                <FaBell className="w-5 h-5 transition-colors" style={{ color: '#2E2E2E' }} onMouseEnter={(e) => e.target.style.color = '#E91E63'} onMouseLeave={(e) => e.target.style.color = '#2E2E2E'} />
                                 {unreadCount > 0 && (
-                                    <span className="absolute -top-1 -right-1 w-4 h-4 sm:w-5 sm:h-5 bg-red-500 text-white text-[10px] sm:text-xs font-bold rounded-full flex items-center justify-center border-2 border-white">
+                                    <span className="absolute -top-1 -right-1 min-w-[20px] h-5 px-1.5 text-white text-xs font-bold rounded-full flex items-center justify-center border-2 border-white" style={{ backgroundColor: '#C9A24D' }}>
                                         {unreadCount > 9 ? '9+' : unreadCount}
                                     </span>
                                 )}
                             </button>
 
-                            {/* Notification Dropdown - Fully Responsive */}
+
                             {showNotifications && isLoggedIn && (
                                 <div className="fixed sm:absolute top-16 sm:top-full left-2 right-2 sm:left-auto sm:right-0 mt-0 sm:mt-2 w-auto sm:w-80 md:w-96 bg-white border-2 border-gray-200 rounded-xl sm:rounded-2xl shadow-2xl z-50 max-h-[calc(100vh-5rem)] sm:max-h-[500px] overflow-hidden flex flex-col">
-                                    {/* Header */}
+
                                     <div className="p-3 sm:p-4 border-b border-gray-200 bg-primary/10 flex-shrink-0">
                                         <div className="flex items-center justify-between mb-1 sm:mb-2">
                                             <h3 className="text-base sm:text-lg font-bold text-gray-900">Notifications</h3>
@@ -554,7 +607,7 @@ const Searchbar = () => {
                                                         Mark all read
                                                     </button>
                                                 )}
-                                                {/* Close button for mobile */}
+
                                                 <button
                                                     onClick={() => setShowNotifications(false)}
                                                     className="sm:hidden p-1 hover:bg-gray-200 rounded-full transition-colors"
@@ -570,7 +623,7 @@ const Searchbar = () => {
                                         )}
                                     </div>
 
-                                    {/* Notifications List */}
+
                                     <div className="overflow-y-auto flex-1 overscroll-contain">
                                         {loadingNotifications ? (
                                             <div className="p-6 sm:p-8 text-center">
@@ -619,7 +672,7 @@ const Searchbar = () => {
                                         )}
                                     </div>
 
-                                    {/* Footer */}
+
                                     {notifications.length > 0 && (
                                         <div className="p-2 sm:p-3 border-t border-gray-200 bg-gray-50 flex-shrink-0">
                                             <button
@@ -636,51 +689,64 @@ const Searchbar = () => {
                             )}
                         </div>
 
-                        {/* Desktop Login/Logout Buttons - Hidden on Mobile */}
+
                         {!isLoggedIn ? (
                             <>
-                                {/* Login Button */}
+
                                 <button
                                     onClick={() => navigate('/Login')}
-                                    className="hidden md:block px-3 lg:px-4 xl:px-6 py-1.5 lg:py-2 xl:py-2.5 text-xs md:text-sm font-semibold text-gray-700 bg-white border-2 border-gray-300 rounded-full hover:border-primary hover:text-primary hover:bg-primary/10 transition-all cursor-pointer shadow-sm hover:shadow"
+                                    className="hidden md:block px-5 py-2.5 text-sm font-medium border border-gray-200 rounded-full transition-all"
+                                    style={{ color: '#2E2E2E' }}
+                                    onMouseEnter={(e) => { e.target.style.borderColor = '#E91E63'; e.target.style.backgroundColor = 'rgba(248, 187, 208, 0.2)'; }}
+                                    onMouseLeave={(e) => { e.target.style.borderColor = '#E5E7EB'; e.target.style.backgroundColor = 'transparent'; }}
                                 >
                                     Login
                                 </button>
 
-                                {/* Signup Button */}
+
                                 <button
                                     onClick={() => navigate('/Register')}
-                                    className="hidden md:block px-3 lg:px-4 xl:px-6 py-1.5 lg:py-2 xl:py-2.5 text-xs md:text-sm font-semibold text-white bg-primary rounded-full hover:bg-primary/90 transition-all shadow-md hover:shadow-lg cursor-pointer"
+                                    className="hidden md:block px-5 py-2.5 text-sm font-medium text-white rounded-full transition-all shadow-sm"
+                                    style={{ backgroundColor: '#E91E63' }}
+                                    onMouseEnter={(e) => e.target.style.backgroundColor = 'rgba(233, 30, 99, 0.9)'}
+                                    onMouseLeave={(e) => e.target.style.backgroundColor = '#E91E63'}
                                 >
                                     Sign Up
                                 </button>
                             </>
                         ) : (
                             <>
-                                {/* Profile Icon - Navigate to Settings */}
+
                                 <button
                                     onClick={() => navigate(userRole === 'seller' ? '/seller-home' : '/Settings')}
-                                    className="hidden md:flex w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-primary items-center justify-center cursor-pointer hover:ring-2 hover:ring-primary hover:ring-offset-2 transition-all shadow-md hover:shadow-lg"
+                                    className="hidden md:flex w-10 h-10 rounded-full items-center justify-center cursor-pointer transition-all"
+                                    style={{ backgroundColor: '#E91E63' }}
+                                    onMouseEnter={(e) => e.target.style.backgroundColor = 'rgba(233, 30, 99, 0.9)'}
+                                    onMouseLeave={(e) => e.target.style.backgroundColor = '#E91E63'}
                                     title={userRole === 'seller' ? "Go to Seller Dashboard" : "Go to Settings"}
                                 >
-                                    <FaUser className="w-3.5 h-3.5 lg:w-4 lg:h-4 xl:w-5 xl:h-5 text-white" />
+                                    <FaCog className="w-5 h-5 text-white" />
                                 </button>
 
-                                {/* Logout Button */}
+
                                 <button
                                     onClick={handleLogout}
-                                    className="hidden md:flex w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-primary items-center justify-center hover:bg-primary/90 transition-all shadow-md hover:shadow-lg cursor-pointer"
+                                    className="hidden md:flex w-10 h-10 rounded-full border border-gray-200 items-center justify-center transition-all cursor-pointer"
+                                    onMouseEnter={(e) => { e.target.style.borderColor = '#E91E63'; e.target.style.backgroundColor = 'rgba(248, 187, 208, 0.2)'; }}
+                                    onMouseLeave={(e) => { e.target.style.borderColor = '#E5E7EB'; e.target.style.backgroundColor = 'transparent'; }}
                                     title="Logout"
                                 >
-                                    <FaSignOutAlt className="w-3.5 h-3.5 lg:w-4 lg:h-4 xl:w-5 xl:h-5 text-white" />
+                                    <FaSignOutAlt className="w-5 h-5 transition-colors" style={{ color: '#2E2E2E' }} onMouseEnter={(e) => e.target.style.color = '#E91E63'} onMouseLeave={(e) => e.target.style.color = '#2E2E2E'} />
                                 </button>
                             </>
                         )}
 
-                        {/* Mobile Menu Toggle */}
+
                         <button
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                            className="md:hidden p-2 hover:bg-primary/10 rounded-full transition-all"
+                            className="md:hidden p-2 rounded-full transition-all"
+                            onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'rgba(233, 30, 99, 0.1)'; }}
+                            onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; }}
                         >
                             {isMobileMenuOpen ? (
                                 <FaTimes className="w-5 h-5 text-gray-600" />
@@ -692,26 +758,39 @@ const Searchbar = () => {
                 </div>
             </div>
 
-            {/* Mobile Search Bar - Shown when search icon is clicked */}
+
             <div className="md:hidden px-3 pb-3" ref={searchRef}>
                 <div className="relative group">
-                    <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 group-focus-within:text-primary transition-colors z-10" />
+                    <FaSearch
+                        className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 transition-colors z-10"
+                        style={{ color: '#9CA3AF' }}
+                    />
                     <input
                         type="text"
-                        placeholder="Search crackers..."
+                        placeholder="Search skincare, makeup, brands…"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         onKeyDown={handleKeyDown}
-                        onFocus={() => searchQuery.trim().length > 1 && setShowSuggestions(true)}
-                        className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border-2 border-gray-200 rounded-full text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:bg-white focus:border-primary hover:border-gray-300 transition-all cursor-text shadow-sm"
+                        onFocus={(e) => {
+                            e.target.style.borderColor = '#E91E63';
+                            searchQuery.trim().length > 1 && setShowSuggestions(true);
+                        }}
+                        onBlur={(e) => {
+                            e.target.style.borderColor = '#E5E7EB';
+                        }}
+                        className="w-full pl-10 pr-4 py-2.5 border-2 border-gray-200 rounded-full text-sm placeholder-gray-400 focus:outline-none focus:bg-white transition-all cursor-text shadow-sm"
+                        style={{ backgroundColor: '#F9FAFB', color: '#374151' }}
                     />
 
-                    {/* Mobile Suggestions Dropdown */}
+
                     {showSuggestions && (
-                        <div className="absolute top-full left-0 right-0 mt-2 bg-white border-2 border-gray-200 rounded-2xl shadow-xl z-50 max-h-64 overflow-y-auto">
+                        <div
+                            className="absolute top-full left-0 right-0 mt-2 border-2 border-gray-200 rounded-2xl shadow-xl z-50 max-h-64 overflow-y-auto"
+                            style={{ backgroundColor: 'rgba(255, 255, 255, 0.95)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
+                        >
                             {loadingSuggestions ? (
                                 <div className="p-4 text-center text-gray-500">
-                                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary mx-auto"></div>
+                                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 mx-auto" style={{ borderBottomColor: '#E91E63' }}></div>
                                 </div>
                             ) : suggestions.length > 0 ? (
                                 <div className="py-2">
@@ -719,11 +798,13 @@ const Searchbar = () => {
                                         <button
                                             key={suggestion._id}
                                             onClick={() => handleSearch(suggestion.name)}
-                                            className={`w-full px-3 py-2.5 text-left hover:bg-primary/10 transition-colors flex items-center gap-2 ${index === selectedSuggestionIndex ? 'bg-primary/10' : ''
-                                                }`}
+                                            className={`w-full px-3 py-2.5 text-left transition-colors flex items-center gap-2`}
+                                            style={{ backgroundColor: index === selectedSuggestionIndex ? 'rgba(233, 30, 99, 0.1)' : 'transparent' }}
+                                            onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'rgba(233, 30, 99, 0.1)'; }}
+                                            onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = index === selectedSuggestionIndex ? 'rgba(233, 30, 99, 0.1)' : 'transparent'; }}
                                         >
                                             <FaSearch className="w-3 h-3 text-gray-400" />
-                                            <span className="text-sm text-gray-700">{suggestion.name}</span>
+                                            <span className="text-sm" style={{ color: '#374151' }}>{suggestion.name}</span>
                                         </button>
                                     ))}
                                 </div>
@@ -737,81 +818,179 @@ const Searchbar = () => {
                 </div>
             </div>
 
-            {/* Mobile Menu - Dropdown */}
-            {isMobileMenuOpen && (
-                <div className="sm:hidden border-t border-gray-200 bg-white shadow-lg">
-                    {!isLoggedIn ? (
-                        <div className="px-4 py-4 space-y-3">
-                            {/* Mobile Login Button */}
-                            <button
-                                onClick={() => {
-                                    navigate('/Login');
-                                    setIsMobileMenuOpen(false);
-                                }}
-                                className="w-full px-4 py-3 text-sm font-semibold text-gray-700 bg-white border-2 border-gray-300 rounded-lg hover:border-primary hover:text-primary hover:bg-primary/10 transition-all flex items-center justify-center gap-2"
-                            >
-                                <FaUser className="w-4 h-4" />
-                                Login
-                            </button>
 
-                            {/* Mobile Signup Button */}
-                            <button
-                                onClick={() => {
-                                    navigate('/Register');
-                                    setIsMobileMenuOpen(false);
-                                }}
-                                className="w-full px-4 py-3 text-sm font-semibold text-white bg-primary rounded-lg hover:bg-primary/90 transition-all shadow-sm flex items-center justify-center gap-2"
-                            >
-                                <FaUser className="w-4 h-4" />
-                                Sign Up
-                            </button>
-                        </div>
-                    ) : (
-                        <div className="px-4 py-4">
-                            {/* User Info Section */}
-                            <div className="pb-4 mb-4 border-b border-gray-200">
-                                <div className="flex items-center gap-3">
-                                    <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center">
-                                        <FaUser className="w-6 h-6 text-white" />
-                                    </div>
-                                    <div className="flex-1">
-                                        <h3 className="text-sm font-bold text-gray-900">{userName}</h3>
-                                        <p className="text-xs text-gray-500 capitalize">{userRole}</p>
+            {
+                isMobileMenuOpen && (
+                    <div
+                        className="md:hidden border-t border-gray-200 shadow-lg"
+                        style={{ backgroundColor: 'rgba(255, 255, 255, 0.9)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
+                    >
+                        {!isLoggedIn ? (
+                            <div className="px-4 py-4 space-y-3">
+
+                                <div className="space-y-2 mb-4 pb-4 border-b border-gray-200">
+
+                                    <button
+                                        onClick={() => {
+                                            navigate('/');
+                                            setIsMobileMenuOpen(false);
+                                        }}
+                                        className="w-full px-4 py-3 text-sm font-medium rounded-lg transition-all flex items-center gap-3"
+                                        style={{ color: '#374151', backgroundColor: '#F9FAFB' }}
+                                        onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#F3F4F6'; }}
+                                        onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = '#F9FAFB'; }}
+                                    >
+                                        <FaHome className="w-4 h-4 text-gray-600" />
+                                        <span>Home</span>
+                                    </button>
+
+
+                                    <button
+                                        onClick={() => {
+                                            navigate('/Cart');
+                                            setIsMobileMenuOpen(false);
+                                        }}
+                                        className="w-full px-4 py-3 text-sm font-medium text-gray-700 bg-gray-50 rounded-lg hover:bg-gray-100 transition-all flex items-center gap-3"
+                                    >
+                                        <FaShoppingBag className="w-4 h-4 text-gray-600" />
+                                        <span>Cart</span>
+                                    </button>
+
+
+                                    <button
+                                        onClick={() => {
+                                            navigate('/Wishlist');
+                                            setIsMobileMenuOpen(false);
+                                        }}
+                                        className="w-full px-4 py-3 text-sm font-medium text-gray-700 bg-gray-50 rounded-lg hover:bg-gray-100 transition-all flex items-center gap-3"
+                                    >
+                                        <BsFillBagHeartFill className="w-4 h-4 text-gray-600" />
+                                        <span>Wishlist</span>
+                                    </button>
+                                </div>
+
+
+                                <button
+                                    onClick={() => {
+                                        navigate('/Login');
+                                        setIsMobileMenuOpen(false);
+                                    }}
+                                    className="w-full px-4 py-3 text-sm font-semibold border-2 rounded-lg transition-all flex items-center justify-center gap-2"
+                                    style={{ color: '#374151', backgroundColor: '#FFFFFF', borderColor: '#D1D5DB' }}
+                                    onMouseEnter={(e) => { e.currentTarget.style.borderColor = '#E91E63'; e.currentTarget.style.color = '#E91E63'; e.currentTarget.style.backgroundColor = 'rgba(233, 30, 99, 0.1)'; }}
+                                    onMouseLeave={(e) => { e.currentTarget.style.borderColor = '#D1D5DB'; e.currentTarget.style.color = '#374151'; e.currentTarget.style.backgroundColor = '#FFFFFF'; }}
+                                >
+                                    <FaUser className="w-4 h-4" />
+                                    Login
+                                </button>
+
+
+                                <button
+                                    onClick={() => {
+                                        navigate('/Register');
+                                        setIsMobileMenuOpen(false);
+                                    }}
+                                    className="w-full px-4 py-3 text-sm font-semibold text-white rounded-lg transition-all shadow-sm flex items-center justify-center gap-2"
+                                    style={{ backgroundColor: '#E91E63' }}
+                                    onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'rgba(233, 30, 99, 0.9)'; }}
+                                    onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = '#E91E63'; }}
+                                >
+                                    <FaUser className="w-4 h-4" />
+                                    Sign Up
+                                </button>
+                            </div>
+                        ) : (
+                            <div className="px-4 py-4">
+
+                                <div className="pb-4 mb-4 border-b border-gray-200">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ backgroundColor: '#E91E63' }}>
+                                            <FaUser className="w-6 h-6 text-white" />
+                                        </div>
+                                        <div className="flex-1">
+                                            <h3 className="text-sm font-bold text-gray-900">{userName}</h3>
+                                            <p className="text-xs text-gray-500 capitalize">{userRole}</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            {/* Menu Items */}
-                            <div className="space-y-2">
-                                {/* Profile Settings */}
-                                <button
-                                    onClick={() => {
-                                        navigate('/Settings');
-                                        setIsMobileMenuOpen(false);
-                                    }}
-                                    className="w-full px-4 py-3 text-sm font-medium text-gray-700 bg-gray-50 rounded-lg hover:bg-gray-100 transition-all flex items-center gap-3"
-                                >
-                                    <FaUser className="w-4 h-4 text-gray-600" />
-                                    <span>Profile Settings</span>
-                                </button>
 
-                                {/* Logout */}
-                                <button
-                                    onClick={() => {
-                                        handleLogout();
-                                        setIsMobileMenuOpen(false);
-                                    }}
-                                    className="w-full px-4 py-3 text-sm font-medium text-red-600 bg-red-50 rounded-lg hover:bg-red-100 transition-all flex items-center gap-3"
-                                >
-                                    <FaSignOutAlt className="w-4 h-4" />
-                                    <span>Logout</span>
-                                </button>
+                                <div className="space-y-2">
+
+                                    <button
+                                        onClick={() => {
+                                            navigate('/');
+                                            setIsMobileMenuOpen(false);
+                                        }}
+                                        className="w-full px-4 py-3 text-sm font-medium rounded-lg transition-all flex items-center gap-3"
+                                        style={{ color: '#374151', backgroundColor: '#F9FAFB' }}
+                                        onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#F3F4F6'; }}
+                                        onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = '#F9FAFB'; }}
+                                    >
+                                        <FaHome className="w-4 h-4 text-gray-600" />
+                                        <span>Home</span>
+                                    </button>
+
+
+                                    <button
+                                        onClick={() => {
+                                            navigate('/Cart');
+                                            setIsMobileMenuOpen(false);
+                                        }}
+                                        className="w-full px-4 py-3 text-sm font-medium rounded-lg transition-all flex items-center gap-3"
+                                        style={{ color: '#374151', backgroundColor: '#F9FAFB' }}
+                                        onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#F3F4F6'; }}
+                                        onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = '#F9FAFB'; }}
+                                    >
+                                        <FaShoppingBag className="w-4 h-4 text-gray-600" />
+                                        <span>Cart</span>
+                                    </button>
+
+
+                                    <button
+                                        onClick={() => {
+                                            navigate('/Wishlist');
+                                            setIsMobileMenuOpen(false);
+                                        }}
+                                        className="w-full px-4 py-3 text-sm font-medium text-gray-700 bg-gray-50 rounded-lg hover:bg-gray-100 transition-all flex items-center gap-3"
+                                    >
+                                        <BsFillBagHeartFill className="w-4 h-4 text-gray-600" />
+                                        <span>Wishlist</span>
+                                    </button>
+
+
+                                    <button
+                                        onClick={() => {
+                                            navigate('/Settings');
+                                            setIsMobileMenuOpen(false);
+                                        }}
+                                        className="w-full px-4 py-3 text-sm font-medium text-gray-700 bg-gray-50 rounded-lg hover:bg-gray-100 transition-all flex items-center gap-3"
+                                    >
+                                        <FaUser className="w-4 h-4 text-gray-600" />
+                                        <span>Profile Settings</span>
+                                    </button>
+
+
+                                    <button
+                                        onClick={() => {
+                                            handleLogout();
+                                            setIsMobileMenuOpen(false);
+                                        }}
+                                        className="w-full px-4 py-3 text-sm font-medium rounded-lg transition-all flex items-center gap-3"
+                                        style={{ color: '#DC2626', backgroundColor: '#FEF2F2' }}
+                                        onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = '#FEE2E2'; }}
+                                        onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = '#FEF2F2'; }}
+                                    >
+                                        <FaSignOutAlt className="w-4 h-4" />
+                                        <span>Logout</span>
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                    )}
-                </div>
-            )}
-        </div>
+                        )}
+                    </div>
+                )
+            }
+        </div >
     );
 };
 

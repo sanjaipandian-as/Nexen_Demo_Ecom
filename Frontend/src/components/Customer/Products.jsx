@@ -20,6 +20,15 @@ const Products = ({ filters = defaultFilters }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [cartItems, setCartItems] = useState([]);
+    const [groupedProducts, setGroupedProducts] = useState([]);
+
+    useEffect(() => {
+        const chunks = [];
+        for (let i = 0; i < products.length; i += 4) {
+            chunks.push(products.slice(i, i + 4));
+        }
+        setGroupedProducts(chunks);
+    }, [products]);
 
     const isLoggedIn = useMemo(() => {
         return !!localStorage.getItem('token');
@@ -239,9 +248,9 @@ const Products = ({ filters = defaultFilters }) => {
         return (
             <div
                 onClick={() => handleProductClick(product._id)}
-                className="bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all border border-gray-100 cursor-pointer active:scale-98"
+                className="bg-[#FFF9FC] rounded-[16px] overflow-hidden shadow-sm hover:shadow-md sm:hover:-translate-y-1 transition-all duration-300 border border-pink-100 cursor-pointer active:scale-98 animate-fadeIn flex flex-row sm:flex-col min-w-[280px] sm:min-w-0"
             >
-                <div className="relative w-full aspect-[4/3] overflow-hidden cursor-pointer">
+                <div className="relative w-[120px] sm:w-full aspect-square sm:aspect-[4/3] overflow-hidden flex-shrink-0">
                     <img
                         src={product.images?.[0] || placeholderImg}
                         alt={product.name}
@@ -249,67 +258,69 @@ const Products = ({ filters = defaultFilters }) => {
                         loading="lazy"
                         onError={(e) => {
                             e.target.src = placeholderImg;
-                            e.target.onerror = null; // Prevent infinite loop if placeholder also fails
+                            e.target.onerror = null;
                         }}
                     />
 
                     {discount > 0 && (
-                        <div className="absolute top-2 left-2 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded flex items-center gap-1 shadow-sm">
+                        <div className="absolute top-2 left-2 bg-red-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded flex items-center gap-1 shadow-sm">
                             <FaTag className="w-2 h-2" />
-                            {discount}% OFF
+                            {discount}%
                         </div>
                     )}
 
                     <button
                         onClick={(e) => toggleWishlist(e, product._id)}
                         disabled={togglingWishlist === product._id}
-                        className="absolute top-2 sm:top-3 right-2 sm:right-3 w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-full flex items-center justify-center shadow-md hover:shadow-lg transition-all active:scale-90"
+                        className="absolute top-2 right-2 w-7 h-7 sm:w-10 sm:h-10 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center shadow-md hover:shadow-lg transition-all active:scale-90"
                     >
                         {togglingWishlist === product._id ? (
-                            <div className="animate-spin rounded-full h-4 w-4 sm:h-5 sm:w-5 border-b-2 border-primary"></div>
+                            <div className="animate-spin rounded-full h-3 w-3 sm:h-5 sm:w-5 border-b-2 border-pink-600"></div>
                         ) : (
                             <BsFillBagHeartFill
-                                className={`w-4 h-4 sm:w-5 sm:h-5 transition-colors ${wishlistItems.includes(product._id)
-                                    ? 'text-primary'
-                                    : 'text-gray-300 hover:text-primary'
+                                className={`w-3.5 h-3.5 sm:w-5 sm:h-5 transition-all duration-300 hover:scale-115 ${wishlistItems.includes(product._id)
+                                    ? 'text-pink-600'
+                                    : 'text-gray-300 hover:text-pink-600'
                                     }`}
                             />
                         )}
                     </button>
                     {availablePieces <= 0 && (
-                        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                            <span className="text-white font-bold text-sm sm:text-base md:text-lg">Out of Stock</span>
+                        <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+                            <span className="text-white font-bold text-[10px] sm:text-base">Out of Stock</span>
                         </div>
                     )}
                 </div>
 
-                <div className="p-3 sm:p-4">
-                    <div className="flex items-start justify-between mb-2 sm:mb-3 gap-2">
-                        <h3 className="text-sm sm:text-base font-semibold text-gray-800 line-clamp-2 flex-1">{product.name}</h3>
-                        <div className="flex items-center gap-1 bg-gray-50 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded cursor-pointer flex-shrink-0">
-                            <FaStar className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-secondary" />
-                            <span className="text-xs sm:text-sm font-medium text-gray-700">4.2</span>
+                <div className="p-3 sm:pb-3 sm:px-4 sm:pt-4 flex-1 flex flex-col justify-between">
+                    <div>
+                        <div className="flex items-start justify-between mb-2 sm:mb-4 gap-2">
+                            <h3 className="text-xs sm:text-base font-bold text-gray-800 line-clamp-2 flex-1 leading-tight">{product.name}</h3>
+                            <div className="flex items-center gap-1 bg-gray-50 px-1 sm:px-2 py-0.5 rounded flex-shrink-0">
+                                <FaStar className="w-2 h-2 sm:w-3 sm:h-3 text-pink-500" />
+                                <span className="text-[9px] sm:text-[13px] font-medium text-gray-700">4.2</span>
+                            </div>
+                        </div>
+
+                        <div className="flex items-center justify-between mb-2 sm:mb-4">
+                            <div className="flex flex-col">
+                                <span className="text-[8px] sm:text-[11px] text-gray-500 font-medium font-semibold uppercase tracking-wider">Category</span>
+                                <span className="text-[10px] sm:text-[13px] font-bold text-gray-800 capitalize truncate max-w-[80px] sm:max-w-none">{product.category?.main || 'General'}</span>
+                            </div>
+                            <div className="flex flex-col items-end">
+                                <span className="text-[8px] sm:text-[11px] text-gray-500 font-medium font-semibold uppercase tracking-wider">Brand</span>
+                                <span className="text-[10px] sm:text-[13px] font-bold text-pink-600 capitalize truncate max-w-[80px] sm:max-w-none">
+                                    {brandName}
+                                </span>
+                            </div>
                         </div>
                     </div>
 
-                    <div className="flex items-center justify-between mb-2 sm:mb-3">
+                    <div className="flex items-center justify-between pt-2 border-t border-gray-100 gap-2">
                         <div className="flex flex-col">
-                            <span className="text-[10px] sm:text-xs text-gray-500 font-medium mb-0.5 sm:mb-1">Category</span>
-                            <span className="text-xs sm:text-sm font-bold text-gray-800 capitalize">{product.category?.main || 'General'}</span>
-                        </div>
-                        <div className="flex flex-col items-end">
-                            <span className="text-[10px] sm:text-xs text-gray-500 font-medium mb-0.5 sm:mb-1">Brand</span>
-                            <span className="text-xs sm:text-sm font-bold text-primary capitalize">
-                                {brandName}
-                            </span>
-                        </div>
-                    </div>
-
-                    <div className="flex items-center justify-between pt-2 sm:pt-3 border-t border-gray-100 gap-2">
-                        <div className="flex flex-col">
-                            <span className="text-base sm:text-lg md:text-xl font-bold text-gray-800">₹{sellingPrice.toFixed(2)}</span>
+                            <span className="text-sm sm:text-lg font-bold text-gray-800">₹{sellingPrice.toFixed(0)}</span>
                             {mrp > sellingPrice && (
-                                <span className="text-[10px] sm:text-xs text-gray-400 line-through">₹{mrp.toFixed(2)}</span>
+                                <span className="text-[8px] sm:text-xs text-gray-400 line-through">₹{mrp.toFixed(0)}</span>
                             )}
                         </div>
 
@@ -319,31 +330,28 @@ const Products = ({ filters = defaultFilters }) => {
                                     e.stopPropagation();
                                     navigate('/cart');
                                 }}
-                                className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 md:px-4 py-1.5 sm:py-2 bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-white rounded-lg transition-all shadow-sm hover:shadow-md cursor-pointer active:scale-95"
+                                className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 bg-pink-600 hover:bg-pink-500 text-white rounded-lg transition-all shadow-sm hover:shadow-md active:scale-95"
                             >
-                                <FaShoppingCart className="w-3 h-3 sm:w-4 sm:h-4" />
-                                <span className="text-xs sm:text-sm font-medium whitespace-nowrap">
-                                    View Cart
+                                <FaShoppingCart className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
+                                <span className="text-[10px] sm:text-sm font-medium whitespace-nowrap">
+                                    Cart
                                 </span>
                             </button>
                         ) : (
                             <button
                                 onClick={(e) => handleAddToCart(e, product._id)}
                                 disabled={addingToCart === product._id || availablePieces <= 0}
-                                className={`flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 md:px-4 py-1.5 sm:py-2 text-white rounded-lg transition-all shadow-sm hover:shadow-md active:scale-95 ${addingToCart === product._id || availablePieces <= 0
+                                className={`flex items-center gap-1 sm:gap-2 px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 text-white rounded-lg transition-all shadow-sm hover:shadow-md active:scale-95 ${addingToCart === product._id || availablePieces <= 0
                                     ? 'bg-gray-400 cursor-not-allowed'
-                                    : 'bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 cursor-pointer'
+                                    : 'bg-pink-600 hover:bg-pink-500 cursor-pointer'
                                     }`}
                             >
                                 {addingToCart === product._id ? (
-                                    <>
-                                        <div className="animate-spin rounded-full h-3 w-3 sm:h-4 sm:w-4 border-b-2 border-white"></div>
-                                        <span className="text-xs sm:text-sm font-medium hidden sm:inline">Adding...</span>
-                                    </>
+                                    <div className="animate-spin rounded-full h-3 w-3 sm:h-4 sm:w-4 border-b-2 border-white"></div>
                                 ) : (
                                     <>
                                         <FaShoppingCart className="w-3 h-3 sm:w-4 sm:h-4" />
-                                        <span className="text-xs sm:text-sm font-medium whitespace-nowrap">
+                                        <span className="text-[10px] sm:text-sm font-medium whitespace-nowrap">
                                             {availablePieces <= 0 ? 'Out' : 'Add'}
                                         </span>
                                     </>
@@ -412,7 +420,7 @@ const Products = ({ filters = defaultFilters }) => {
                         <p className="text-gray-600 text-base sm:text-lg text-center">{error}</p>
                         <button
                             onClick={() => window.location.reload()}
-                            className="mt-4 px-5 sm:px-6 py-2 sm:py-2.5 bg-primary text-white text-sm sm:text-base rounded-lg hover:bg-primary/90 transition-all active:scale-95"
+                            className="mt-4 px-5 sm:px-6 py-2 sm:py-2.5 bg-pink-600 text-white text-sm sm:text-base rounded-lg hover:bg-pink-500 transition-all active:scale-95"
                         >
                             Retry
                         </button>
@@ -422,9 +430,17 @@ const Products = ({ filters = defaultFilters }) => {
                         <p className="text-gray-600 text-base sm:text-lg">No products found</p>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 md:gap-5 lg:gap-6">
-                        {products.map((product) => (
-                            <ProductCard key={product._id} product={product} />
+                    <div className="space-y-4 sm:space-y-6">
+                        {groupedProducts.map((row, rowIndex) => (
+                            <div key={rowIndex} className="w-full">
+                                <div className="flex overflow-x-auto pb-4 gap-4 sm:gap-6 snap-x snap-mandatory scrollbar-hide sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:overflow-visible">
+                                    {row.map((product) => (
+                                        <div key={product._id} className="snap-start flex-shrink-0 w-[280px] sm:w-auto">
+                                            <ProductCard product={product} />
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
                         ))}
                     </div>
                 )}
@@ -434,7 +450,7 @@ const Products = ({ filters = defaultFilters }) => {
                         <button
                             onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
                             disabled={currentPage === 1}
-                            className="px-4 sm:px-6 py-2 sm:py-3 bg-white border-2 border-gray-300 rounded-lg font-semibold text-sm sm:text-base text-gray-700 hover:border-primary hover:text-primary transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:border-gray-300 disabled:hover:text-gray-700 active:scale-95"
+                            className="px-4 sm:px-6 py-2 sm:py-3 bg-white border-2 border-gray-300 rounded-lg font-semibold text-sm sm:text-base text-gray-700 hover:border-pink-600 hover:text-pink-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:border-gray-300 disabled:hover:text-gray-700 active:scale-95"
                         >
                             <span className="hidden sm:inline">Previous</span>
                             <span className="sm:hidden">Prev</span>
@@ -447,7 +463,7 @@ const Products = ({ filters = defaultFilters }) => {
                         <button
                             onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
                             disabled={currentPage === totalPages}
-                            className="px-4 sm:px-6 py-2 sm:py-3 bg-white border-2 border-gray-300 rounded-lg font-semibold text-sm sm:text-base text-gray-700 hover:border-primary hover:text-primary transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:border-gray-300 disabled:hover:text-gray-700 active:scale-95"
+                            className="px-4 sm:px-6 py-2 sm:py-3 bg-white border-2 border-gray-300 rounded-lg font-semibold text-sm sm:text-base text-gray-700 hover:border-pink-600 hover:text-pink-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:border-gray-300 disabled:hover:text-gray-700 active:scale-95"
                         >
                             Next
                         </button>

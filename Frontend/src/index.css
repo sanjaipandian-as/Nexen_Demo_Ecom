@@ -1,6 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
+@theme {
+  /* Primary - Rose Pink for CTAs and highlights */
+  --primary: #E91E63;
+  --primary-foreground: #ffffff;
+
+  /* Secondary - Blush Pink for backgrounds and hover states */
+  --secondary: #F8BBD0;
+  --secondary-foreground: #2E2E2E;
+
+  /* Accent - Champagne Gold for badges and premium highlights */
+  --accent: #C9A24D;
+  --accent-foreground: #ffffff;
+
+  /* Neutrals */
+  --background: #FFFFFF;
+  --soft-grey: #F5F5F5;
+  --charcoal: #2E2E2E;
+}
+
 body {
   font-family: 'Manrope', sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -48,12 +67,47 @@ h6 {
   }
 }
 
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: scaleX(0.8);
+  }
+
+  to {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+@keyframes sparkle {
+
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
 .animate-slideUp {
   animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .animate-fadeIn {
   animation: fadeIn 0.3s ease-out forwards;
+}
+
+.animate-slideDown {
+  animation: slideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transform-origin: left center;
+}
+
+.animate-sparkle {
+  animation: sparkle 0.3s ease;
 }
 
 /* Custom Utilities */

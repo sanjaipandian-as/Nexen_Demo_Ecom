@@ -25,7 +25,7 @@ export const getProductById = async (req, res) => {
     const product = await Product.findOne({
       _id: productId,
       is_deleted: false
-    }).populate("sellerId");
+    });
 
     if (!product)
       return res.status(404).json({ message: "Product not found" });
