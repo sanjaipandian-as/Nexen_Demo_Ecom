@@ -23,7 +23,7 @@ const AccountSettings = ({ userData, setUserData }) => {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [passwordError, setPasswordError] = useState('');
 
-    const inputClasses = "w-full px-4 py-3.5 rounded-xl border-2 border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-500/30 focus:border-orange-500 transition-all placeholder:text-gray-400 bg-white hover:border-gray-300";
+    const inputClasses = "w-full px-4 py-3.5 rounded-xl border-2 border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all placeholder:text-gray-400 bg-white hover:border-gray-300";
     const labelClasses = "block text-sm font-semibold text-gray-700 mb-2.5";
 
     // Save profile changes
@@ -124,8 +124,8 @@ const AccountSettings = ({ userData, setUserData }) => {
     return (
         <div className="space-y-8">
             <div className="flex items-center gap-2 sm:gap-3 pb-4 sm:pb-6 border-b border-gray-100">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-orange-100 rounded-lg sm:rounded-xl flex items-center justify-center">
-                    <FaUser className="w-5 h-5 sm:w-6 sm:h-6 text-orange-600" />
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary/10 rounded-lg sm:rounded-xl flex items-center justify-center">
+                    <FaUser className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
                 </div>
                 <div>
                     <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900">Account Information</h2>
@@ -136,7 +136,7 @@ const AccountSettings = ({ userData, setUserData }) => {
             <div className="grid grid-cols-1 gap-4 sm:gap-6">
                 <div>
                     <label className={labelClasses}>
-                        <FaUser className="inline mr-2 text-orange-500" />
+                        <FaUser className="inline mr-2 text-primary" />
                         Full Name
                     </label>
                     <input
@@ -151,7 +151,7 @@ const AccountSettings = ({ userData, setUserData }) => {
 
                 <div className="md:col-span-2">
                     <label className={labelClasses}>
-                        <FaEnvelope className="inline mr-2 text-orange-500" />
+                        <FaEnvelope className="inline mr-2 text-primary" />
                         Email Address
                     </label>
                     <input
@@ -166,7 +166,7 @@ const AccountSettings = ({ userData, setUserData }) => {
 
                 <div className="md:col-span-2">
                     <label className={labelClasses}>
-                        <FaPhone className="inline mr-2 text-orange-500" />
+                        <FaPhone className="inline mr-2 text-primary" />
                         Phone Number
                     </label>
                     <input
@@ -184,7 +184,7 @@ const AccountSettings = ({ userData, setUserData }) => {
                 {!isEditingProfile ? (
                     <button
                         onClick={() => setIsEditingProfile(true)}
-                        className="px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all shadow-lg shadow-orange-500/30"
+                        className="px-6 py-3 bg-gradient-to-r from-primary to-primary/90 text-white font-semibold rounded-xl hover:from-primary hover:to-primary/80 transition-all shadow-lg shadow-primary/30"
                     >
                         <FaEdit className="inline mr-2" />
                         Edit Profile
@@ -215,8 +215,8 @@ const AccountSettings = ({ userData, setUserData }) => {
             {/* Password Section */}
             <div className="pt-6 border-t border-gray-100">
                 <div className="flex items-center gap-3 mb-6">
-                    <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
-                        <FaKey className="w-5 h-5 text-orange-600" />
+                    <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+                        <FaKey className="w-5 h-5 text-primary" />
                     </div>
                     <h3 className="text-lg font-bold text-gray-900">Password & Security</h3>
                 </div>
@@ -230,7 +230,7 @@ const AccountSettings = ({ userData, setUserData }) => {
                         Change Password
                     </button>
                 ) : (
-                    <div className="bg-gradient-to-r from-orange-50 to-yellow-50 rounded-2xl p-6 border-2 border-orange-200">
+                    <div className="bg-gradient-to-r from-primary/5 to-secondary/5 rounded-2xl p-6 border-2 border-primary/20">
                         <div className="flex items-center justify-between mb-6">
                             <h4 className="text-xl font-bold text-gray-900">Change Password</h4>
                             <button
@@ -319,7 +319,7 @@ const AccountSettings = ({ userData, setUserData }) => {
                                 <button
                                     type="submit"
                                     disabled={saving}
-                                    className="flex-1 px-6 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all shadow-lg shadow-orange-500/30 disabled:opacity-50"
+                                    className="flex-1 px-6 py-3 bg-gradient-to-r from-primary to-primary/90 text-white font-semibold rounded-xl hover:from-primary hover:to-primary/80 transition-all shadow-lg shadow-primary/30 disabled:opacity-50"
                                 >
                                     {saving ? 'Changing...' : 'Change Password'}
                                 </button>

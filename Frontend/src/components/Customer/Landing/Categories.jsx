@@ -167,10 +167,10 @@ const Categories = () => {
                                         </div>
 
                                         <div className="p-5">
-                                            <h3 className="text-[17px] font-bold text-gray-900 mb-4 line-clamp-1 group-hover:text-orange-600 transition-colors uppercase tracking-tight">
+                                            <h3 className="text-[17px] font-bold text-gray-900 mb-4 line-clamp-1 group-hover:text-primary transition-colors uppercase tracking-tight">
                                                 {cat.name}
                                             </h3>
-                                            <button className="w-full px-4 py-2.5 bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white text-xs sm:text-[13px] font-black uppercase tracking-widest rounded-xl transition-all shadow-[0_4px_12px_rgba(249,115,22,0.2)] hover:shadow-[0_8px_20px_rgba(249,115,22,0.3)]">
+                                            <button className="w-full px-4 py-2.5 bg-primary hover:bg-primary/90 active:bg-primary/80 text-white text-xs sm:text-[13px] font-black uppercase tracking-widest rounded-xl transition-all shadow-sm hover:shadow-md">
                                                 Explore
                                             </button>
                                         </div>
@@ -203,7 +203,7 @@ const Categories = () => {
                             key={i}
                             onClick={() => handleDotClick(i)}
                             className={`h-2 rounded-full transition-all ${i === index
-                                ? 'w-8 bg-orange-500'
+                                ? 'w-8 bg-primary'
                                 : 'w-2 bg-gray-300 hover:bg-gray-400'
                                 }`}
                             aria-label={`Go to slide ${i + 1}`}

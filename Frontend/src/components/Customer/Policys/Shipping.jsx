@@ -12,28 +12,28 @@ const Shipping = () => {
             </header>
 
             {/* Quick Info */}
-            <section className="bg-orange-600 text-white py-12">
+            <section className="bg-primary text-white py-12">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
                         <div>
                             <FiTruck className="w-10 h-10 mx-auto mb-3" />
                             <div className="text-3xl font-bold mb-1">FREE</div>
-                            <p className="text-orange-100">On orders ₹999+</p>
+                            <p className="text-primary-foreground/80">On orders ₹999+</p>
                         </div>
                         <div>
                             <FiClock className="w-10 h-10 mx-auto mb-3" />
                             <div className="text-3xl font-bold mb-1">5-7 Days</div>
-                            <p className="text-orange-100">Standard delivery</p>
+                            <p className="text-primary-foreground/80">Standard delivery</p>
                         </div>
                         <div>
                             <FiMapPin className="w-10 h-10 mx-auto mb-3" />
                             <div className="text-3xl font-bold mb-1">Pan India</div>
-                            <p className="text-orange-100">All locations</p>
+                            <p className="text-primary-foreground/80">All locations</p>
                         </div>
                         <div>
                             <FiPackage className="w-10 h-10 mx-auto mb-3" />
                             <div className="text-3xl font-bold mb-1">Safe</div>
-                            <p className="text-orange-100">PESO compliant</p>
+                            <p className="text-primary-foreground/80">PESO compliant</p>
                         </div>
                     </div>
                 </div>
@@ -105,11 +105,11 @@ const Shipping = () => {
                             <h3 className="text-xl font-bold text-gray-900 mb-4">Standard Shipping</h3>
                             <ul className="space-y-3 text-gray-600">
                                 <li className="flex items-start gap-2">
-                                    <span className="text-orange-600 font-bold">•</span>
+                                    <span className="text-primary font-bold">•</span>
                                     <span>Orders below ₹999: <strong>₹99</strong> shipping charge</span>
                                 </li>
                                 <li className="flex items-start gap-2">
-                                    <span className="text-orange-600 font-bold">•</span>
+                                    <span className="text-primary font-bold">•</span>
                                     <span>Orders ₹999 and above: <strong className="text-green-600">FREE</strong> shipping</span>
                                 </li>
                             </ul>
@@ -118,15 +118,15 @@ const Shipping = () => {
                             <h3 className="text-xl font-bold text-gray-900 mb-4">Express Shipping</h3>
                             <ul className="space-y-3 text-gray-600">
                                 <li className="flex items-start gap-2">
-                                    <span className="text-orange-600 font-bold">•</span>
+                                    <span className="text-primary font-bold">•</span>
                                     <span>Available in select cities</span>
                                 </li>
                                 <li className="flex items-start gap-2">
-                                    <span className="text-orange-600 font-bold">•</span>
+                                    <span className="text-primary font-bold">•</span>
                                     <span>Delivery in <strong>2-3 business days</strong></span>
                                 </li>
                                 <li className="flex items-start gap-2">
-                                    <span className="text-orange-600 font-bold">•</span>
+                                    <span className="text-primary font-bold">•</span>
                                     <span>Additional charge: <strong>₹199</strong></span>
                                 </li>
                             </ul>
@@ -142,29 +142,29 @@ const Shipping = () => {
                     <p className="text-lg text-gray-600 mb-8">All crackers packed per PESO guidelines:</p>
                     <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                         <div className="text-center p-6">
-                            <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <FiPackage className="w-8 h-8 text-orange-600" />
+                            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <FiPackage className="w-8 h-8 text-primary" />
                             </div>
                             <h3 className="font-bold text-gray-900 mb-2">Double-Layered Boxes</h3>
                             <p className="text-gray-600 text-sm">Corrugated boxes for protection</p>
                         </div>
                         <div className="text-center p-6">
-                            <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <FiPackage className="w-8 h-8 text-orange-600" />
+                            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <FiPackage className="w-8 h-8 text-primary" />
                             </div>
                             <h3 className="font-bold text-gray-900 mb-2">Bubble Wrap</h3>
                             <p className="text-gray-600 text-sm">Protective padding inside</p>
                         </div>
                         <div className="text-center p-6">
-                            <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <FiPackage className="w-8 h-8 text-orange-600" />
+                            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <FiPackage className="w-8 h-8 text-primary" />
                             </div>
                             <h3 className="font-bold text-gray-900 mb-2">Safety Labels</h3>
                             <p className="text-gray-600 text-sm">Hazardous material labels</p>
                         </div>
                         <div className="text-center p-6">
-                            <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <FiPackage className="w-8 h-8 text-orange-600" />
+                            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <FiPackage className="w-8 h-8 text-primary" />
                             </div>
                             <h3 className="font-bold text-gray-900 mb-2">Moisture-Resistant</h3>
                             <p className="text-gray-600 text-sm">Protected from moisture</p>
@@ -200,24 +200,24 @@ const Shipping = () => {
             </section>
 
             {/* Important Notes */}
-            <section className="py-16 bg-orange-50 border-y border-orange-200">
+            <section className="py-16 bg-primary/5 border-y border-primary/10">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <h2 className="text-2xl font-bold text-gray-900 mb-6">Important Notes</h2>
                     <div className="grid md:grid-cols-2 gap-4">
                         <div className="flex items-start gap-3">
-                            <span className="text-orange-600 font-bold text-xl">•</span>
+                            <span className="text-primary font-bold text-xl">•</span>
                             <p className="text-gray-700">Delivery times may vary during festive seasons</p>
                         </div>
                         <div className="flex items-start gap-3">
-                            <span className="text-orange-600 font-bold text-xl">•</span>
+                            <span className="text-primary font-bold text-xl">•</span>
                             <p className="text-gray-700">Some areas may have delivery restrictions</p>
                         </div>
                         <div className="flex items-start gap-3">
-                            <span className="text-orange-600 font-bold text-xl">•</span>
+                            <span className="text-primary font-bold text-xl">•</span>
                             <p className="text-gray-700">Signature required upon delivery</p>
                         </div>
                         <div className="flex items-start gap-3">
-                            <span className="text-orange-600 font-bold text-xl">•</span>
+                            <span className="text-primary font-bold text-xl">•</span>
                             <p className="text-gray-700">Orders processed Monday to Saturday</p>
                         </div>
                     </div>

@@ -131,7 +131,7 @@ const FAQs = () => {
             <div className="bg-white border-b-2 border-gray-200">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
                     <div className="max-w-3xl mx-auto text-center">
-                        <div className="inline-block px-4 py-2 bg-orange-100 text-orange-600 rounded-full text-sm font-semibold mb-6">
+                        <div className="inline-block px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-semibold mb-6">
                             Help Center
                         </div>
                         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
@@ -149,7 +149,7 @@ const FAQs = () => {
                                 placeholder="Search for answers..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                className="w-full pl-12 pr-4 py-4 bg-gray-50 border-2 border-gray-300 rounded-xl focus:border-orange-500 focus:bg-white outline-none transition-all text-gray-900"
+                                className="w-full pl-12 pr-4 py-4 bg-gray-50 border-2 border-gray-300 rounded-xl focus:border-primary focus:bg-white outline-none transition-all text-gray-900"
                             />
                         </div>
                     </div>
@@ -164,8 +164,8 @@ const FAQs = () => {
                             key={category.id}
                             onClick={() => setActiveCategory(category.id)}
                             className={`px-4 py-2 rounded-lg font-semibold transition-colors ${activeCategory === category.id
-                                    ? 'bg-orange-600 text-white'
-                                    : 'bg-white border-2 border-gray-200 text-gray-700 hover:border-orange-300'
+                                ? 'bg-primary text-white'
+                                : 'bg-white border-2 border-gray-200 text-gray-700 hover:border-primary/50'
                                 }`}
                         >
                             {category.name}
@@ -179,7 +179,7 @@ const FAQs = () => {
                         filteredFaqs.map((faq, index) => (
                             <div
                                 key={index}
-                                className="bg-white border-2 border-gray-200 rounded-xl overflow-hidden hover:border-orange-300 transition-colors"
+                                className="bg-white border-2 border-gray-200 rounded-xl overflow-hidden hover:border-primary/50 transition-colors"
                             >
                                 <button
                                     onClick={() => setOpenFaq(openFaq === index ? null : index)}
@@ -187,7 +187,7 @@ const FAQs = () => {
                                 >
                                     <span className="font-semibold text-gray-900 pr-4">{faq.question}</span>
                                     {openFaq === index ? (
-                                        <FiChevronUp className="w-5 h-5 text-orange-600 flex-shrink-0" />
+                                        <FiChevronUp className="w-5 h-5 text-primary flex-shrink-0" />
                                     ) : (
                                         <FiChevronDown className="w-5 h-5 text-gray-500 flex-shrink-0" />
                                     )}
@@ -208,21 +208,21 @@ const FAQs = () => {
                 </div>
 
                 {/* Still Need Help */}
-                <div className="mt-12 bg-orange-600 rounded-2xl p-8 text-white text-center">
+                <div className="mt-12 bg-primary rounded-2xl p-8 text-white text-center">
                     <h3 className="text-2xl font-bold mb-4">Still Need Help?</h3>
-                    <p className="text-orange-100 mb-6">
+                    <p className="text-primary-foreground/80 mb-6">
                         Can't find the answer you're looking for? Our support team is here to help.
                     </p>
                     <div className="flex flex-wrap gap-4 justify-center">
                         <a
                             href="/Support"
-                            className="bg-white hover:bg-gray-100 text-orange-600 font-semibold px-6 py-3 rounded-lg transition-colors"
+                            className="bg-white hover:bg-gray-100 text-primary font-semibold px-6 py-3 rounded-lg transition-colors"
                         >
                             Contact Support
                         </a>
                         <a
                             href="mailto:support@apkcrackers.com"
-                            className="border-2 border-white hover:bg-white hover:text-orange-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors"
+                            className="border-2 border-white hover:bg-white hover:text-primary text-white font-semibold px-6 py-3 rounded-lg transition-colors"
                         >
                             Email Us
                         </a>

@@ -227,7 +227,7 @@ const Cart = () => {
                                         onClick={() => setShowWishlist(!showWishlist)}
                                         className="w-full py-4 bg-white border border-gray-200 text-gray-900 font-semibold rounded-xl hover:bg-gray-50 flex items-center justify-center gap-2 transition-all"
                                     >
-                                        <BsFillBagHeartFill className="text-orange-500" />
+                                        <BsFillBagHeartFill className="text-primary" />
                                         {showWishlist ? 'Hide Wishlist' : 'Import from Wishlist'} ({wishlistItems.length})
                                     </button>
                                 )}
@@ -315,7 +315,7 @@ const Cart = () => {
                                     </span>
                                 </label>
                                 {selectedItems.length > 0 && (
-                                    <span className="text-xs font-bold text-orange-600 bg-orange-50 px-2 py-1 rounded">
+                                    <span className="text-xs font-bold text-primary bg-primary/10 px-2 py-1 rounded">
                                         {selectedItems.length} SELECTED
                                     </span>
                                 )}
@@ -331,7 +331,7 @@ const Cart = () => {
                                     return (
                                         <div
                                             key={product._id}
-                                            className={`p-4 sm:p-6 transition-all duration-300 ${isSelected ? 'bg-orange-50/30' : 'bg-white'
+                                            className={`p-4 sm:p-6 transition-all duration-300 ${isSelected ? 'bg-primary/5' : 'bg-white'
                                                 } border-b border-gray-100 last:border-0`}
                                         >
                                             <div className="flex gap-4 sm:gap-6">
@@ -363,7 +363,7 @@ const Cart = () => {
                                                     <div className="space-y-1">
                                                         <div className="flex justify-between items-start gap-2">
                                                             <h3
-                                                                className="text-base sm:text-lg font-semibold text-gray-900 leading-tight cursor-pointer hover:text-orange-600 transition-colors truncate sm:whitespace-normal"
+                                                                className="text-base sm:text-lg font-semibold text-gray-900 leading-tight cursor-pointer hover:text-primary transition-colors truncate sm:whitespace-normal"
                                                                 onClick={() => navigate(`/product/${product._id}`)}
                                                             >
                                                                 {product.name}

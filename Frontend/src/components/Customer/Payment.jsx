@@ -304,7 +304,7 @@ const Payment = () => {
                     contact: ''
                 },
                 theme: {
-                    color: '#f97316'
+                    color: '#FF5FCF'
                 },
                 modal: {
                     ondismiss: async function () {
@@ -478,13 +478,13 @@ const Payment = () => {
                             <div className="flex gap-3 justify-center">
                                 <button
                                     onClick={() => navigate('/Settings')}
-                                    className="px-6 py-3 bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-600 transition-all shadow-md"
+                                    className="px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 transition-all shadow-md"
                                 >
                                     Go to Settings
                                 </button>
                                 <button
                                     onClick={() => navigate('/')}
-                                    className="px-6 py-3 bg-white border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:border-orange-500 hover:text-orange-500 transition-all"
+                                    className="px-6 py-3 bg-white border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:border-primary hover:text-primary transition-all"
                                 >
                                     Go to Home
                                 </button>
@@ -493,7 +493,7 @@ const Payment = () => {
                     ) : (
                         <button
                             onClick={() => navigate('/')}
-                            className="px-6 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600"
+                            className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/90"
                         >
                             Go to Home
                         </button>
@@ -540,7 +540,7 @@ const Payment = () => {
                     <div className="flex items-center justify-between">
                         <button
                             onClick={() => navigate(-1)}
-                            className="flex items-center gap-2 text-gray-600 hover:text-orange-600 font-medium transition-colors"
+                            className="flex items-center gap-2 text-gray-600 hover:text-primary font-medium transition-colors"
                         >
                             <FaArrowLeft className="w-4 h-4" />
                             Back to Cart
@@ -559,9 +559,9 @@ const Payment = () => {
                         <h1 className="text-2xl font-bold text-gray-900 mb-2">Complete Your Order</h1>
                         <p className="text-gray-600 mb-6">Review your items and choose your payment method</p>
                         <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-                            <div className="bg-gradient-to-r from-orange-50 to-orange-100 px-6 py-4 border-b border-orange-200">
+                            <div className="bg-gradient-to-r from-primary/5 to-primary/10 px-6 py-4 border-b border-primary/20">
                                 <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2">
-                                    <div className="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center">
+                                    <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
                                         <FaShoppingBag className="w-4 h-4 text-white" />
                                     </div>
                                     Order Items ({(order?.items?.length || cartItems.length)})
@@ -572,7 +572,7 @@ const Payment = () => {
                                 {(order?.items || cartItems)?.map((item, index) => {
                                     const productId = item.productId?._id || item.productId;
                                     return (
-                                        <div key={index} className="flex flex-col sm:flex-row gap-4 sm:gap-6 p-4 sm:p-5 bg-white rounded-xl border border-gray-200 hover:border-orange-300 hover:shadow-sm transition-all relative group">
+                                        <div key={index} className="flex flex-col sm:flex-row gap-4 sm:gap-6 p-4 sm:p-5 bg-white rounded-xl border border-gray-200 hover:border-primary/30 hover:shadow-sm transition-all relative group">
                                             {/* Remove Button - Top Right */}
                                             {!order && (
                                                 <button
@@ -621,14 +621,14 @@ const Payment = () => {
                                                                     <button
                                                                         onClick={() => handleUpdateQuantity(productId, item.quantity - 1)}
                                                                         disabled={item.quantity <= 1}
-                                                                        className="w-6 h-6 bg-white rounded flex items-center justify-center hover:bg-orange-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                                                        className="w-6 h-6 bg-white rounded flex items-center justify-center hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                                                                     >
                                                                         <FaMinus className="w-2.5 h-2.5 text-gray-600" />
                                                                     </button>
                                                                     <span className="font-bold text-gray-900 px-3 text-sm min-w-[2rem] text-center">{item.quantity}</span>
                                                                     <button
                                                                         onClick={() => handleUpdateQuantity(productId, item.quantity + 1)}
-                                                                        className="w-6 h-6 bg-white rounded flex items-center justify-center hover:bg-orange-50 transition-colors"
+                                                                        className="w-6 h-6 bg-white rounded flex items-center justify-center hover:bg-primary/10 transition-colors"
                                                                     >
                                                                         <FaPlus className="w-2.5 h-2.5 text-gray-600" />
                                                                     </button>
@@ -651,7 +651,7 @@ const Payment = () => {
 
                                             <div className="flex sm:flex-col justify-between items-center sm:items-end pt-3 sm:pt-12 border-t sm:border-t-0 border-gray-100">
                                                 <p className="text-[10px] sm:text-xs text-gray-500 mb-0 sm:mb-1 uppercase tracking-wider font-semibold">Subtotal</p>
-                                                <p className="text-lg sm:text-xl font-black text-orange-600">
+                                                <p className="text-lg sm:text-xl font-black text-primary">
                                                     ₹{((item.price || item.productId?.pricing?.selling_price || item.productId?.price || 0) * (item.quantity || 1)).toFixed(2)}
                                                 </p>
                                             </div>
@@ -700,19 +700,19 @@ const Payment = () => {
                             <div className="p-6 space-y-4">
                                 <div
                                     onClick={() => setSelectedMethod('cod')}
-                                    className={`border-2 rounded-xl p-5 cursor-pointer transition-all ${selectedMethod === 'cod' ? 'border-orange-500 bg-orange-50 shadow-md' : 'border-gray-200 hover:border-orange-200 hover:shadow-sm'
+                                    className={`border-2 rounded-xl p-5 cursor-pointer transition-all ${selectedMethod === 'cod' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200 hover:border-primary/30 hover:shadow-sm'
                                         }`}
                                 >
                                     <div className="flex items-center justify-between">
                                         <div className="flex items-center gap-3">
-                                            <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${selectedMethod === 'cod' ? 'border-orange-500' : 'border-gray-300'
+                                            <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${selectedMethod === 'cod' ? 'border-primary' : 'border-gray-300'
                                                 }`}>
                                                 {selectedMethod === 'cod' && (
-                                                    <div className="w-3 h-3 rounded-full bg-orange-500"></div>
+                                                    <div className="w-3 h-3 rounded-full bg-primary"></div>
                                                 )}
                                             </div>
-                                            <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
-                                                <FaMoneyBillWave className="w-5 h-5 text-orange-600" />
+                                            <div className="w-10 h-10 bg-primary/20 rounded-lg flex items-center justify-center">
+                                                <FaMoneyBillWave className="w-5 h-5 text-primary" />
                                             </div>
                                             <div>
                                                 <p className="font-bold text-gray-900">Cash on Delivery</p>
@@ -720,26 +720,26 @@ const Payment = () => {
                                             </div>
                                         </div>
                                         {selectedMethod === 'cod' && (
-                                            <FaCheckCircle className="w-5 h-5 text-orange-500" />
+                                            <FaCheckCircle className="w-5 h-5 text-primary" />
                                         )}
                                     </div>
                                 </div>
 
                                 <div
                                     onClick={() => setSelectedMethod('online')}
-                                    className={`border-2 rounded-xl p-5 cursor-pointer transition-all ${selectedMethod === 'online' ? 'border-orange-500 bg-orange-50 shadow-md' : 'border-gray-200 hover:border-orange-200 hover:shadow-sm'
+                                    className={`border-2 rounded-xl p-5 cursor-pointer transition-all ${selectedMethod === 'online' ? 'border-primary bg-primary/5 shadow-md' : 'border-gray-200 hover:border-primary/30 hover:shadow-sm'
                                         }`}
                                 >
                                     <div className="flex items-center justify-between mb-3">
                                         <div className="flex items-center gap-3">
-                                            <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${selectedMethod === 'online' ? 'border-orange-500' : 'border-gray-300'
+                                            <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${selectedMethod === 'online' ? 'border-primary' : 'border-gray-300'
                                                 }`}>
                                                 {selectedMethod === 'online' && (
-                                                    <div className="w-3 h-3 rounded-full bg-orange-500"></div>
+                                                    <div className="w-3 h-3 rounded-full bg-primary"></div>
                                                 )}
                                             </div>
-                                            <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
-                                                <MdAccountBalanceWallet className="w-5 h-5 text-orange-600" />
+                                            <div className="w-10 h-10 bg-primary/20 rounded-lg flex items-center justify-center">
+                                                <MdAccountBalanceWallet className="w-5 h-5 text-primary" />
                                             </div>
                                             <div>
                                                 <p className="font-bold text-gray-900">UPI / Wallets / Cards</p>
@@ -747,7 +747,7 @@ const Payment = () => {
                                             </div>
                                         </div>
                                         {selectedMethod === 'online' && (
-                                            <FaCheckCircle className="w-5 h-5 text-orange-500" />
+                                            <FaCheckCircle className="w-5 h-5 text-primary" />
                                         )}
                                     </div>
 
@@ -800,7 +800,7 @@ const Payment = () => {
 
                                 <div className="flex justify-between items-center py-4 border-b border-gray-200">
                                     <span className="text-lg font-bold text-gray-900">Total Amount</span>
-                                    <span className="text-2xl font-bold text-orange-600">₹{total.toFixed(2)}</span>
+                                    <span className="text-2xl font-bold text-primary">₹{total.toFixed(2)}</span>
                                 </div>
 
                                 <div className="pb-4 border-b border-gray-200">
@@ -809,13 +809,13 @@ const Payment = () => {
                                             type="checkbox"
                                             checked={acceptPolicy}
                                             onChange={(e) => setAcceptPolicy(e.target.checked)}
-                                            className="w-5 h-5 rounded border-gray-300 text-orange-600 focus:ring-orange-500 mt-0.5"
+                                            className="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary mt-0.5"
                                         />
                                         <span className="text-sm text-gray-600">
                                             I agree to the{' '}
-                                            <a href="/privacy-policy" target="_blank" rel="noopener noreferrer" className="font-semibold text-orange-600 hover:text-orange-500 underline">Privacy Policy</a>
+                                            <a href="/privacy-policy" target="_blank" rel="noopener noreferrer" className="font-semibold text-primary hover:text-primary/80 underline">Privacy Policy</a>
                                             {' and '}
-                                            <a href="/terms-and-conditions" target="_blank" rel="noopener noreferrer" className="font-semibold text-orange-600 hover:text-orange-500 underline">Terms & Conditions</a>
+                                            <a href="/terms-and-conditions" target="_blank" rel="noopener noreferrer" className="font-semibold text-primary hover:text-primary/80 underline">Terms & Conditions</a>
                                         </span>
                                     </label>
                                 </div>
@@ -823,7 +823,7 @@ const Payment = () => {
                                 <button
                                     onClick={handlePayment}
                                     disabled={processing}
-                                    className={`w-full py-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold text-base rounded-xl transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2 ${processing ? 'opacity-50 cursor-not-allowed' : 'hover:from-orange-600 hover:to-orange-700 transform hover:scale-[1.02]'
+                                    className={`w-full py-4 bg-gradient-to-r from-primary to-primary/90 text-white font-bold text-base rounded-xl transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2 ${processing ? 'opacity-50 cursor-not-allowed' : 'hover:from-primary hover:to-primary/80 transform hover:scale-[1.02]'
                                         }`}
                                 >
                                     {processing ? (
@@ -878,7 +878,7 @@ const Payment = () => {
                                     <p className="text-gray-600 mb-4">No addresses found</p>
                                     <button
                                         onClick={() => navigate('/Settings')}
-                                        className="px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-all"
+                                        className="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-all"
                                     >
                                         Add Address in Settings
                                     </button>
@@ -889,7 +889,7 @@ const Payment = () => {
                                         <div
                                             key={address._id}
                                             onClick={() => handleSelectAddress(address)}
-                                            className={`border-2 rounded-xl p-4 cursor-pointer transition-all ${selectedAddressId === address._id ? 'border-orange-500 bg-orange-50' : 'border-gray-200 hover:border-orange-300'
+                                            className={`border-2 rounded-xl p-4 cursor-pointer transition-all ${selectedAddressId === address._id ? 'border-primary bg-primary/5' : 'border-gray-200 hover:border-primary/30'
                                                 }`}
                                         >
                                             <div className="flex items-start justify-between gap-2">
@@ -897,7 +897,7 @@ const Payment = () => {
                                                     <div className="flex items-center gap-2 mb-2">
                                                         <h3 className="font-bold text-gray-900">{address.fullname}</h3>
                                                         {address.isDefault && (
-                                                            <span className="px-2 py-1 bg-orange-500 text-white text-xs rounded">Default</span>
+                                                            <span className="px-2 py-1 bg-primary text-white text-xs rounded">Default</span>
                                                         )}
                                                     </div>
                                                     <p className="text-gray-700 mb-1 text-sm">{address.addressLine}</p>
@@ -910,7 +910,7 @@ const Payment = () => {
                                                     <p className="text-gray-600 text-sm">Phone: {address.phone}</p>
                                                 </div>
                                                 {selectedAddressId === address._id && (
-                                                    <FaCheckCircle className="w-6 h-6 text-orange-500" />
+                                                    <FaCheckCircle className="w-6 h-6 text-primary" />
                                                 )}
                                             </div>
                                         </div>
@@ -918,7 +918,7 @@ const Payment = () => {
 
                                     <button
                                         onClick={() => navigate('/Settings')}
-                                        className="w-full py-3 border-2 border-dashed border-gray-300 rounded-xl text-gray-600 hover:border-orange-500 hover:text-orange-600 transition-all font-semibold"
+                                        className="w-full py-3 border-2 border-dashed border-gray-300 rounded-xl text-gray-600 hover:border-primary hover:text-primary transition-all font-semibold"
                                     >
                                         + Add New Address
                                     </button>

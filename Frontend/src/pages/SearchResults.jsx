@@ -23,7 +23,7 @@ const rangeSliderStyles = `
         width: 18px;
         height: 18px;
         border-radius: 50%;
-        background: linear-gradient(135deg, #f97316, #fb923c);
+        background: linear-gradient(135deg, #FF5FCF, #F7DB91);
         cursor: pointer;
         border: 3px solid white;
         box-shadow: 0 2px 6px rgba(0,0,0,0.2);
@@ -34,7 +34,7 @@ const rangeSliderStyles = `
         width: 18px;
         height: 18px;
         border-radius: 50%;
-        background: linear-gradient(135deg, #f97316, #fb923c);
+        background: linear-gradient(135deg, #FF5FCF, #F7DB91);
         cursor: pointer;
         border: 3px solid white;
         box-shadow: 0 2px 6px rgba(0,0,0,0.2);
@@ -327,7 +327,7 @@ const SearchResults = () => {
                                 <p className="text-gray-800 text-lg mb-4">{error}</p>
                                 <button
                                     onClick={fetchSearchResults}
-                                    className="px-6 py-2 bg-gradient-to-r from-orange-500 to-yellow-500 text-white rounded-lg hover:shadow-md transition-all font-semibold"
+                                    className="px-6 py-2 bg-gradient-to-r from-primary to-secondary text-white rounded-lg hover:shadow-md transition-all font-semibold"
                                 >
                                     Retry Search
                                 </button>
@@ -339,7 +339,7 @@ const SearchResults = () => {
                                 <p className="text-gray-500 mb-6">Try adjusting your filters or search terms</p>
                                 <button
                                     onClick={() => navigate('/')}
-                                    className="px-6 py-2 bg-gradient-to-r from-orange-500 to-yellow-500 text-white rounded-lg hover:shadow-md transition-all font-semibold"
+                                    className="px-6 py-2 bg-gradient-to-r from-primary to-secondary text-white rounded-lg hover:shadow-md transition-all font-semibold"
                                 >
                                     Browse All Products
                                 </button>
@@ -372,7 +372,7 @@ const SearchResults = () => {
                                                     className="absolute top-3 right-3 w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-md hover:shadow-lg transition-shadow"
                                                 >
                                                     {togglingWishlist === product._id ? (
-                                                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-orange-500"></div>
+                                                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary"></div>
                                                     ) : (
                                                         <FaHeart
                                                             className={`w-5 h-5 transition-colors ${wishlistItems.includes(product._id)
@@ -393,7 +393,7 @@ const SearchResults = () => {
                                                 <div className="flex items-start justify-between mb-3">
                                                     <h3 className="text-base font-semibold text-gray-800">{product.name}</h3>
                                                     <div className="flex items-center gap-1 bg-gray-50 px-2 py-1 rounded cursor-pointer">
-                                                        <FaStar className="w-3 h-3 text-yellow-400" />
+                                                        <FaStar className="w-3 h-3 text-secondary" />
                                                         <span className="text-sm font-medium text-gray-700">4.2</span>
                                                         <span className="text-xs text-gray-500">(0)</span>
                                                     </div>
@@ -406,7 +406,7 @@ const SearchResults = () => {
                                                     </div>
                                                     <div className="flex flex-col items-end">
                                                         <span className="text-xs text-gray-500 font-medium mb-1">Stock</span>
-                                                        <span className={`text-sm font-bold ${product.stock > 10 ? 'text-green-600' : product.stock > 0 ? 'text-orange-600' : 'text-red-600'
+                                                        <span className={`text-sm font-bold ${product.stock > 10 ? 'text-green-600' : product.stock > 0 ? 'text-primary' : 'text-red-600'
                                                             }`}>
                                                             {product.stock > 0 ? `${product.stock} units` : 'Out of stock'}
                                                         </span>
@@ -423,7 +423,7 @@ const SearchResults = () => {
                                                                 e.stopPropagation();
                                                                 navigate('/cart');
                                                             }}
-                                                            className="flex items-center gap-2 px-4 py-2 bg-white border-2 border-orange-500 text-orange-600 rounded-lg transition-all shadow-sm hover:shadow-md hover:bg-orange-50 cursor-pointer"
+                                                            className="flex items-center gap-2 px-4 py-2 bg-white border-2 border-primary text-primary rounded-lg transition-all shadow-sm hover:shadow-md hover:bg-primary/5 cursor-pointer"
                                                         >
                                                             <FaCheckCircle className="w-4 h-4" />
                                                             <span className="text-sm font-medium">
@@ -436,7 +436,7 @@ const SearchResults = () => {
                                                             disabled={addingToCart === product._id || product.stock <= 0}
                                                             className={`flex items-center gap-2 px-4 py-2 text-white rounded-lg transition-all shadow-sm hover:shadow-md ${addingToCart === product._id || product.stock <= 0
                                                                 ? 'bg-gray-400 cursor-not-allowed'
-                                                                : 'bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 cursor-pointer'
+                                                                : 'bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 cursor-pointer'
                                                                 }`}
                                                         >
                                                             {addingToCart === product._id ? (

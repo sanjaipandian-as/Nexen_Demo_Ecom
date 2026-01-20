@@ -61,10 +61,10 @@ const AboutUs = () => {
             </header>
 
             {/* Hero Section */}
-            <section className="py-16 bg-orange-600 text-white">
+            <section className="py-16 bg-primary text-white">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                     <h2 className="text-4xl font-bold mb-6">India's Trusted Crackers Brand</h2>
-                    <p className="text-xl text-orange-100 max-w-3xl mx-auto leading-relaxed">
+                    <p className="text-xl text-primary-foreground/80 max-w-3xl mx-auto leading-relaxed">
                         For over 25 years, APK Crackers has been bringing joy and light to millions of celebrations
                         across India. Based in Sivakasi, the fireworks capital of India, we combine traditional
                         craftsmanship with modern safety standards.
@@ -78,7 +78,7 @@ const AboutUs = () => {
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
                         {stats.map((stat, index) => (
                             <div key={index} className="text-center">
-                                <div className="text-5xl font-bold text-orange-600 mb-2">{stat.number}</div>
+                                <div className="text-5xl font-bold text-primary mb-2">{stat.number}</div>
                                 <p className="text-gray-600 font-medium">{stat.label}</p>
                             </div>
                         ))}
@@ -124,8 +124,8 @@ const AboutUs = () => {
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {values.map((value, index) => (
                             <div key={index} className="bg-gray-50 border border-gray-200 rounded-lg p-8">
-                                <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mb-6">
-                                    <value.icon className="w-8 h-8 text-orange-600" />
+                                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6">
+                                    <value.icon className="w-8 h-8 text-primary" />
                                 </div>
                                 <h3 className="text-xl font-bold text-gray-900 mb-3">{value.title}</h3>
                                 <p className="text-gray-600 leading-relaxed">{value.description}</p>
@@ -144,11 +144,11 @@ const AboutUs = () => {
                             {milestones.map((milestone, index) => (
                                 <div key={index} className="flex gap-6">
                                     <div className="flex flex-col items-center">
-                                        <div className="w-16 h-16 bg-orange-600 text-white rounded-full flex items-center justify-center font-bold text-lg flex-shrink-0">
+                                        <div className="w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center font-bold text-lg flex-shrink-0">
                                             {milestone.year}
                                         </div>
                                         {index < milestones.length - 1 && (
-                                            <div className="w-1 h-full bg-orange-200 mt-2" />
+                                            <div className="w-1 h-full bg-primary/20 mt-2" />
                                         )}
                                     </div>
                                     <div className="flex-1 pb-8">
@@ -201,7 +201,7 @@ const AboutUs = () => {
             </section>
 
             {/* Our Commitment */}
-            <section className="py-16 bg-orange-50 border-y border-orange-200">
+            <section className="py-16 bg-primary/5 border-y border-primary/10">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="max-w-4xl mx-auto text-center">
                         <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Commitment to You</h2>
@@ -243,13 +243,13 @@ const AboutUs = () => {
             </section>
 
             {/* CTA */}
-            <section className="py-16 bg-orange-600 text-white">
+            <section className="py-16 bg-primary text-white">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                     <h2 className="text-3xl font-bold mb-6">Join Our Family</h2>
-                    <p className="text-xl text-orange-100 mb-8 max-w-2xl mx-auto">
+                    <p className="text-xl text-primary-foreground/80 mb-8 max-w-2xl mx-auto">
                         Experience the APK Crackers difference. Safe, certified, and joyful celebrations await you.
                     </p>
-                    <button className="bg-white hover:bg-gray-100 text-orange-600 font-semibold px-8 py-4 rounded-lg text-lg transition-colors">
+                    <button className="bg-white hover:bg-gray-100 text-primary font-semibold px-8 py-4 rounded-lg text-lg transition-colors">
                         Shop Now
                     </button>
                 </div>

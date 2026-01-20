@@ -48,19 +48,19 @@ const Tickets = () => {
             'pending': {
                 label: 'Pending',
                 icon: FaClock,
-                color: 'orange',
-                bgColor: 'bg-orange-100',
-                textColor: 'text-orange-700',
-                borderColor: 'border-orange-500',
+                color: 'secondary',
+                bgColor: 'bg-secondary/10',
+                textColor: 'text-secondary',
+                borderColor: 'border-secondary/50',
                 description: 'Your ticket has been received and is waiting to be reviewed'
             },
             'in-progress': {
                 label: 'In Progress',
                 icon: FaSpinner,
-                color: 'blue',
-                bgColor: 'bg-blue-100',
-                textColor: 'text-blue-700',
-                borderColor: 'border-blue-500',
+                color: 'primary',
+                bgColor: 'bg-primary/10',
+                textColor: 'text-primary',
+                borderColor: 'border-primary/50',
                 description: 'Our team is actively working on your request'
             },
             'resolved': {
@@ -159,8 +159,8 @@ const Tickets = () => {
         <div className="space-y-6">
             {/* Header */}
             <div className="flex items-center gap-3 pb-6 border-b border-gray-100">
-                <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center">
-                    <FaTicketAlt className="w-6 h-6 text-orange-600" />
+                <div className="w-12 h-12 bg-secondary/10 rounded-xl flex items-center justify-center">
+                    <FaTicketAlt className="w-6 h-6 text-secondary" />
                 </div>
                 <div>
                     <h2 className="text-2xl font-bold text-gray-900">Support Tickets</h2>
@@ -196,7 +196,7 @@ const Tickets = () => {
                         key={tab.value}
                         onClick={() => setFilter(tab.value)}
                         className={`px-4 py-2 rounded-lg font-semibold text-sm transition-all ${filter === tab.value
-                            ? 'bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-md'
+                            ? 'bg-gradient-to-r from-primary to-primary/90 text-white shadow-md'
                             : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                             }`}
                     >
@@ -290,7 +290,7 @@ const Tickets = () => {
                                         {/* Your Message */}
                                         <div>
                                             <h4 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
-                                                <FaEye className="w-4 h-4 text-orange-500" />
+                                                <FaEye className="w-4 h-4 text-primary" />
                                                 Your Message
                                             </h4>
                                             <div className="bg-white border-2 border-gray-200 rounded-lg p-4">
@@ -342,7 +342,7 @@ const Tickets = () => {
                                             <h4 className="font-bold text-gray-900 mb-3">Timeline</h4>
                                             <div className="space-y-3">
                                                 <div className="flex items-start gap-3">
-                                                    <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center flex-shrink-0">
+                                                    <div className="w-8 h-8 bg-secondary rounded-full flex items-center justify-center flex-shrink-0">
                                                         <FaTicketAlt className="w-4 h-4 text-white" />
                                                     </div>
                                                     <div>
@@ -373,8 +373,8 @@ const Tickets = () => {
 
             {/* Help Text */}
             {tickets.length > 0 && (
-                <div className="bg-blue-50 border-2 border-blue-200 rounded-xl p-4">
-                    <p className="text-sm text-blue-700">
+                <div className="bg-primary/5 border-2 border-primary/20 rounded-xl p-4">
+                    <p className="text-sm text-primary">
                         <strong>Need more help?</strong> Our support team typically responds within 24 hours.
                         You can create a new ticket from the Support page.
                     </p>

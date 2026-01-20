@@ -241,12 +241,12 @@ const TermsAndConditions = () => {
     return (
         <div className="min-h-screen bg-[#F1F3F6] font-sans">
             {/* Header - Fixed & Styled like Flipkart */}
-            <header className="bg-blue-600 text-white shadow-md sticky top-0 z-50">
+            <header className="bg-primary text-white shadow-md sticky top-0 z-50">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
                     <div className="flex items-center gap-4">
                         <button
                             onClick={() => navigate(-1)}
-                            className="p-2 hover:bg-blue-700 rounded-full transition-colors focus:outline-none"
+                            className="p-2 hover:bg-primary/90 rounded-full transition-colors focus:outline-none"
                             aria-label="Go back"
                         >
                             <FaArrowLeft className="w-5 h-5" />
@@ -277,8 +277,8 @@ const TermsAndConditions = () => {
                 <div className="bg-white rounded-sm shadow-sm p-6 md:p-10 border border-gray-100">
 
                     {/* Disclaimer Alert */}
-                    <div className="flex items-start gap-3 p-4 mb-8 bg-yellow-50 border border-yellow-200 rounded text-sm text-gray-700">
-                        <FaInfoCircle className="w-5 h-5 text-yellow-600 flex-shrink-0 mt-0.5" />
+                    <div className="flex items-start gap-3 p-4 mb-8 bg-secondary/10 border border-secondary/20 rounded text-sm text-gray-700">
+                        <FaInfoCircle className="w-5 h-5 text-secondary flex-shrink-0 mt-0.5" />
                         <p className="font-medium">
                             {currentData.disclaimer}
                         </p>
@@ -329,7 +329,7 @@ const TermsAndConditions = () => {
                                 <div className="mt-3 pt-3 border-t border-gray-200">
                                     <p className="flex flex-col sm:flex-row sm:gap-2">
                                         <span className="font-semibold text-gray-900 w-20">Email:</span>
-                                        <a href={`mailto:${currentData.grievance.details.email}`} className="text-blue-600 hover:underline break-all">
+                                        <a href={`mailto:${currentData.grievance.details.email}`} className="text-primary hover:underline break-all">
                                             {currentData.grievance.details.email}
                                         </a>
                                     </p>

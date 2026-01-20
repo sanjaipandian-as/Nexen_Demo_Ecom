@@ -131,12 +131,12 @@ const Settings = () => {
 
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-50 via-orange-50/30 to-gray-50 flex flex-col">
+        <div className="min-h-screen bg-gradient-to-br from-gray-50 via-primary/5 to-gray-50 flex flex-col">
             {/* Enhanced Header */}
             <div className="bg-white border-b border-gray-200 shadow-sm">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
                     <div className="flex flex-col items-center justify-center gap-3 sm:gap-4">
-                        <div className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg">
+                        <div className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-gradient-to-br from-primary to-primary/80 rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg">
                             <FaUser className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-white" />
                         </div>
                         <div className="text-center">
@@ -157,7 +157,7 @@ const Settings = () => {
                                 key={tab.id}
                                 onClick={() => setActiveTab(tab.id)}
                                 className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold transition-all whitespace-nowrap ${activeTab === tab.id
-                                    ? 'bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-md'
+                                    ? 'bg-gradient-to-r from-primary to-primary/90 text-white shadow-md'
                                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                                     }`}
                             >
@@ -181,7 +181,7 @@ const Settings = () => {
                                         key={tab.id}
                                         onClick={() => setActiveTab(tab.id)}
                                         className={`w-full flex items-center gap-4 px-4 py-4 rounded-xl text-left transition-all group ${activeTab === tab.id
-                                            ? 'bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-lg shadow-orange-500/30'
+                                            ? 'bg-gradient-to-r from-primary to-primary/90 text-white shadow-lg shadow-primary/30'
                                             : 'text-gray-700 hover:bg-gray-50'
                                             }`}
                                     >
@@ -220,8 +220,8 @@ const Settings = () => {
                                     {activeTab === 'orders' && (
                                         <div className="space-y-8">
                                             <div className="flex items-center gap-3 pb-6 border-b border-gray-100">
-                                                <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center">
-                                                    <FaBox className="w-6 h-6 text-orange-600" />
+                                                <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
+                                                    <FaBox className="w-6 h-6 text-primary" />
                                                 </div>
                                                 <div>
                                                     <h2 className="text-2xl font-bold text-gray-900">My Orders</h2>

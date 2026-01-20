@@ -70,12 +70,12 @@ const Sidebar = ({ showFilters = false, onFiltersChange, categories = [], maxPri
                     {/* Header */}
                     <div className="flex items-center justify-between mb-6">
                         <div className="flex items-center gap-2">
-                            <FaFilter className="w-5 h-5 text-orange-500" />
+                            <FaFilter className="w-5 h-5 text-primary" />
                             <h2 className="text-xl font-bold text-gray-800">Filters</h2>
                         </div>
                         <button
                             onClick={clearAllFilters}
-                            className="text-sm font-medium text-orange-500 hover:text-orange-600 transition-colors"
+                            className="text-sm font-medium text-primary hover:text-primary/80 transition-colors"
                         >
                             Clear All
                         </button>
@@ -110,9 +110,9 @@ const Sidebar = ({ showFilters = false, onFiltersChange, categories = [], maxPri
                                             value={option.value}
                                             checked={sortBy === option.value}
                                             onChange={(e) => setSortBy(e.target.value)}
-                                            className="w-5 h-5 text-orange-500 border-gray-300 focus:ring-orange-500"
+                                            className="w-5 h-5 text-primary border-gray-300 focus:ring-primary"
                                         />
-                                        <span className={`text-sm ${sortBy === option.value ? 'text-orange-500 font-semibold' : 'text-gray-700 group-hover:text-gray-900'}`}>
+                                        <span className={`text-sm ${sortBy === option.value ? 'text-primary font-semibold' : 'text-gray-700 group-hover:text-gray-900'}`}>
                                             {option.label}
                                         </span>
                                     </label>
@@ -144,7 +144,7 @@ const Sidebar = ({ showFilters = false, onFiltersChange, categories = [], maxPri
                                                     type="checkbox"
                                                     checked={selectedCategories.includes(category.name)}
                                                     onChange={() => handleCategoryToggle(category.name)}
-                                                    className="w-4 h-4 text-orange-500 border-gray-300 rounded focus:ring-orange-500"
+                                                    className="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary"
                                                 />
                                                 <span className="text-sm text-gray-700 group-hover:text-gray-900">
                                                     {category.name}
@@ -195,7 +195,7 @@ const Sidebar = ({ showFilters = false, onFiltersChange, categories = [], maxPri
                                     onChange={(e) => setPriceRange([0, parseInt(e.target.value)])}
                                     className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
                                     style={{
-                                        background: `linear-gradient(to right, #f97316 0%, #f97316 ${(priceRange[1] / maxPrice) * 100}%, #e5e7eb ${(priceRange[1] / maxPrice) * 100}%, #e5e7eb 100%)`
+                                        background: `linear-gradient(to right, var(--color-primary) 0%, var(--color-primary) ${(priceRange[1] / maxPrice) * 100}%, #e5e7eb ${(priceRange[1] / maxPrice) * 100}%, #e5e7eb 100%)`
                                     }}
                                 />
                             </div>
@@ -206,76 +206,48 @@ const Sidebar = ({ showFilters = false, onFiltersChange, categories = [], maxPri
         );
     }
 
-    // Render navigation sidebar (original)
+    // Render navigation sidebar (Horizontal Menu Bar)
     return (
         <>
-            <div className="hidden md:flex h-screen z-40 sticky top-0">
-                <div className="w-20 bg-white border-r border-gray-200 flex flex-col items-center py-6 shadow-sm">
-                    {/* Logo/Brand Section */}
-                    <div className="mb-8">
-                        <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center shadow-lg">
-                            <FaInfinity className="w-6 h-6 text-white" />
-                        </div>
-                    </div>
+            <div className="hidden md:flex w-full h-16 bg-white border-b border-gray-200 fixed top-[60px] left-0 right-0 z-40 items-center justify-center gap-8 shadow-sm">
 
-                    {/* Navigation Icons */}
-                    <div className="flex flex-col items-center gap-4 flex-1">
-                        {/* Home */}
-                        <div className="relative group">
-                            <button
-                                onClick={() => navigate('/')}
-                                className="w-14 h-14 bg-white border-2 border-gray-100 rounded-2xl flex items-center justify-center hover:border-orange-500 hover:bg-orange-50 transition-all duration-300 cursor-pointer group-hover:scale-110 active:scale-95"
-                            >
-                                <FaHome className="w-6 h-6 text-gray-700 group-hover:text-orange-600 transition-colors" />
-                            </button>
-                            <div className="absolute left-20 top-1/2 -translate-y-1/2 bg-gray-900 text-white text-sm font-medium px-4 py-2 rounded-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-all whitespace-nowrap z-50 shadow-xl">
-                                Home
-                                <div className="absolute right-full top-1/2 -translate-y-1/2 border-8 border-transparent border-r-gray-900"></div>
-                            </div>
-                        </div>
+                {/* Navigation Icons - Horizontal */}
+                <div className="flex items-center gap-8">
+                    {/* Home */}
+                    <button
+                        onClick={() => navigate('/')}
+                        className="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-gray-100/80 transition-all duration-300 group"
+                    >
+                        <FaHome className="w-5 h-5 text-gray-600 group-hover:text-primary transition-colors" />
+                        <span className="font-medium text-gray-700 group-hover:text-primary">Home</span>
+                    </button>
 
-                        {/* Cart */}
-                        <div className="relative group">
-                            <button
-                                onClick={() => navigate('/Cart')}
-                                className="w-14 h-14 bg-white border-2 border-gray-100 rounded-2xl flex items-center justify-center hover:border-orange-500 hover:bg-orange-50 transition-all duration-300 cursor-pointer group-hover:scale-110 active:scale-95"
-                            >
-                                <FaShoppingBag className="w-5 h-5 text-gray-700 group-hover:text-orange-600 transition-colors" />
-                            </button>
-                            <div className="absolute left-20 top-1/2 -translate-y-1/2 bg-gray-900 text-white text-sm font-medium px-4 py-2 rounded-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-all whitespace-nowrap z-50 shadow-xl">
-                                Cart
-                                <div className="absolute right-full top-1/2 -translate-y-1/2 border-8 border-transparent border-r-gray-900"></div>
-                            </div>
-                        </div>
+                    {/* Cart */}
+                    <button
+                        onClick={() => navigate('/Cart')}
+                        className="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-gray-100/80 transition-all duration-300 group"
+                    >
+                        <FaShoppingBag className="w-5 h-5 text-gray-600 group-hover:text-primary transition-colors" />
+                        <span className="font-medium text-gray-700 group-hover:text-primary">Cart</span>
+                    </button>
 
-                        {/* Wishlist */}
-                        <div className="relative group">
-                            <button
-                                onClick={() => navigate('/Wishlist')}
-                                className="w-14 h-14 bg-white border-2 border-gray-100 rounded-2xl flex items-center justify-center hover:border-orange-500 hover:bg-orange-50 transition-all duration-300 cursor-pointer group-hover:scale-110 active:scale-95"
-                            >
-                                <BsFillBagHeartFill className="w-5 h-5 text-gray-700 group-hover:text-orange-600 transition-colors" />
-                            </button>
-                            <div className="absolute left-20 top-1/2 -translate-y-1/2 bg-gray-900 text-white text-sm font-medium px-4 py-2 rounded-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-all whitespace-nowrap z-50 shadow-xl">
-                                Wishlist
-                                <div className="absolute right-full top-1/2 -translate-y-1/2 border-8 border-transparent border-r-gray-900"></div>
-                            </div>
-                        </div>
+                    {/* Wishlist */}
+                    <button
+                        onClick={() => navigate('/Wishlist')}
+                        className="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-gray-100/80 transition-all duration-300 group"
+                    >
+                        <BsFillBagHeartFill className="w-5 h-5 text-gray-600 group-hover:text-primary transition-colors" />
+                        <span className="font-medium text-gray-700 group-hover:text-primary">Wishlist</span>
+                    </button>
 
-                        {/* Settings */}
-                        <div className="relative group">
-                            <button
-                                onClick={() => navigate('/Settings')}
-                                className="w-14 h-14 bg-white border-2 border-gray-100 rounded-2xl flex items-center justify-center hover:border-orange-500 hover:bg-orange-50 transition-all duration-300 cursor-pointer group-hover:scale-110 active:scale-95"
-                            >
-                                <FaCog className="w-5 h-5 text-gray-700 group-hover:text-orange-600 transition-colors" />
-                            </button>
-                            <div className="absolute left-20 top-1/2 -translate-y-1/2 bg-gray-900 text-white text-sm font-medium px-4 py-2 rounded-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-all whitespace-nowrap z-50 shadow-xl">
-                                Settings
-                                <div className="absolute right-full top-1/2 -translate-y-1/2 border-8 border-transparent border-r-gray-900"></div>
-                            </div>
-                        </div>
-                    </div>
+                    {/* Settings */}
+                    <button
+                        onClick={() => navigate('/Settings')}
+                        className="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-gray-100/80 transition-all duration-300 group"
+                    >
+                        <FaCog className="w-5 h-5 text-gray-600 group-hover:text-primary transition-colors" />
+                        <span className="font-medium text-gray-700 group-hover:text-primary">Settings</span>
+                    </button>
                 </div>
             </div>
 
@@ -286,9 +258,9 @@ const Sidebar = ({ showFilters = false, onFiltersChange, categories = [], maxPri
                     <div className="relative group">
                         <button
                             onClick={() => navigate('/')}
-                            className="w-12 h-12 bg-white border-2 border-gray-100 rounded-xl flex items-center justify-center hover:border-orange-500 hover:bg-orange-50 transition-all duration-300 cursor-pointer active:scale-95"
+                            className="w-12 h-12 bg-white border-2 border-gray-100 rounded-xl flex items-center justify-center hover:border-primary hover:bg-primary/10 transition-all duration-300 cursor-pointer active:scale-95"
                         >
-                            <FaHome className="w-5 h-5 text-gray-700 group-hover:text-orange-600 transition-colors" />
+                            <FaHome className="w-5 h-5 text-gray-700 group-hover:text-primary transition-colors" />
                         </button>
                     </div>
 
@@ -296,9 +268,9 @@ const Sidebar = ({ showFilters = false, onFiltersChange, categories = [], maxPri
                     <div className="relative group">
                         <button
                             onClick={() => navigate('/Cart')}
-                            className="w-12 h-12 bg-white border-2 border-gray-100 rounded-xl flex items-center justify-center hover:border-orange-500 hover:bg-orange-50 transition-all duration-300 cursor-pointer active:scale-95"
+                            className="w-12 h-12 bg-white border-2 border-gray-100 rounded-xl flex items-center justify-center hover:border-primary hover:bg-primary/10 transition-all duration-300 cursor-pointer active:scale-95"
                         >
-                            <FaShoppingBag className="w-5 h-5 text-gray-700 group-hover:text-orange-600 transition-colors" />
+                            <FaShoppingBag className="w-5 h-5 text-gray-700 group-hover:text-primary transition-colors" />
                         </button>
                     </div>
 
@@ -306,9 +278,9 @@ const Sidebar = ({ showFilters = false, onFiltersChange, categories = [], maxPri
                     <div className="relative group">
                         <button
                             onClick={() => navigate('/Wishlist')}
-                            className="w-12 h-12 bg-white border-2 border-gray-100 rounded-xl flex items-center justify-center hover:border-orange-500 hover:bg-orange-50 transition-all duration-300 cursor-pointer active:scale-95"
+                            className="w-12 h-12 bg-white border-2 border-gray-100 rounded-xl flex items-center justify-center hover:border-primary hover:bg-primary/10 transition-all duration-300 cursor-pointer active:scale-95"
                         >
-                            <BsFillBagHeartFill className="w-5 h-5 text-gray-700 group-hover:text-orange-600 transition-colors" />
+                            <BsFillBagHeartFill className="w-5 h-5 text-gray-700 group-hover:text-primary transition-colors" />
                         </button>
                     </div>
 
@@ -316,9 +288,9 @@ const Sidebar = ({ showFilters = false, onFiltersChange, categories = [], maxPri
                     <div className="relative group">
                         <button
                             onClick={() => navigate('/Settings')}
-                            className="w-12 h-12 bg-white border-2 border-gray-100 rounded-xl flex items-center justify-center hover:border-orange-500 hover:bg-orange-50 transition-all duration-300 cursor-pointer active:scale-95"
+                            className="w-12 h-12 bg-white border-2 border-gray-100 rounded-xl flex items-center justify-center hover:border-primary hover:bg-primary/10 transition-all duration-300 cursor-pointer active:scale-95"
                         >
-                            <FaCog className="w-5 h-5 text-gray-700 group-hover:text-orange-600 transition-colors" />
+                            <FaCog className="w-5 h-5 text-gray-700 group-hover:text-primary transition-colors" />
                         </button>
                     </div>
                 </div>

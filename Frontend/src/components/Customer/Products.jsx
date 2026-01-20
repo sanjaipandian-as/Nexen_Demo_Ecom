@@ -6,7 +6,9 @@ import API from '../../../api';
 import Skeleton from '../Common/Skeleton';
 import placeholderImg from '../../assets/Placeholder.png';
 
-const Products = ({ filters = {} }) => {
+const defaultFilters = {};
+
+const Products = ({ filters = defaultFilters }) => {
     const navigate = useNavigate();
     const [addingToCart, setAddingToCart] = useState(null);
     const [notification, setNotification] = useState({ show: false, message: '', type: '' });
@@ -264,12 +266,12 @@ const Products = ({ filters = {} }) => {
                         className="absolute top-2 sm:top-3 right-2 sm:right-3 w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-full flex items-center justify-center shadow-md hover:shadow-lg transition-all active:scale-90"
                     >
                         {togglingWishlist === product._id ? (
-                            <div className="animate-spin rounded-full h-4 w-4 sm:h-5 sm:w-5 border-b-2 border-orange-500"></div>
+                            <div className="animate-spin rounded-full h-4 w-4 sm:h-5 sm:w-5 border-b-2 border-primary"></div>
                         ) : (
                             <BsFillBagHeartFill
                                 className={`w-4 h-4 sm:w-5 sm:h-5 transition-colors ${wishlistItems.includes(product._id)
-                                    ? 'text-red-500'
-                                    : 'text-gray-300 hover:text-red-400'
+                                    ? 'text-primary'
+                                    : 'text-gray-300 hover:text-primary'
                                     }`}
                             />
                         )}
@@ -285,7 +287,7 @@ const Products = ({ filters = {} }) => {
                     <div className="flex items-start justify-between mb-2 sm:mb-3 gap-2">
                         <h3 className="text-sm sm:text-base font-semibold text-gray-800 line-clamp-2 flex-1">{product.name}</h3>
                         <div className="flex items-center gap-1 bg-gray-50 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded cursor-pointer flex-shrink-0">
-                            <FaStar className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-yellow-400" />
+                            <FaStar className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-secondary" />
                             <span className="text-xs sm:text-sm font-medium text-gray-700">4.2</span>
                         </div>
                     </div>
@@ -297,7 +299,7 @@ const Products = ({ filters = {} }) => {
                         </div>
                         <div className="flex flex-col items-end">
                             <span className="text-[10px] sm:text-xs text-gray-500 font-medium mb-0.5 sm:mb-1">Brand</span>
-                            <span className="text-xs sm:text-sm font-bold text-orange-600 capitalize">
+                            <span className="text-xs sm:text-sm font-bold text-primary capitalize">
                                 {brandName}
                             </span>
                         </div>
@@ -317,7 +319,7 @@ const Products = ({ filters = {} }) => {
                                     e.stopPropagation();
                                     navigate('/cart');
                                 }}
-                                className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 md:px-4 py-1.5 sm:py-2 bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 text-white rounded-lg transition-all shadow-sm hover:shadow-md cursor-pointer active:scale-95"
+                                className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 md:px-4 py-1.5 sm:py-2 bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-white rounded-lg transition-all shadow-sm hover:shadow-md cursor-pointer active:scale-95"
                             >
                                 <FaShoppingCart className="w-3 h-3 sm:w-4 sm:h-4" />
                                 <span className="text-xs sm:text-sm font-medium whitespace-nowrap">
@@ -330,7 +332,7 @@ const Products = ({ filters = {} }) => {
                                 disabled={addingToCart === product._id || availablePieces <= 0}
                                 className={`flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 md:px-4 py-1.5 sm:py-2 text-white rounded-lg transition-all shadow-sm hover:shadow-md active:scale-95 ${addingToCart === product._id || availablePieces <= 0
                                     ? 'bg-gray-400 cursor-not-allowed'
-                                    : 'bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 cursor-pointer'
+                                    : 'bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 cursor-pointer'
                                     }`}
                             >
                                 {addingToCart === product._id ? (
@@ -410,7 +412,7 @@ const Products = ({ filters = {} }) => {
                         <p className="text-gray-600 text-base sm:text-lg text-center">{error}</p>
                         <button
                             onClick={() => window.location.reload()}
-                            className="mt-4 px-5 sm:px-6 py-2 sm:py-2.5 bg-orange-500 text-white text-sm sm:text-base rounded-lg hover:bg-orange-600 transition-all active:scale-95"
+                            className="mt-4 px-5 sm:px-6 py-2 sm:py-2.5 bg-primary text-white text-sm sm:text-base rounded-lg hover:bg-primary/90 transition-all active:scale-95"
                         >
                             Retry
                         </button>
@@ -432,7 +434,7 @@ const Products = ({ filters = {} }) => {
                         <button
                             onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
                             disabled={currentPage === 1}
-                            className="px-4 sm:px-6 py-2 sm:py-3 bg-white border-2 border-gray-300 rounded-lg font-semibold text-sm sm:text-base text-gray-700 hover:border-orange-500 hover:text-orange-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:border-gray-300 disabled:hover:text-gray-700 active:scale-95"
+                            className="px-4 sm:px-6 py-2 sm:py-3 bg-white border-2 border-gray-300 rounded-lg font-semibold text-sm sm:text-base text-gray-700 hover:border-primary hover:text-primary transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:border-gray-300 disabled:hover:text-gray-700 active:scale-95"
                         >
                             <span className="hidden sm:inline">Previous</span>
                             <span className="sm:hidden">Prev</span>
@@ -445,7 +447,7 @@ const Products = ({ filters = {} }) => {
                         <button
                             onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
                             disabled={currentPage === totalPages}
-                            className="px-4 sm:px-6 py-2 sm:py-3 bg-white border-2 border-gray-300 rounded-lg font-semibold text-sm sm:text-base text-gray-700 hover:border-orange-500 hover:text-orange-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:border-gray-300 disabled:hover:text-gray-700 active:scale-95"
+                            className="px-4 sm:px-6 py-2 sm:py-3 bg-white border-2 border-gray-300 rounded-lg font-semibold text-sm sm:text-base text-gray-700 hover:border-primary hover:text-primary transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:border-gray-300 disabled:hover:text-gray-700 active:scale-95"
                         >
                             Next
                         </button>

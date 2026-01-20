@@ -6,16 +6,16 @@ const PrivacyPolicy = () => {
     const navigate = useNavigate();
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-yellow-50">
+        <div className="min-h-screen bg-gradient-to-br from-primary/5 via-white to-secondary/5">
             {/* Header */}
             <div className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
                     <div className="flex items-center gap-4">
                         <button
                             onClick={() => navigate(-1)}
-                            className="p-2 hover:bg-orange-50 rounded-full transition-all group"
+                            className="p-2 hover:bg-primary/5 rounded-full transition-all group"
                         >
-                            <FaArrowLeft className="w-5 h-5 text-gray-600 group-hover:text-orange-600" />
+                            <FaArrowLeft className="w-5 h-5 text-gray-600 group-hover:text-primary" />
                         </button>
                         <div className="flex-1">
                             <div className="flex items-center gap-2 mb-2">
@@ -35,8 +35,8 @@ const PrivacyPolicy = () => {
                 <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 sm:p-8 md:p-10 space-y-6">
 
                     {/* Disclaimer */}
-                    <div className="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded text-sm">
-                        <p className="text-yellow-900">
+                    <div className="bg-secondary/10 border-l-4 border-secondary p-4 rounded text-sm">
+                        <p className="text-gray-900">
                             <strong>Disclaimer:</strong> In case of any discrepancy or difference, the English version will take precedence over the translation.
                         </p>
                     </div>
@@ -97,7 +97,7 @@ const PrivacyPolicy = () => {
                         <h2 className="text-base font-bold text-gray-900">Cookies</h2>
                         <div className="space-y-3 text-sm text-gray-700">
                             <p className="leading-relaxed">
-                                We use data collection devices such as "cookies" on certain pages of the Platform to help analyze our web page flow, measure promotional effectiveness, and promote trust and safety. "Cookies" are small files placed on your hard drive that assist us in providing our services. Cookies do not contain any of your personal data. We offer certain features that are only available through the use of a "cookie". We also use cookies to allow you to enter your password less frequently during a session. Cookies can also help us provide information that is targeted to your interests. Most cookies are "session cookies," meaning that they are automatically deleted from your hard drive at the end of a session. You are always free to decline/delete our cookies if your browser permits, although in that case you may not be able to use certain features on the Platform and you may be required to re-enter your password more frequently during a session. Additionally, you may encounter "cookies" or other similar devices on certain pages of the Platform that are placed by third parties. We do not control the use of cookies by third parties. We use cookies from third-party partners such as Google Analytics for marketing and analytical purposes. Google Analytics helps us understand how our customers use the site. You can read more about how Google uses your personal data here: <a href="https://www.google.com/intl/en/policies/privacy/" target="_blank" rel="noopener noreferrer" className="text-orange-600 hover:text-orange-500 underline">https://www.google.com/intl/en/policies/privacy/</a>. You can opt-out of Google Analytics here: <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer" className="text-orange-600 hover:text-orange-500 underline">https://tools.google.com/dlpage/gaoptout</a>. You can also control the use of cookies at the individual browser level, but if you choose to disable cookies, it may limit your use of certain features or functions on the services.
+                                We use data collection devices such as "cookies" on certain pages of the Platform to help analyze our web page flow, measure promotional effectiveness, and promote trust and safety. "Cookies" are small files placed on your hard drive that assist us in providing our services. Cookies do not contain any of your personal data. We offer certain features that are only available through the use of a "cookie". We also use cookies to allow you to enter your password less frequently during a session. Cookies can also help us provide information that is targeted to your interests. Most cookies are "session cookies," meaning that they are automatically deleted from your hard drive at the end of a session. You are always free to decline/delete our cookies if your browser permits, although in that case you may not be able to use certain features on the Platform and you may be required to re-enter your password more frequently during a session. Additionally, you may encounter "cookies" or other similar devices on certain pages of the Platform that are placed by third parties. We do not control the use of cookies by third parties. We use cookies from third-party partners such as Google Analytics for marketing and analytical purposes. Google Analytics helps us understand how our customers use the site. You can read more about how Google uses your personal data here: <a href="https://www.google.com/intl/en/policies/privacy/" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary/80 underline">https://www.google.com/intl/en/policies/privacy/</a>. You can opt-out of Google Analytics here: <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary/80 underline">https://tools.google.com/dlpage/gaoptout</a>. You can also control the use of cookies at the individual browser level, but if you choose to disable cookies, it may limit your use of certain features or functions on the services.
                             </p>
                         </div>
                     </section>
@@ -216,7 +216,7 @@ const PrivacyPolicy = () => {
                                 <p>APK Crackers Private Limited</p>
                                 <p>Sivakasi, Tamil Nadu</p>
                                 <p>India, 626123</p>
-                                <p className="mt-2">Email: <a href="mailto:privacy.grievance@apkcrackers.com" className="text-orange-600 hover:text-orange-500 underline">privacy.grievance@apkcrackers.com</a></p>
+                                <p className="mt-2">Email: <a href="mailto:privacy.grievance@apkcrackers.com" className="text-primary hover:text-primary/80 underline">privacy.grievance@apkcrackers.com</a></p>
                             </div>
                         </div>
                     </section>
@@ -226,7 +226,7 @@ const PrivacyPolicy = () => {
                         <h2 className="text-base font-bold text-gray-900">Customer Support</h2>
                         <div className="text-sm text-gray-700 space-y-2">
                             <p className="leading-relaxed">
-                                If you have a query, concern, or complaint in relation to collection or usage of your personal data under this Privacy Policy please contact us at <a href="mailto:privacy.grievance@apkcrackers.com" className="text-orange-600 hover:text-orange-500 underline">privacy.grievance@apkcrackers.com</a>
+                                If you have a query, concern, or complaint in relation to collection or usage of your personal data under this Privacy Policy please contact us at <a href="mailto:privacy.grievance@apkcrackers.com" className="text-primary hover:text-primary/80 underline">privacy.grievance@apkcrackers.com</a>
                             </p>
                             <p className="leading-relaxed">
                                 You can reach our customer support team to address any of your queries or complaints related to product and services by contacting us at <strong>+91 98765 43210</strong> (Monday-Saturday, 9:00 AM - 6:00 PM IST)

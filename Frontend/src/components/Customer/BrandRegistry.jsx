@@ -61,13 +61,13 @@ const BrandRegistry = () => {
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
                             <h1 className="text-2xl font-bold text-gray-900">
-                                APK<span className="text-orange-600">Crackers</span>
+                                APK<span className="text-primary">Crackers</span>
                                 <span className="text-sm text-gray-500 ml-2 font-normal">Brand Registry</span>
                             </h1>
                         </div>
                         <button
                             onClick={() => navigate('/seller-register')}
-                            className="bg-orange-600 hover:bg-orange-700 text-white font-semibold px-6 py-2 rounded-lg transition-colors"
+                            className="bg-primary hover:bg-primary/90 text-white font-semibold px-6 py-2 rounded-lg transition-colors"
                         >
                             Register Your Brand
                         </button>
@@ -88,7 +88,7 @@ const BrandRegistry = () => {
                         <div className="flex flex-wrap gap-4">
                             <button
                                 onClick={() => navigate('/seller-register')}
-                                className="bg-orange-600 hover:bg-orange-700 text-white font-semibold px-8 py-3 rounded-lg transition-colors"
+                                className="bg-primary hover:bg-primary/90 text-white font-semibold px-8 py-3 rounded-lg transition-colors"
                             >
                                 Enroll Your Brand
                             </button>
@@ -101,20 +101,20 @@ const BrandRegistry = () => {
             </section>
 
             {/* Stats Section */}
-            <section className="bg-orange-600 text-white py-12">
+            <section className="bg-primary text-white py-12">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
                         <div>
                             <div className="text-4xl font-bold mb-2">99%</div>
-                            <p className="text-orange-100">Counterfeit products blocked</p>
+                            <p className="text-primary-foreground/80">Counterfeit products blocked</p>
                         </div>
                         <div>
                             <div className="text-4xl font-bold mb-2">15,000+</div>
-                            <p className="text-orange-100">Trusted crackers brands</p>
+                            <p className="text-primary-foreground/80">Trusted crackers brands</p>
                         </div>
                         <div>
                             <div className="text-4xl font-bold mb-2">500M+</div>
-                            <p className="text-orange-100">Safe crackers units sold</p>
+                            <p className="text-primary-foreground/80">Safe crackers units sold</p>
                         </div>
                     </div>
                 </div>
@@ -129,8 +129,8 @@ const BrandRegistry = () => {
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         <div className="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-shadow">
-                            <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
-                                <FaShieldAlt className="w-6 h-6 text-orange-600" />
+                            <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
+                                <FaShieldAlt className="w-6 h-6 text-primary" />
                             </div>
                             <h4 className="text-xl font-bold text-gray-900 mb-3">Protect Your Brand</h4>
                             <p className="text-gray-600 leading-relaxed">
@@ -139,8 +139,8 @@ const BrandRegistry = () => {
                         </div>
 
                         <div className="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-shadow">
-                            <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
-                                <FaStar className="w-6 h-6 text-orange-600" />
+                            <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
+                                <FaStar className="w-6 h-6 text-primary" />
                             </div>
                             <h4 className="text-xl font-bold text-gray-900 mb-3">Build Customer Trust</h4>
                             <p className="text-gray-600 leading-relaxed">
@@ -149,8 +149,8 @@ const BrandRegistry = () => {
                         </div>
 
                         <div className="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-shadow">
-                            <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
-                                <FaChartLine className="w-6 h-6 text-orange-600" />
+                            <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
+                                <FaChartLine className="w-6 h-6 text-primary" />
                             </div>
                             <h4 className="text-xl font-bold text-gray-900 mb-3">Track Performance</h4>
                             <p className="text-gray-600 leading-relaxed">
@@ -185,9 +185,9 @@ const BrandRegistry = () => {
                     </h3>
 
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
-                        <div className="bg-white border-2 border-orange-200 rounded-lg p-8">
+                        <div className="bg-white border-2 border-primary/20 rounded-lg p-8">
                             <div className="flex items-center gap-3 mb-6">
-                                <FaCertificate className="w-8 h-8 text-orange-600" />
+                                <FaCertificate className="w-8 h-8 text-primary" />
                                 <h4 className="text-2xl font-bold text-gray-900">Basic Requirements</h4>
                             </div>
 
@@ -224,7 +224,7 @@ const BrandRegistry = () => {
 
                             <button
                                 onClick={() => navigate('/seller-register')}
-                                className="w-full mt-6 bg-orange-600 hover:bg-orange-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors"
+                                className="w-full mt-6 bg-primary hover:bg-primary/90 text-white font-semibold px-6 py-3 rounded-lg transition-colors"
                             >
                                 Start Registration
                             </button>
@@ -279,7 +279,7 @@ const BrandRegistry = () => {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         <div className="bg-white border border-gray-200 rounded-lg p-6">
-                            <FaEdit className="w-8 h-8 text-orange-600 mb-4" />
+                            <FaEdit className="w-8 h-8 text-primary mb-4" />
                             <h4 className="text-lg font-bold text-gray-900 mb-2">Enhanced Listings</h4>
                             <p className="text-gray-600 text-sm mb-4">
                                 Add detailed images, videos, safety info, and specifications to product pages
@@ -290,7 +290,7 @@ const BrandRegistry = () => {
                         </div>
 
                         <div className="bg-white border border-gray-200 rounded-lg p-6">
-                            <FaShieldAlt className="w-8 h-8 text-orange-600 mb-4" />
+                            <FaShieldAlt className="w-8 h-8 text-primary mb-4" />
                             <h4 className="text-lg font-bold text-gray-900 mb-2">Brand Store</h4>
                             <p className="text-gray-600 text-sm mb-4">
                                 Create a dedicated store to showcase your complete crackers range
@@ -298,7 +298,7 @@ const BrandRegistry = () => {
                         </div>
 
                         <div className="bg-white border border-gray-200 rounded-lg p-6">
-                            <FaBullhorn className="w-8 h-8 text-orange-600 mb-4" />
+                            <FaBullhorn className="w-8 h-8 text-primary mb-4" />
                             <h4 className="text-lg font-bold text-gray-900 mb-2">Festive Campaigns</h4>
                             <p className="text-gray-600 text-sm mb-4">
                                 Run targeted ads for Diwali, New Year, and other celebrations
@@ -306,7 +306,7 @@ const BrandRegistry = () => {
                         </div>
 
                         <div className="bg-white border border-gray-200 rounded-lg p-6">
-                            <FaChartLine className="w-8 h-8 text-orange-600 mb-4" />
+                            <FaChartLine className="w-8 h-8 text-primary mb-4" />
                             <h4 className="text-lg font-bold text-gray-900 mb-2">Sales Analytics</h4>
                             <p className="text-gray-600 text-sm mb-4">
                                 Track customer preferences, seasonal trends, and regional demand
@@ -314,7 +314,7 @@ const BrandRegistry = () => {
                         </div>
 
                         <div className="bg-white border border-gray-200 rounded-lg p-6">
-                            <FaStar className="w-8 h-8 text-orange-600 mb-4" />
+                            <FaStar className="w-8 h-8 text-primary mb-4" />
                             <h4 className="text-lg font-bold text-gray-900 mb-2">Customer Reviews</h4>
                             <p className="text-gray-600 text-sm mb-4">
                                 Collect reviews and safety ratings to build customer trust
@@ -325,7 +325,7 @@ const BrandRegistry = () => {
                         </div>
 
                         <div className="bg-white border border-gray-200 rounded-lg p-6">
-                            <FaTag className="w-8 h-8 text-orange-600 mb-4" />
+                            <FaTag className="w-8 h-8 text-primary mb-4" />
                             <h4 className="text-lg font-bold text-gray-900 mb-2">Special Offers</h4>
                             <p className="text-gray-600 text-sm mb-4">
                                 Create combo packs, bulk discounts, and loyalty rewards
@@ -347,8 +347,8 @@ const BrandRegistry = () => {
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
                         <div className="bg-white border border-gray-200 rounded-lg p-6 text-center">
-                            <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <FaFileAlt className="w-8 h-8 text-orange-600" />
+                            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <FaFileAlt className="w-8 h-8 text-primary" />
                             </div>
                             <h4 className="text-xl font-bold text-gray-900 mb-3">Report Counterfeits</h4>
                             <p className="text-gray-600 text-sm mb-4">
@@ -360,8 +360,8 @@ const BrandRegistry = () => {
                         </div>
 
                         <div className="bg-white border border-gray-200 rounded-lg p-6 text-center">
-                            <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <FaLock className="w-8 h-8 text-orange-600" />
+                            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <FaLock className="w-8 h-8 text-primary" />
                             </div>
                             <h4 className="text-xl font-bold text-gray-900 mb-3">Safety Verification</h4>
                             <p className="text-gray-600 text-sm mb-4">
@@ -373,8 +373,8 @@ const BrandRegistry = () => {
                         </div>
 
                         <div className="bg-white border border-gray-200 rounded-lg p-6 text-center">
-                            <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <FaCertificate className="w-8 h-8 text-orange-600" />
+                            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <FaCertificate className="w-8 h-8 text-primary" />
                             </div>
                             <h4 className="text-xl font-bold text-gray-900 mb-3">Authenticity Codes</h4>
                             <p className="text-gray-600 text-sm mb-4">
@@ -421,22 +421,22 @@ const BrandRegistry = () => {
             </section>
 
             {/* CTA Section */}
-            <section className="py-16 bg-orange-600">
+            <section className="py-16 bg-primary">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                     <h3 className="text-3xl font-bold text-white mb-4">
                         Ready to Register Your Brand?
                     </h3>
-                    <p className="text-xl text-orange-100 mb-8">
+                    <p className="text-xl text-primary-foreground/80 mb-8">
                         Join thousands of trusted crackers brands. Start your registration today.
                     </p>
                     <div className="flex flex-wrap gap-4 justify-center">
                         <button
                             onClick={() => navigate('/seller-register')}
-                            className="bg-white hover:bg-gray-100 text-orange-600 font-semibold px-8 py-3 rounded-lg transition-colors"
+                            className="bg-white hover:bg-gray-100 text-primary font-semibold px-8 py-3 rounded-lg transition-colors"
                         >
                             Enroll Your Brand
                         </button>
-                        <button className="border-2 border-white hover:bg-white hover:text-orange-600 text-white font-semibold px-8 py-3 rounded-lg transition-colors">
+                        <button className="border-2 border-white hover:bg-white hover:text-primary text-white font-semibold px-8 py-3 rounded-lg transition-colors">
                             Contact Support
                         </button>
                     </div>

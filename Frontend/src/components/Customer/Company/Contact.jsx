@@ -49,8 +49,8 @@ const Contact = () => {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                         <div className="bg-white border border-gray-200 rounded-lg p-6 text-center">
-                            <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <FiPhone className="w-8 h-8 text-orange-600" />
+                            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <FiPhone className="w-8 h-8 text-primary" />
                             </div>
                             <h3 className="font-bold text-gray-900 mb-2">Phone</h3>
                             <p className="text-gray-600">+91 98765 43210</p>
@@ -58,8 +58,8 @@ const Contact = () => {
                         </div>
 
                         <div className="bg-white border border-gray-200 rounded-lg p-6 text-center">
-                            <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <FiMail className="w-8 h-8 text-orange-600" />
+                            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <FiMail className="w-8 h-8 text-primary" />
                             </div>
                             <h3 className="font-bold text-gray-900 mb-2">Email</h3>
                             <p className="text-gray-600">support@apkcrackers.com</p>
@@ -67,8 +67,8 @@ const Contact = () => {
                         </div>
 
                         <div className="bg-white border border-gray-200 rounded-lg p-6 text-center">
-                            <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <FiMapPin className="w-8 h-8 text-orange-600" />
+                            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <FiMapPin className="w-8 h-8 text-primary" />
                             </div>
                             <h3 className="font-bold text-gray-900 mb-2">Address</h3>
                             <p className="text-gray-600">Sivakasi, Tamil Nadu</p>
@@ -76,8 +76,8 @@ const Contact = () => {
                         </div>
 
                         <div className="bg-white border border-gray-200 rounded-lg p-6 text-center">
-                            <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <FiClock className="w-8 h-8 text-orange-600" />
+                            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <FiClock className="w-8 h-8 text-primary" />
                             </div>
                             <h3 className="font-bold text-gray-900 mb-2">Working Hours</h3>
                             <p className="text-gray-600">9:00 AM - 6:00 PM</p>
@@ -121,7 +121,7 @@ const Contact = () => {
                                                 value={formData.name}
                                                 onChange={handleChange}
                                                 required
-                                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-orange-600"
+                                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-primary"
                                                 placeholder="Your name"
                                             />
                                         </div>
@@ -135,7 +135,7 @@ const Contact = () => {
                                                 value={formData.email}
                                                 onChange={handleChange}
                                                 required
-                                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-orange-600"
+                                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-primary"
                                                 placeholder="your@email.com"
                                             />
                                         </div>
@@ -151,7 +151,7 @@ const Contact = () => {
                                                 name="phone"
                                                 value={formData.phone}
                                                 onChange={handleChange}
-                                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-orange-600"
+                                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-primary"
                                                 placeholder="+91 98765 43210"
                                             />
                                         </div>
@@ -164,7 +164,7 @@ const Contact = () => {
                                                 value={formData.subject}
                                                 onChange={handleChange}
                                                 required
-                                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-orange-600"
+                                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-primary"
                                             >
                                                 <option value="">Select a subject</option>
                                                 <option value="general">General Inquiry</option>
@@ -188,14 +188,14 @@ const Contact = () => {
                                             onChange={handleChange}
                                             required
                                             rows="6"
-                                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-orange-600 resize-none"
+                                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-primary resize-none"
                                             placeholder="Tell us how we can help you..."
                                         />
                                     </div>
 
                                     <button
                                         type="submit"
-                                        className="w-full bg-orange-600 hover:bg-orange-700 text-white font-semibold py-4 rounded-lg flex items-center justify-center gap-2 transition-colors"
+                                        className="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-4 rounded-lg flex items-center justify-center gap-2 transition-colors"
                                     >
                                         <FiSend className="w-5 h-5" />
                                         Send Message
@@ -275,7 +275,7 @@ const Contact = () => {
                             <p className="text-gray-600 text-sm mb-4">
                                 Check the status of your order in real-time
                             </p>
-                            <a href="/track-order" className="text-orange-600 font-semibold hover:text-orange-700">
+                            <a href="/track-order" className="text-primary font-semibold hover:text-primary/90">
                                 Track Now →
                             </a>
                         </div>
@@ -284,7 +284,7 @@ const Contact = () => {
                             <p className="text-gray-600 text-sm mb-4">
                                 Find answers to commonly asked questions
                             </p>
-                            <a href="/faqs" className="text-orange-600 font-semibold hover:text-orange-700">
+                            <a href="/faqs" className="text-primary font-semibold hover:text-primary/90">
                                 View FAQs →
                             </a>
                         </div>
@@ -293,7 +293,7 @@ const Contact = () => {
                             <p className="text-gray-600 text-sm mb-4">
                                 Learn about our return and refund policy
                             </p>
-                            <a href="/returns" className="text-orange-600 font-semibold hover:text-orange-700">
+                            <a href="/returns" className="text-primary font-semibold hover:text-primary/90">
                                 Learn More →
                             </a>
                         </div>
@@ -302,15 +302,15 @@ const Contact = () => {
             </section>
 
             {/* CTA */}
-            <section className="py-16 bg-orange-600 text-white">
+            <section className="py-16 bg-primary text-white">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                     <h2 className="text-3xl font-bold mb-4">Need Immediate Assistance?</h2>
-                    <p className="text-xl text-orange-100 mb-8">
+                    <p className="text-xl text-primary-foreground/80 mb-8">
                         Call us now for instant support
                     </p>
                     <a
                         href="tel:+919876543210"
-                        className="inline-flex items-center gap-2 bg-white hover:bg-gray-100 text-orange-600 font-semibold px-8 py-4 rounded-lg text-lg transition-colors"
+                        className="inline-flex items-center gap-2 bg-white hover:bg-gray-100 text-primary font-semibold px-8 py-4 rounded-lg text-lg transition-colors"
                     >
                         <FiPhone className="w-5 h-5" />
                         +91 98765 43210

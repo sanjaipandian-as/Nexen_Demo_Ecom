@@ -1,82 +1,68 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const StatsGrid = () => {
+    const navigate = useNavigate();
+
+    const scrollToProducts = () => {
+        const productsSection = document.getElementById('products-section');
+        if (productsSection) {
+            productsSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
+
     return (
-        <div className="container mx-auto px-3 sm:px-2 md:px-2 lg:px-2 py-6 md:py-12 bg-gray-50">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
-                {/* Top Ranking */}
-                <div className="bg-white rounded-2xl p-5 shadow-sm h-full flex flex-col">
-                    <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-lg font-bold text-gray-900">Top ranking</h3>
-                        <span className="text-sm text-orange-500 font-semibold cursor-pointer hover:text-orange-600 transition-colors">View more</span>
-                    </div>
-                    <p className="text-sm text-gray-600 mb-4">Hot selling · Traditional Clothing & Accessories</p>
-                    <div className="rounded-xl overflow-hidden mb-4 flex-grow">
-                        <img
-                            src="https://images.unsplash.com/photo-1574380965762-d7af37362e0c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8ZGl3YWxpJTIwY3JhY2tlcnN8ZW58MHx8MHx8fDA%3D"
-                            alt="Top Ranking"
-                            className="w-full h-64 lg:h-72 object-cover"
-                            onError={(e) => {
-                                e.target.src = '/Monkey.jpg';
-                                e.target.onerror = null;
-                            }}
-                        />
-                    </div>
-                    <div className="grid grid-cols-3 gap-2 mt-auto">
-                        <img src="https://images.unsplash.com/photo-1700623066384-555c048e50e2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8ZGl3YWxpJTIwY3JhY2tlcnN8ZW58MHx8MHx8fDA%3D" className="rounded-lg h-20 w-full object-cover cursor-pointer hover:opacity-80 transition-opacity" onError={(e) => { e.target.src = '/Monkey.jpg'; e.target.onerror = null; }} />
-                        <img src="https://images.unsplash.com/photo-1572098688575-0db28b6a165b?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGRpd2FsaSUyMGNyYWNrZXJzfGVufDB8fDB8fHww" className="rounded-lg h-20 w-full object-cover cursor-pointer hover:opacity-80 transition-opacity" onError={(e) => { e.target.src = '/Monkey.jpg'; e.target.onerror = null; }} />
-                        <img src="https://media.istockphoto.com/id/645713294/photo/fireworks.jpg?s=612x612&w=0&k=20&c=Fh-AGfLgSjIwzlDipGogSbdsKrKU5PxOCCh0plXE-N0=" className="rounded-lg h-20 w-full object-cover cursor-pointer hover:opacity-80 transition-opacity" onError={(e) => { e.target.src = '/Monkey.jpg'; e.target.onerror = null; }} />
+        <div className="container mx-auto px-4 py-12">
+            <h2 className="text-3xl md:text-5xl font-black text-center mb-10 tracking-tight text-gray-900">
+                CURATED COLLECTIONS
+            </h2>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 h-auto lg:h-[600px]">
+                {/* Large Featured Card */}
+                <div className="lg:col-span-6 relative group overflow-hidden rounded-2xl cursor-pointer h-[400px] lg:h-full" onClick={scrollToProducts}>
+                    <img
+                        src="https://images.unsplash.com/photo-1520975661595-6453be3f7070?q=80&w=1974&auto=format&fit=crop"
+                        alt="The Pink Edit"
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-col justify-end p-8">
+                        <p className="text-secondary font-bold tracking-widest uppercase mb-2">Editor's Pick</p>
+                        <h3 className="text-4xl font-black text-white mb-4">THE PINK EDIT</h3>
+                        <button className="w-fit bg-white text-black px-6 py-2 rounded-full font-bold uppercase text-sm hover:bg-primary hover:text-white transition-colors">
+                            Shop Now
+                        </button>
                     </div>
                 </div>
 
-                {/* New Arrivals */}
-                <div className="bg-white rounded-2xl p-5 shadow-sm h-full flex flex-col hover:shadow-lg transition-shadow cursor-pointer">
-                    <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-lg font-bold text-gray-900">New arrivals</h3>
-                        <span className="text-sm text-orange-500 font-semibold cursor-pointer hover:text-orange-600 transition-colors">View more</span>
-                    </div>
-                    <p className="text-sm text-gray-600 mb-4">134,000+ products added today</p>
-                    <div className="grid grid-cols-2 gap-3 mb-4 flex-grow">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4kCjRBzhwKsmcfxSe_y-7CyJhUIXz-j7nig&s" alt="" className="rounded-lg h-40 w-full object-cover cursor-pointer hover:opacity-80 transition-opacity" onError={(e) => { e.target.src = '/Monkey.jpg'; e.target.onerror = null; }} />
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4kCjRBzhwKsmcfxSe_y-7CyJhUIXz-j7nig&s" className="rounded-lg h-40 w-full object-cover cursor-pointer hover:opacity-80 transition-opacity" onError={(e) => { e.target.src = '/Monkey.jpg'; e.target.onerror = null; }} />
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQj1vkyLax_Tr063fVse4zuoykOG-w86WVMnw&s" className="rounded-lg h-40 w-full object-cover cursor-pointer hover:opacity-80 transition-opacity" onError={(e) => { e.target.src = '/Monkey.jpg'; e.target.onerror = null; }} />
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfYkrOzFi6JPsdACNsJeGhB2oMTjZjJJmarBL_wEEqAw&s" className="rounded-lg h-40 w-full object-cover cursor-pointer hover:opacity-80 transition-opacity" onError={(e) => { e.target.src = '/Monkey.jpg'; e.target.onerror = null; }} />
-                    </div>
-                    <div className="mt-auto text-sm font-semibold text-gray-800">
-                        New this week
-                        <span className="block text-xs text-gray-500 font-normal">Products from verified suppliers only</span>
-                    </div>
-                </div>
-
-                {/* Top Deals & Best Sellers */}
-                <div className="space-y-6">
-                    <div className="bg-white rounded-2xl p-5 shadow-sm flex items-center gap-4 hover:shadow-lg transition-shadow cursor-pointer">
+                {/* Right Column Grid */}
+                <div className="lg:col-span-6 grid grid-cols-2 gap-4 h-full">
+                    <div className="col-span-2 h-[200px] lg:h-[290px] relative group overflow-hidden rounded-2xl cursor-pointer" onClick={scrollToProducts}>
                         <img
-                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfYkrOzFi6JPsdACNsJeGhB2oMTjZjJJmarBL_wEEqAw&s"
-                            className="w-20 h-20 object-cover rounded-xl"
-                            alt="Top Deals"
-                            onError={(e) => {
-                                e.target.src = '/Monkey.jpg';
-                                e.target.onerror = null;
-                            }}
+                            src="https://images.unsplash.com/photo-1445205170230-053b83016050?q=80&w=2071&auto=format&fit=crop"
+                            alt="Winter Coats"
+                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                         />
-                        <div>
-                            <p className="text-lg font-bold text-gray-900">Top deals</p>
-                            <p className="text-sm text-gray-600">180-day lowest price</p>
+                        <div className="absolute bottom-0 left-0 p-6">
+                            <h3 className="text-2xl font-bold text-white drop-shadow-md">WINTER COATS</h3>
                         </div>
                     </div>
 
-                    <div className="bg-white rounded-2xl p-5 shadow-sm hover:shadow-lg transition-shadow cursor-pointer">
-                        <p className="text-lg font-bold text-gray-900 mb-4">Deals on best sellers</p>
+                    <div className="h-[200px] lg:h-[290px] relative group overflow-hidden rounded-2xl cursor-pointer" onClick={scrollToProducts}>
                         <img
-                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0s-JN8VBDNJPykkWNWv_dgxGn08u-hmP9Ag&s"
-                            alt="Best Sellers"
-                            className="rounded-lg h-80 w-full object-cover"
-                            onError={(e) => {
-                                e.target.src = '/Monkey.jpg';
-                                e.target.onerror = null;
-                            }}
+                            src="https://images.unsplash.com/photo-1511556820780-dba8ba36b745?q=80&w=1974&auto=format&fit=crop"
+                            alt="Accessories"
+                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                         />
+                        <div className="absolute bottom-0 left-0 p-6">
+                            <h3 className="text-xl font-bold text-white drop-shadow-md">ACCESSORIES</h3>
+                        </div>
+                    </div>
+
+                    <div className="bg-[#F7DB91] rounded-2xl p-6 flex flex-col justify-center items-center text-center cursor-pointer hover:bg-[#ffe39f] transition-colors h-[200px] lg:h-[290px]" onClick={scrollToProducts}>
+                        <p className="font-bold text-gray-800 text-lg mb-2">FLAT</p>
+                        <h3 className="text-6xl font-black text-white drop-shadow-sm mb-2">50%</h3>
+                        <p className="font-black text-2xl text-gray-800 uppercase">OFF</p>
+                        <p className="text-sm font-medium mt-2">On Selected Items</p>
                     </div>
                 </div>
             </div>

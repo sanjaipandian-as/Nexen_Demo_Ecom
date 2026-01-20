@@ -178,7 +178,7 @@ const ShopProductsPage = () => {
                         <div className="mb-6">
                             <button
                                 onClick={() => navigate('/')}
-                                className="flex items-center gap-2 text-gray-600 hover:text-orange-500 transition-colors mb-4"
+                                className="flex items-center gap-2 text-gray-600 hover:text-primary transition-colors mb-4"
                             >
                                 <FaArrowLeft />
                                 <span className="text-sm md:text-base">Back to Home</span>
@@ -210,13 +210,13 @@ const ShopProductsPage = () => {
                                             </div>
                                             <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs md:text-sm text-gray-500 font-medium">
                                                 <div className="flex items-center gap-1.5">
-                                                    <FaStar className="text-yellow-400" />
+                                                    <FaStar className="text-secondary" />
                                                     <span className="text-gray-900 font-bold">{shopInfo.rating}</span>
                                                     <span>(450+ Reviews)</span>
                                                 </div>
                                                 <span className="hidden md:block text-gray-300">•</span>
                                                 <div className="flex items-center gap-1.5">
-                                                    <FaStore className="text-orange-500" />
+                                                    <FaStore className="text-primary" />
                                                     <span>{shopInfo.products}</span>
                                                 </div>
                                                 {shopInfo.location && (
@@ -271,7 +271,7 @@ const ShopProductsPage = () => {
                                 </p>
                                 <button
                                     onClick={() => navigate('/')}
-                                    className="bg-gray-900 text-white px-8 py-3 rounded-xl font-bold hover:bg-orange-600 transition-all shadow-lg active:scale-95"
+                                    className="bg-gray-900 text-white px-8 py-3 rounded-xl font-bold hover:bg-primary transition-all shadow-lg active:scale-95"
                                 >
                                     Explore Other Brands
                                 </button>
@@ -315,7 +315,7 @@ const ShopProductsPage = () => {
                                                         }`}
                                                 >
                                                     {addingToWishlist === product._id ? (
-                                                        <div className="animate-spin rounded-full h-4 w-4 border-2 border-gray-300 border-t-orange-500" />
+                                                        <div className="animate-spin rounded-full h-4 w-4 border-2 border-gray-300 border-t-primary" />
                                                     ) : (
                                                         <BsFillBagHeartFill className={`w-4 h-4 ${inWishlist ? 'text-white' : 'text-gray-300'}`} />
                                                     )}
@@ -333,13 +333,13 @@ const ShopProductsPage = () => {
                                                 {/* Title & Rating Row */}
                                                 <div className="flex justify-between items-start gap-2 mb-3">
                                                     <h3
-                                                        className="font-bold text-gray-800 line-clamp-1 text-base md:text-lg cursor-pointer hover:text-orange-500 transition-colors flex-1"
+                                                        className="font-bold text-gray-800 line-clamp-1 text-base md:text-lg cursor-pointer hover:text-primary transition-colors flex-1"
                                                         onClick={() => navigate(`/product/${product._id}`)}
                                                     >
                                                         {product.name}
                                                     </h3>
                                                     <div className="flex items-center gap-1 bg-gray-50 px-2 py-0.5 rounded-md border border-gray-100">
-                                                        <FaStar className="text-yellow-400 text-xs" />
+                                                        <FaStar className="text-secondary text-xs" />
                                                         <span className="text-xs font-bold text-gray-600">4.2</span>
                                                     </div>
                                                 </div>
@@ -354,7 +354,7 @@ const ShopProductsPage = () => {
                                                     </div>
                                                     <div className="flex flex-col items-end">
                                                         <span className="text-gray-400 uppercase font-medium mb-0.5">Brand</span>
-                                                        <span className="text-orange-500 font-bold truncate max-w-[100px]">
+                                                        <span className="text-primary font-bold truncate max-w-[100px]">
                                                             {product.brand || 'Standard'}
                                                         </span>
                                                     </div>
@@ -383,7 +383,7 @@ const ShopProductsPage = () => {
                                                             ? 'bg-gray-100 text-gray-400 cursor-not-allowed shadow-none'
                                                             : inCart
                                                                 ? 'bg-green-500 text-white hover:bg-green-600'
-                                                                : 'bg-gradient-to-r from-orange-400 to-orange-500 text-white hover:shadow-orange-200 hover:shadow-lg'
+                                                                : 'bg-gradient-to-r from-primary/80 to-primary text-white hover:shadow-primary/20 hover:shadow-lg'
                                                             }`}
                                                     >
                                                         {addingToCart === product._id ? (
