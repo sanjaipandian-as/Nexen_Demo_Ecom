@@ -371,7 +371,7 @@ const CategoriesSpecificpage = () => {
 
     return (
         <div className="flex w-full h-screen bg-gray-50">
-            <Sidebar onFiltersChange={handleFiltersChange} />
+            
 
             <div className="flex flex-col flex-1 h-screen overflow-y-auto relative">
                 <Topbar />

@@ -26,7 +26,7 @@ const Checkout = () => {
             city: formData.city,
             state: formData.state,
             zipCode: formData.pincode,
-            country: 'India', // Default to India or add to form
+            country: 'India',
             mobile: formData.phone
         };
 
@@ -58,7 +58,7 @@ const Checkout = () => {
 
                         <div className="space-y-4">
                             <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-                                <FaUser className="text-primary" /> Personal Details
+                                <FaUser className="text-orange-500" /> Personal Details
                             </h2>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
@@ -69,7 +69,7 @@ const Checkout = () => {
                                         required
                                         value={formData.fullName}
                                         onChange={handleChange}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all"
                                         placeholder="John Doe"
                                     />
                                 </div>
@@ -84,7 +84,7 @@ const Checkout = () => {
                                             pattern="[0-9]{10}"
                                             value={formData.phone}
                                             onChange={handleChange}
-                                            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
+                                            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all"
                                             placeholder="9876543210"
                                         />
                                     </div>
@@ -95,7 +95,7 @@ const Checkout = () => {
 
                         <div className="space-y-4 pt-4 border-t border-gray-100">
                             <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-                                <FaMapMarkerAlt className="text-primary" /> Delivery Address
+                                <FaMapMarkerAlt className="text-orange-500" /> Delivery Address
                             </h2>
 
                             <div>
@@ -106,7 +106,7 @@ const Checkout = () => {
                                     rows="2"
                                     value={formData.addressLine}
                                     onChange={handleChange}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
+                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all"
                                     placeholder="House No, Street, Landmark"
                                 />
                             </div>
@@ -120,7 +120,7 @@ const Checkout = () => {
                                         required
                                         value={formData.city}
                                         onChange={handleChange}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all"
                                     />
                                 </div>
                                 <div>
@@ -131,7 +131,7 @@ const Checkout = () => {
                                         required
                                         value={formData.state}
                                         onChange={handleChange}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all"
                                     />
                                 </div>
                             </div>
@@ -145,7 +145,7 @@ const Checkout = () => {
                                     pattern="[0-9]{6}"
                                     value={formData.pincode}
                                     onChange={handleChange}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
+                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all"
                                     placeholder="600001"
                                 />
                             </div>
@@ -153,7 +153,7 @@ const Checkout = () => {
 
                         <button
                             type="submit"
-                            className="w-full bg-gradient-to-r from-primary to-primary/90 text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl hover:from-primary/90 hover:to-primary transition-all transform hover:-translate-y-0.5"
+                            className="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl hover:from-orange-600 hover:to-orange-700 transition-all transform hover:-translate-y-0.5"
                         >
                             Proceed to Payment
                         </button>
