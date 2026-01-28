@@ -114,7 +114,7 @@ const Adminsidebar = ({ onNavigate, activePage = 'Dashboard', onOpenUploadModal,
                         </div>
                         <div>
                             <h1 className="text-xl font-black tracking-tight leading-none font-hero">
-                                <span className="text-[#E91E63]">Glow</span> <span className="text-slate-900">Beauty</span>
+                                <span className="text-[#E91E63]">AJIZZ</span> <span className="text-slate-900">FASHIONS</span>
                             </h1>
                             <p className="text-[10px] font-bold text-rose-500 tracking-[0.2em] uppercase mt-1">Admin Panel</p>
                         </div>

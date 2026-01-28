@@ -21,8 +21,16 @@ const Hero = () => {
                 // Fallback (Image Only)
                 setHeroSlides([
                     {
-                        image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1200&q=80",
+                        image: "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1200&auto=format&fit=crop",
                         order: 1
+                    },
+                    {
+                        image: "https://images.unsplash.com/photo-1490481651871-ab5266461c60?q=80&w=1200&auto=format&fit=crop",
+                        order: 2
+                    },
+                    {
+                        image: "https://images.unsplash.com/photo-1445205170230-053b83016050?q=80&w=1200&auto=format&fit=crop",
+                        order: 3
                     }
                 ]);
             } finally {
@@ -84,7 +92,6 @@ const Hero = () => {
                         }`}
                 >
                     <div className="absolute inset-0 overflow-hidden cursor-pointer" onClick={() => navigate('/')}>
-                        {/* Image Only - No Text Overlays */}
                         <img
                             src={slide.image}
                             alt="Hero Banner"
@@ -94,8 +101,47 @@ const Hero = () => {
                                 e.target.onerror = null;
                             }}
                         />
-                        {/* Light dark overlay for better visibility of arrows (optional, kept minimal) */}
-                        <div className="absolute inset-0 bg-black/10"></div>
+                        {/* Gradient Overlay for Text Readability - Only for non-first slides */}
+                        {index !== 0 && (
+                            <>
+                                <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent"></div>
+
+                                {/* Text Overlay - Left Side */}
+                                <div className="absolute inset-0 flex items-center">
+                                    <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                                        <div className="max-w-lg space-y-4 sm:space-y-6 animate-fadeInLeft">
+                                            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight drop-shadow-lg">
+                                                {[
+                                                    "New Season Arrivals",
+                                                    "Exclusive Collection",
+                                                    "Limited Time Offers"
+                                                ][index % 3]}
+                                            </h2>
+                                            <p className="text-base sm:text-lg md:text-xl text-gray-200 leading-relaxed font-light drops-shadow-md">
+                                                {[
+                                                    "Discover the latest trends in fashion. Elevate your wardrobe with our premium selection.",
+                                                    "Premium quality styles designed for you. Shop the look that defines your unique personality.",
+                                                    "Get up to 50% off on selected items. Don't miss out on the best deals of the season."
+                                                ][index % 3]}
+                                            </p>
+                                            <button
+                                                className="px-6 sm:px-8 py-2.5 sm:py-3 bg-[#E91E63] hover:bg-[#D81B60] text-white font-semibold rounded-full transition-all duration-300 transform hover:scale-105 hover:shadow-lg active:scale-95 text-sm sm:text-base"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    navigate('/');
+                                                }}
+                                            >
+                                                {[
+                                                    "Shop Now",
+                                                    "Explore Collection",
+                                                    "View Offers"
+                                                ][index % 3]}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </>
+                        )}
                     </div>
                 </div>
             ))}

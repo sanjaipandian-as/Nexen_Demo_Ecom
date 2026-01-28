@@ -266,7 +266,7 @@ const Payment = () => {
                 key: data.razorpayKey,
                 amount: data.paymentOrder.amount,
                 currency: data.paymentOrder.currency,
-                name: 'Glow Beauty',
+                name: 'AJIZZ FASHIONS',
                 description: 'Order Payment',
                 order_id: data.paymentOrder.id,
                 handler: async function (response) {

@@ -93,7 +93,7 @@ const Login = () => {
                         Welcome Back
                     </h1>
                     <p className="text-sm sm:text-base md:text-lg text-gray-500">
-                        Sign in to your Glow Beauty account
+                        Sign in to your AJIZZ FASHIONS account
                     </p>
                 </div>
 

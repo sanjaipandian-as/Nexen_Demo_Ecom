@@ -83,7 +83,7 @@ const BrandRegistry = () => {
                             Protect and Grow Your Crackers Brand
                         </h2>
                         <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-                            Join Glow Beauty Brand Registry to protect your intellectual property, ensure product safety, and reach millions of customers during festive seasons.
+                            Join AJIZZ FASHIONS Brand Registry to protect your intellectual property, ensure product safety, and reach millions of customers during festive seasons.
                         </p>
                         <div className="flex flex-wrap gap-4">
                             <button
@@ -447,7 +447,7 @@ const BrandRegistry = () => {
             <footer className="bg-gray-900 text-white py-8">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                     <p className="text-gray-400">
-                        © 2024 Glow Beauty Brand Registry. All rights reserved.
+                        © 2024 AJIZZ FASHIONS Brand Registry. All rights reserved.
                     </p>
                 </div>
             </footer>

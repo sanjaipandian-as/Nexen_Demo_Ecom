@@ -248,7 +248,7 @@ const Products = ({ filters = defaultFilters }) => {
         return (
             <div
                 onClick={() => handleProductClick(product._id)}
-                className="bg-white rounded-[16px] overflow-hidden shadow-sm hover:shadow-md sm:hover:-translate-y-1 transition-all duration-300 border border-pink-100 cursor-pointer active:scale-98 animate-fadeIn flex flex-row sm:flex-col min-w-[280px] sm:min-w-0"
+                className="bg-white rounded-[16px] overflow-hidden shadow-sm hover:shadow-md sm:hover:-translate-y-1 transition-all duration-300 border border-pink-100 cursor-pointer active:scale-98 animate-fadeIn flex flex-row sm:flex-col min-w-[280px] sm:min-w-0 h-full"
             >
                 <div className="relative w-[120px] sm:w-full aspect-square sm:aspect-[4/3] overflow-hidden flex-shrink-0">
                     <img
@@ -435,7 +435,7 @@ const Products = ({ filters = defaultFilters }) => {
                             <div key={rowIndex} className="w-full">
                                 <div className="flex overflow-x-auto pb-4 gap-4 sm:gap-6 snap-x snap-mandatory scrollbar-hide sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:overflow-visible">
                                     {row.map((product) => (
-                                        <div key={product._id} className="snap-start flex-shrink-0 w-[280px] sm:w-auto">
+                                        <div key={product._id} className="snap-start flex-shrink-0 w-[280px] sm:w-auto h-full">
                                             <ProductCard product={product} />
                                         </div>
                                     ))}

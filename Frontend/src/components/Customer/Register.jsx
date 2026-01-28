@@ -96,7 +96,7 @@ const Register = () => {
                         Create Your Account
                     </h1>
                     <p className="text-sm sm:text-base md:text-lg text-gray-500">
-                        Join Glow Beauty and light up your celebrations
+                        Join AJIZZ FASHIONS and light up your celebrations
                     </p>
                 </div>
 

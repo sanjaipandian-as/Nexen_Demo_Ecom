@@ -41,7 +41,17 @@ const ProductSchema = new Schema(
       main: {
         type: String,
         required: true,
-        enum: ["Body Care", "Skin Care", "Face Care", "Hair Care"],
+        enum: [
+          "Body Care",
+          "Skin Care",
+          "Face Care",
+          "Hair Care",
+          "Sarees",
+          "Kurtis & Kurtas",
+          "Lehenga & Party Wear",
+          "Salwar & Suit Sets",
+          "Ethnic Gowns & Anarkalis"
+        ],
         index: true,
       },
       main_slug: { type: String, required: true, index: true },

@@ -33,8 +33,8 @@ const Footer = () => {
             { name: 'FAQs', path: '/faqs' }
         ],
         policy: [
-            { name: 'Sell on Fashion Store', path: '/seller-register' },
-            { name: 'Fashion Store Accelerator', path: '/Affiliate' },
+            { name: 'Sell on AJIZZ FASHIONS', path: '/seller-register' },
+            { name: 'AJIZZ FASHIONS Accelerator', path: '/Affiliate' },
             { name: 'Protect and Build Your Brand', path: '/BrandRegistry' },
             { name: 'Become an Affiliate', path: '/affiliate' },
             { name: 'Advertise Your Products', path: '/advertise' }
@@ -50,7 +50,7 @@ const Footer = () => {
                     <div className="lg:col-span-1">
                         <div className="mb-6">
                             <h2 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent mb-3">
-                                Fashion Store
+                                AJIZZ FASHIONS
                             </h2>
                             <p className="text-gray-400 text-sm leading-relaxed">
                                 Your trusted destination for premium fashion and lifestyle products
@@ -154,10 +154,10 @@ const Footer = () => {
                             <li className="flex items-center gap-3">
                                 <FaEnvelope className="w-4 h-4 text-orange-400 flex-shrink-0" />
                                 <a
-                                    href="mailto:support@fashionstore.com"
+                                    href="mailto:support@apkcrackers.com"
                                     className="text-gray-400 hover:text-orange-400 text-sm transition-colors focus:outline-none focus:text-orange-400"
                                 >
-                                    support@fashionstore.com
+                                    support@apkcrackers.com
                                 </a>
                             </li>
                         </ul>
@@ -239,7 +239,7 @@ const Footer = () => {
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-5">
                     <div className="flex flex-col md:flex-row items-center justify-between gap-3">
                         <p className="text-sm text-gray-400 text-center md:text-left">
-                            © {currentYear} <span className="text-orange-400 font-semibold">Fashion Store</span>. All rights reserved.
+                            © {currentYear} <span className="text-orange-400 font-semibold">AJIZZ FASHIONS</span>. All rights reserved.
                         </p>
                         <p className="text-xs text-gray-500 text-center md:text-right">
                             Made with ❤️ in India

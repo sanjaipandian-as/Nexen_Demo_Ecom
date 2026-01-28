@@ -60,7 +60,7 @@ const useDocumentTitle = () => {
             '/Affiliate': 'Affiliate Program',
             '/BrandRegistry': 'Brand Registry',
             '/advertise': 'Advertise Your Products',
-            '/sell': 'Sell on Glow Beauty',
+            '/sell': 'Sell on AJIZZ FASHIONS',
 
             // Footer Links
             '/careers': 'Careers',
@@ -71,7 +71,7 @@ const useDocumentTitle = () => {
             '/legal': 'Legal Information',
         };
 
-        let pageTitle = 'Glow Beauty';
+        let pageTitle = 'AJIZZ FASHIONS';
 
         // Check for exact route match first
         if (routeTitles[path]) {
@@ -107,7 +107,7 @@ const useDocumentTitle = () => {
             pageTitle = settingsTitles[settingsPage] || 'Settings';
         }
 
-        document.title = `${pageTitle} - Glow Beauty`;
+        document.title = `${pageTitle} - AJIZZ FASHIONS`;
     }, [location.pathname]);
 };
 

@@ -83,7 +83,7 @@ const Searchbar = () => {
             '/Affiliate': 'Affiliate Program',
             '/BrandRegistry': 'Brand Registry',
             '/advertise': 'Advertise Your Products',
-            '/sell': 'Sell on Glow Beauty',
+            '/sell': 'Sell on AJIZZ FASHIONS',
 
 
             '/careers': 'Careers',
@@ -116,7 +116,7 @@ const Searchbar = () => {
             return settingsTitles[settingsPage] || 'Settings';
         }
 
-        return routeTitles[path] || 'Glow Beauty';
+        return routeTitles[path] || 'AJIZZ FASHIONS';
     };
 
     useEffect(() => {
@@ -238,7 +238,7 @@ const Searchbar = () => {
             '/Affiliate': 'Affiliate Program',
             '/BrandRegistry': 'Brand Registry',
             '/advertise': 'Advertise Your Products',
-            '/sell': 'Sell on Glow Beauty',
+            '/sell': 'Sell on AJIZZ FASHIONS',
 
             // Footer Links
             '/careers': 'Careers',
@@ -249,7 +249,7 @@ const Searchbar = () => {
             '/legal': 'Legal Information',
         };
 
-        let pageTitle = 'Glow Beauty';
+        let pageTitle = 'AJIZZ FASHIONS';
 
         // Check for exact route match first
         if (routeTitles[path]) {
@@ -285,7 +285,7 @@ const Searchbar = () => {
             pageTitle = settingsTitles[settingsPage] || 'Settings';
         }
 
-        document.title = `${pageTitle} - Glow Beauty`;
+        document.title = `${pageTitle} - AJIZZ FASHIONS`;
     }, [location.pathname]);
 
     // Close suggestions when clicking outside
@@ -476,7 +476,7 @@ const Searchbar = () => {
                             className="cursor-pointer group"
                         >
                             <h1 className="text-lg md:text-xl lg:text-2xl font-bold whitespace-nowrap transition-all duration-300 group-hover:animate-sparkle" style={{ color: '#2E2E2E' }}>
-                                <span style={{ color: '#E91E63' }}>Glam</span> Beauty
+                                <span style={{ color: '#E91E63' }}>AJIZZ</span> FASHIONS
                             </h1>
                         </button>
                     </div>

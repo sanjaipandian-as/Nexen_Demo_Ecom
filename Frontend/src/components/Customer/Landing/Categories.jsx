@@ -177,12 +177,12 @@ const Categories = () => {
                                         style={{
                                             minWidth: `${cardWidth}px`,
                                             width: `${cardWidth}px`,
-                                            height: '420px',
+                                            height: '550px',
                                             background: 'linear-gradient(135deg, #FFF5F7 0%, #FFFFFF 100%)',
                                             borderColor: '#FCE4EC'
                                         }}
                                     >
-                                        <div className="h-40 sm:h-44 w-full overflow-hidden bg-[#FDF2F5] relative flex-shrink-0">
+                                        <div className="w-full overflow-hidden bg-[#FDF2F5] relative flex-shrink-0" style={{ height: '320px' }}>
                                             {cat.icon ? (
                                                 <img
                                                     src={cat.icon}

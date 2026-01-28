@@ -11,7 +11,7 @@ const AdminCategoryManagement = () => {
     const [showModal, setShowModal] = useState(false);
     const [editMode, setEditMode] = useState(false);
     const [currentCategory, setCurrentCategory] = useState(null);
-    const [formData, setFormData] = useState({ name: '', icon: null });
+    const [formData, setFormData] = useState({ name: '', icon: null, displayOrder: 0 });
     const [imagePreview, setImagePreview] = useState(null);
     const [submitting, setSubmitting] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
@@ -56,6 +56,7 @@ const AdminCategoryManagement = () => {
         setSubmitting(true);
         const data = new FormData();
         data.append('name', formData.name);
+        data.append('displayOrder', formData.displayOrder);
         if (formData.icon) {
             data.append('icon', formData.icon);
         }
@@ -85,7 +86,7 @@ const AdminCategoryManagement = () => {
 
     const handleEdit = (category) => {
         setCurrentCategory(category);
-        setFormData({ name: category.name, icon: null });
+        setFormData({ name: category.name, icon: null, displayOrder: category.displayOrder || 0 });
         setImagePreview(category.icon);
         setEditMode(true);
         setShowModal(true);
@@ -109,7 +110,7 @@ const AdminCategoryManagement = () => {
     const openCreateModal = () => {
         setEditMode(false);
         setCurrentCategory(null);
-        setFormData({ name: '', icon: null });
+        setFormData({ name: '', icon: null, displayOrder: 0 });
         setImagePreview(null);
         setShowModal(true);
     };
@@ -118,7 +119,7 @@ const AdminCategoryManagement = () => {
         setShowModal(false);
         setEditMode(false);
         setCurrentCategory(null);
-        setFormData({ name: '', icon: null });
+        setFormData({ name: '', icon: null, displayOrder: 0 });
         setImagePreview(null);
     };
 
@@ -236,6 +237,7 @@ const AdminCategoryManagement = () => {
                                 <div className="flex items-center gap-2">
                                     <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
                                     <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Active</span>
+                                    <span className="text-xs font-bold text-slate-400 uppercase tracking-wider ml-auto">Order: {category.displayOrder || 0}</span>
                                 </div>
                             </div>
 
@@ -292,6 +294,19 @@ const AdminCategoryManagement = () => {
                                     className={inputStyle}
                                     placeholder="e.g. Skin Care"
                                     required
+                                />
+                            </div>
+
+                            <div>
+                                <label className={labelStyle}>
+                                    Display Order
+                                </label>
+                                <input
+                                    type="number"
+                                    value={formData.displayOrder}
+                                    onChange={(e) => setFormData({ ...formData, displayOrder: e.target.value })}
+                                    className={inputStyle}
+                                    placeholder="0"
                                 />
                             </div>
 
