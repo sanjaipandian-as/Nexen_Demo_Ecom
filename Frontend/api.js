@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Create an instance of axios with a base URL
 const API = axios.create({
-    baseURL: 'https://demo-ecom-8sgo.onrender.com/api',
+    baseURL: 'https://nexen-demo-ecom.onrender.com/api',
 });
 
 // Add a request interceptor to include the auth token in headers
