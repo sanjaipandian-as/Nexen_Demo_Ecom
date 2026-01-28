@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Create an instance of axios with a base URL
 const API = axios.create({
-    baseURL: 'http://localhost:8000/api',
+    baseURL: 'https://nexen-demo-ecom.onrender.com/api',
 });
 
 // Add a request interceptor to include the auth token in headers
