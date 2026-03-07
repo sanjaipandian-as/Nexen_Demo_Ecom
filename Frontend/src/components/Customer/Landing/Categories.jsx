@@ -85,8 +85,23 @@ const Categories = () => {
         }
     }, [])
 
+    const scroll = useCallback((direction) => {
+        if (scrollRef.current) {
+            const containerWidth = scrollRef.current.offsetWidth;
+            const scrollAmount = direction === 'left' ? -containerWidth : containerWidth;
 
-    const handleCategoryClick = useCallback((slug) => {
+            scrollRef.current.scrollBy({
+                left: scrollAmount,
+                behavior: 'smooth'
+            });
+        }
+    }, []);
+
+    const handleCategoryClick = useCallback((catName) => {
+        // Safe slug generation matching typical backend patterns
+        const slug = catName.toLowerCase()
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/(^-|-$)+/g, '');
         navigate(`/category/${slug}`)
     }, [navigate])
 
@@ -133,7 +148,26 @@ const Categories = () => {
                     </p>
                 </div>
 
-                <div className="relative px-0 md:px-2">
+                <div className="relative group/nav px-0 md:px-2">
+                    {/* Navigation Arrows - Desktop Only */}
+                    {!loading && categories.length > visibleCards && (
+                        <>
+                            <button
+                                onClick={() => scroll('left')}
+                                className="absolute -left-4 lg:-left-6 top-1/2 -translate-y-1/2 z-30 w-12 h-12 bg-white/90 backdrop-blur-sm border-2 border-rose-100 rounded-full flex items-center justify-center text-rose-500 shadow-xl hover:bg-rose-500 hover:text-white hover:border-rose-500 transition-all duration-300 opacity-0 group-hover/nav:opacity-100 hidden md:flex"
+                                aria-label="Previous categories"
+                            >
+                                <ChevronLeft className="w-6 h-6" />
+                            </button>
+                            <button
+                                onClick={() => scroll('right')}
+                                className="absolute -right-4 lg:-right-6 top-1/2 -translate-y-1/2 z-30 w-12 h-12 bg-white/90 backdrop-blur-sm border-2 border-rose-100 rounded-full flex items-center justify-center text-rose-500 shadow-xl hover:bg-rose-500 hover:text-white hover:border-rose-500 transition-all duration-300 opacity-0 group-hover/nav:opacity-100 hidden md:flex"
+                                aria-label="Next categories"
+                            >
+                                <ChevronRight className="w-6 h-6" />
+                            </button>
+                        </>
+                    )}
 
                     <div
                         ref={scrollRef}
@@ -164,15 +198,17 @@ const Categories = () => {
                             </div>
                         ) : (
                             <div
-                                className="flex justify-center gap-4 md:gap-6 lg:gap-8 pb-4 md:pb-0"
+                                className="flex gap-4 md:gap-6 lg:gap-8 pb-4 md:pb-0"
                                 style={{
-                                    justifyContent: categories.length <= visibleCards ? 'center' : 'flex-start'
+                                    justifyContent: categories.length <= visibleCards ? 'center' : 'flex-start',
+                                    width: 'max-content',
+                                    minWidth: '100%'
                                 }}
                             >
                                 {categories.map((cat, i) => (
                                     <div
                                         key={cat._id}
-                                        onClick={() => handleCategoryClick(cat.name.toLowerCase().replace(/\s+/g, '-'))}
+                                        onClick={() => handleCategoryClick(cat.name)}
                                         className="flex-shrink-0 bg-white border-2 rounded-[24px] transition-all duration-300 overflow-hidden cursor-pointer group snap-start relative shadow-sm hover:shadow-2xl hover:-translate-y-2 flex flex-col"
                                         style={{
                                             minWidth: `${cardWidth}px`,

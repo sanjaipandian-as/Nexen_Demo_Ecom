@@ -241,6 +241,18 @@ const ProductUploadModal = ({ isOpen, onClose, onSuccess, productToEdit }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Validate image count
+        const totalImages = formData.images.length + newImages.length;
+        if (totalImages < 2) {
+            toast.error('At least 2 images are required');
+            return;
+        }
+        if (totalImages > 5) {
+            toast.error('Maximum 5 images allowed');
+            return;
+        }
+
         setLoading(true);
 
         try {
@@ -278,7 +290,7 @@ const ProductUploadModal = ({ isOpen, onClose, onSuccess, productToEdit }) => {
                 });
                 toast.success('Product updated successfully!');
             } else {
-                await API.post('/admin/products/add', data, {
+                await API.post('/admin/products', data, {
                     headers: { 'Content-Type': 'multipart/form-data' }
                 });
                 toast.success('Product added successfully!');
@@ -552,7 +564,10 @@ const ProductUploadModal = ({ isOpen, onClose, onSuccess, productToEdit }) => {
                                             <FaCloudUploadAlt className="text-4xl text-rose-500" />
                                         </div>
                                         <h4 className="text-xl font-black text-slate-900 font-hero mb-2 group-hover:text-rose-600 transition-colors">Upload Photos</h4>
-                                        <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Supports JPG, PNG, WEBP</p>
+                                        <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Supports JPG, PNG, WEBP (Min 2, Max 5)</p>
+                                        <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-2xl border text-[10px] font-black uppercase tracking-widest transition-all ${previewImages.length >= 2 && previewImages.length <= 5 ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-rose-50 text-rose-500 border-rose-100 animate-pulse'}`}>
+                                            {previewImages.length} / 5 Selected
+                                        </div>
                                     </div>
 
                                     {previewImages.length > 0 && (

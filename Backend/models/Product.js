@@ -41,17 +41,6 @@ const ProductSchema = new Schema(
       main: {
         type: String,
         required: true,
-        enum: [
-          "Body Care",
-          "Skin Care",
-          "Face Care",
-          "Hair Care",
-          "Sarees",
-          "Kurtis & Kurtas",
-          "Lehenga & Party Wear",
-          "Salwar & Suit Sets",
-          "Ethnic Gowns & Anarkalis"
-        ],
         index: true,
       },
       main_slug: { type: String, required: true, index: true },
@@ -67,6 +56,11 @@ const ProductSchema = new Schema(
         type: Number,
         required: [true, "MRP is required"],
         min: [0, "MRP cannot be negative"],
+      },
+      cost: {
+        type: Number,
+        min: [0, "Cost price cannot be negative"],
+        default: 0,
       },
       selling_price: {
         type: Number,
@@ -92,8 +86,8 @@ const ProductSchema = new Schema(
       type: [String],
       required: [true, "At least one product image is required"],
       validate: {
-        validator: (v) => Array.isArray(v) && v.length > 0 && v.length <= 5,
-        message: "You must upload between 1 and 5 images",
+        validator: (v) => Array.isArray(v) && v.length >= 2 && v.length <= 5,
+        message: "You must upload between 2 and 5 images",
       },
     },
 
@@ -181,17 +175,23 @@ ProductSchema.pre("validate", async function () {
   }
 
   // Generate category slugs
-  if (this.isModified("category.main")) {
+  if (this.category?.main) {
     this.category.main_slug = this.category.main
       .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-");
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)+/g, "");
   }
 
-  if (this.category.sub && this.isModified("category.sub")) {
+  if (this.category?.sub) {
     this.category.sub_slug = this.category.sub
       .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-");
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)+/g, "");
+  } else {
+    this.category.sub_slug = "";
   }
+
+
 
   // Calculate discount percentage
   if (this.pricing.mrp && this.pricing.selling_price) {

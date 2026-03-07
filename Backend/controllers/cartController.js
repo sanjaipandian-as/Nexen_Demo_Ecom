@@ -83,7 +83,14 @@ export const updateCartItem = async (req, res) => {
       return res.status(400).json({ message: `Only ${product.stock} pieces available in stock` });
     }
 
-    item.quantity = quantity;
+    const itemIndex = cart.items.findIndex(
+      (item) => item.productId.toString() === productId
+    );
+    if (itemIndex < 0) {
+      return res.status(404).json({ message: "Product not in cart" });
+    }
+
+    cart.items[itemIndex].quantity = quantity;
     await cart.save();
 
     return res.json({ message: "Quantity updated", cart });

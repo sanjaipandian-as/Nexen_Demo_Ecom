@@ -367,7 +367,8 @@ const AdminAllProducts = ({ refreshId }) => {
                                     <tr className="bg-slate-50/50 border-b border-slate-100">
                                         <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest font-hero">Product Info</th>
                                         <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest font-hero">Category</th>
-                                        <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest font-hero">Price</th>
+                                        <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest font-hero">Cost Price</th>
+                                        <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest font-hero">Selling Price</th>
                                         <th className="px-8 py-5 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest font-hero">Status</th>
                                         <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest font-hero">Inventory</th>
                                         <th className="px-8 py-5 text-right text-[10px] font-black text-slate-400 uppercase tracking-widest font-hero">Actions</th>
@@ -412,7 +413,15 @@ const AdminAllProducts = ({ refreshId }) => {
                                                     </span>
                                                 </td>
 
-                                                {/* Pricing */}
+                                                {/* Cost Pricing */}
+                                                <td className="px-8 py-5">
+                                                    <div className="font-black text-slate-500 flex items-center gap-0.5 text-sm">
+                                                        <FaRupeeSign className="text-[10px] text-slate-400" />
+                                                        {(product.pricing?.cost || 0).toLocaleString('en-IN')}
+                                                    </div>
+                                                </td>
+
+                                                {/* Selling Pricing */}
                                                 <td className="px-8 py-5">
                                                     <div className="font-black text-slate-900 flex items-center gap-0.5 text-sm">
                                                         <FaRupeeSign className="text-[10px] text-slate-400" />

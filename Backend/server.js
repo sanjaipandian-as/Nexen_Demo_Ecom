@@ -3,17 +3,14 @@ import dotenv from "dotenv";
 import cors from "cors";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
-// import mongoSanitize from "express-mongo-sanitize";
-// import xss from "xss-clean";
+
 
 import connectDB from "./config/db.js";
 
 // =========================
 // ⭐ Load Environment Variables & Connect DB
 // =========================
-console.log('DEBUG: process.env.PORT before config:', process.env.PORT);
 dotenv.config({ override: true });
-console.log('DEBUG: process.env.PORT after config:', process.env.PORT);
 connectDB();
 
 const app = express();
@@ -34,23 +31,78 @@ app.use(
 );
 
 app.use(helmet());
-// app.use(mongoSanitize());
-// app.use(xss());
 
-app.use(
-  rateLimit({
-    windowMs: 10 * 60 * 1000, // 10 minutes
-    max: 2000,
-    message: "Too many requests from this IP, please try again later.",
-  })
-);
+// 1. JSON & URL Encoded Payload Size Limiting (Prevents large payload attacks)
+// MUST be before sanitization to populate req.body
+app.use(express.json({ limit: '50kb' }));
+app.use(express.urlencoded({ limit: '50kb', extended: true }));
+
+// Express 5 Security Middleware (Fixes Compatibility with Read-Only Getters)
+// Replaces express-mongo-sanitize and xss-clean by sanitizing in-place
+app.use((req, res, next) => {
+  const sanitize = (obj) => {
+    if (!obj || typeof obj !== 'object') return;
+
+    Object.keys(obj).forEach(key => {
+      // 1. NoSQL Injection Protection: Prevent keys starting with $ or containing .
+      if (key.startsWith('$') || key.includes('.')) {
+        delete obj[key];
+        return;
+      }
+
+      let value = obj[key];
+
+      // 2. Recursive Sanitization for Nested Objects
+      if (value && typeof value === 'object') {
+        sanitize(value);
+      }
+      // 3. XSS Protection for Strings (Basic)
+      else if (typeof value === 'string') {
+        // Simple XSS strip (removes common script tags and handlers)
+        obj[key] = value
+          .replace(/<script.*?>.*?<\/script>/gi, '')
+          .replace(/on\w+=".*?"/gi, '')
+          .replace(/javascript:.*?;/gi, '');
+      }
+    });
+  };
+
+  if (req.body) sanitize(req.body);
+  if (req.query) sanitize(req.query);
+  if (req.params) sanitize(req.params);
+
+  next();
+});
+
+// 2. Global Burst Limiter (Anti-DDoS)
+// Limits to 100 requests every 1 minute to prevent traffic spikes from taking the system down
+const globalLimiter = rateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minute
+  max: 100,
+  message: "Service is receiving high traffic. Please try again in 1 minute.",
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+app.use("/api", globalLimiter);
+
+// 3. Ultra-Strict Auth Limiter (Brute Force Protection)
+// Limits login/register attempts to 5 every 10 minutes to protect accounts
+const authLimiter = rateLimit({
+  windowMs: 10 * 60 * 1000, // 10 minutes
+  max: 5,
+  message: "Too many login/register attempts. Please try again after 10 minutes.",
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+app.use("/api/admin/auth", authLimiter);
+app.use("/api/customer/auth", authLimiter);
+app.use("/api/admin/auth/login", authLimiter);
+app.use("/api/customer/auth/login", authLimiter);
 
 // Disable Express signature in production
 if (process.env.NODE_ENV === "production") {
   app.disable("x-powered-by");
 }
-
-app.use(express.json());
 
 // =========================
 // ⭐ ROUTE IMPORTS
