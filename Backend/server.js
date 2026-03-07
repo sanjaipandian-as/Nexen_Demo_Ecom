@@ -18,6 +18,8 @@ const app = express();
 // =========================
 // ⭐ Middlewares
 // =========================
+app.set('trust proxy', 1); // Respect proxy headers (important for Render/Vercel)
+
 app.use(
   cors({
     origin: [
@@ -85,19 +87,19 @@ const globalLimiter = rateLimit({
 });
 app.use("/api", globalLimiter);
 
-// 3. Ultra-Strict Auth Limiter (Brute Force Protection)
-// Limits login/register attempts to 5 every 10 minutes to protect accounts
+// 3. Auth Limiter (Brute Force Protection)
+// Adjusted for better UX: 15 attempts every 15 minutes
 const authLimiter = rateLimit({
-  windowMs: 10 * 60 * 1000, // 10 minutes
-  max: 5,
-  message: "Too many login/register attempts. Please try again after 10 minutes.",
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 15,
+  message: "Too many login/register attempts. Please try again after 15 minutes.",
   standardHeaders: true,
   legacyHeaders: false,
 });
-app.use("/api/admin/auth", authLimiter);
-app.use("/api/customer/auth", authLimiter);
 app.use("/api/admin/auth/login", authLimiter);
 app.use("/api/customer/auth/login", authLimiter);
+app.use("/api/admin/auth/register", authLimiter); // Protect registration too
+app.use("/api/customer/auth/register", authLimiter);
 
 // Disable Express signature in production
 if (process.env.NODE_ENV === "production") {
