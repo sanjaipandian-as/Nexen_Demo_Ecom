@@ -19,14 +19,7 @@ export const getAdminDashboard = async (req, res) => {
       .filter(o => o.paymentStatus === "success")
       .reduce((sum, o) => sum + o.totalAmount, 0);
 
-    res.json({
-      totalOrders,
-      deliveredOrders,
-      totalSales,
-      totalSellers: 0, // No sellers in new system
-      totalCustomers,
-      totalProducts
-    });
+
 
     // Calculate Growth (Current Month vs Last Month)
     const now = new Date();

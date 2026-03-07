@@ -125,8 +125,13 @@ const AdminProductUpload = () => {
             return;
         }
 
-        if (images.length === 0) {
-            toast.error('Please upload at least one product image');
+        if (images.length < 2) {
+            toast.error('Please upload at least 2 product images');
+            return;
+        }
+
+        if (images.length > 5) {
+            toast.error('Maximum 5 images allowed');
             return;
         }
 
@@ -144,8 +149,12 @@ const AdminProductUpload = () => {
             submitData.append('name', formData.name);
             submitData.append('description', formData.description);
             submitData.append('brand', formData.brand);
-            submitData.append('category', JSON.stringify(formData.category));
-            submitData.append('pricing', JSON.stringify(formData.pricing));
+            Object.keys(formData.category).forEach(key => {
+                submitData.append(`category[${key}]`, formData.category[key]);
+            });
+            Object.keys(formData.pricing).forEach(key => {
+                submitData.append(`pricing[${key}]`, formData.pricing[key]);
+            });
             submitData.append('stock', formData.stock || 0);
             submitData.append('is_featured', formData.is_featured);
 
@@ -269,6 +278,10 @@ const AdminProductUpload = () => {
                                         <FaImage className="text-lg" />
                                     </div>
                                     Product Media
+                                    <span className={`text-[10px] font-black uppercase tracking-widest ml-auto px-4 py-2 rounded-2xl border transition-all shadow-sm flex items-center gap-2 ${imagePreview.length >= 2 && imagePreview.length <= 5 ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-rose-50 text-rose-500 border-rose-100 animate-pulse'}`}>
+                                        <FaCloudUploadAlt className="text-sm" />
+                                        {imagePreview.length} / 5 Images (Min: 2)
+                                    </span>
                                 </h2>
 
                                 <div className="space-y-4">

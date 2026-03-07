@@ -41,18 +41,20 @@ export const createOrder = async (req, res) => {
       const product = await Product.findById(item.productId._id);
       if (!product) continue;
 
-      const availableStock = product.stock_control?.available_pieces ?? product.stock ?? 0;
+      const availableStock = product.stock ?? 0;
 
       if (availableStock < item.quantity) {
         return res.status(400).json({ message: `Insufficient stock for product: ${product.name}` });
       }
 
-      if (product.stock_control) {
-        product.stock_control.available_pieces -= item.quantity;
-      } else {
-        product.stock -= item.quantity;
-      }
-      await product.save();
+      // ⭐ ATOMIC UPDATE - Deduct stock and increment sold_count
+      // Bypasses full-document validation while maintaining stock integrity
+      await Product.findByIdAndUpdate(item.productId._id, {
+        $inc: {
+          stock: -item.quantity,
+          sold_count: item.quantity
+        }
+      });
     }
 
     console.log("Creating Order Payload:", JSON.stringify({

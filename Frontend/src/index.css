@@ -3,21 +3,21 @@
 
 @theme {
   /* Primary - Rose Pink for CTAs and highlights */
-  --primary: #E91E63;
-  --primary-foreground: #ffffff;
+  --color-primary: #E91E63;
+  --color-primary-foreground: #ffffff;
 
   /* Secondary - Blush Pink for backgrounds and hover states */
-  --secondary: #F8BBD0;
-  --secondary-foreground: #2E2E2E;
+  --color-secondary: #F8BBD0;
+  --color-secondary-foreground: #2E2E2E;
 
   /* Accent - Champagne Gold for badges and premium highlights */
-  --accent: #C9A24D;
-  --accent-foreground: #ffffff;
+  --color-accent: #C9A24D;
+  --color-accent-foreground: #ffffff;
 
   /* Neutrals */
-  --background: #FFFFFF;
-  --soft-grey: #F5F5F5;
-  --charcoal: #2E2E2E;
+  --color-background: #FFFFFF;
+  --color-soft-grey: #F5F5F5;
+  --color-charcoal: #2E2E2E;
 }
 
 body {

@@ -53,7 +53,7 @@ export const addProduct = async (req, res) => {
       // Handle Images (Multer)
       images: req.files && req.files.length > 0
         ? req.files.map((f) => f.path)
-        : ["https://via.placeholder.com/400?text=No+Image"],
+        : ["https://via.placeholder.com/400?text=Image+1", "https://via.placeholder.com/400?text=Image+2"],
 
       // Tags
       tags: tags ? (Array.isArray(tags) ? tags : tags.split(',').map(t => t.trim())) : [],
@@ -158,7 +158,7 @@ export const bulkImportProducts = async (req, res) => {
           },
 
           stock: Number(p.stock) || 0,
-          images: p.images || ["https://via.placeholder.com/400?text=No+Image"],
+          images: (p.images && p.images.length >= 2) ? p.images : (p.images && p.images.length === 1) ? [...p.images, p.images[0]] : ["https://via.placeholder.com/400?text=Image+1", "https://via.placeholder.com/400?text=Image+2"],
           tags: p.tags || []
         });
 

@@ -229,38 +229,37 @@ const Wishlist = () => {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-primary/5 via-white to-secondary/10 flex flex-col">
-            {/* Header - Full Width */}
-            {/* <div className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
-                <div className="w-full px-3 sm:px-4 md:px-6 lg:px-8 py-3 sm:py-4 md:py-6">
-                    <div className="flex items-center justify-between gap-2">
-                        <div className="flex items-center gap-2 sm:gap-3 md:gap-4 flex-1 min-w-0">
+            {/* Header - Balanced & Elegant */}
+            <div className="bg-white/80 backdrop-blur-md border-b border-gray-100 sticky top-0 z-40">
+                <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-4">
                             <button
-                                onClick={() => navigate('/')}
-                                className="p-2 hover:bg-red-50 rounded-full transition-all group flex-shrink-0"
+                                onClick={() => navigate(-1)}
+                                className="p-2.5 hover:bg-rose-50 rounded-full transition-all group border border-gray-100"
                             >
-                                <FaArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 group-hover:text-red-600" />
+                                <FaArrowLeft className="w-4 h-4 text-gray-600 group-hover:text-rose-600" />
                             </button>
-                            <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
-                                <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 bg-gradient-to-br from-orange-500 to-yellow-500 rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg flex-shrink-0">
-                                    <BsFillBagHeartFill className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 text-white" />
-                                </div>
-                                <div className="flex-1 min-w-0">
-                                    <h1 className="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-orange-600 to-yellow-600 bg-clip-text text-transparent truncate">
-                                        My Wishlist
-                                    </h1>
-                                    <p className="text-xs sm:text-sm text-gray-500 mt-0.5 sm:mt-1">
-                                        {validWishlistItems.length} {validWishlistItems.length === 1 ? 'item' : 'items'} saved
-                                    </p>
-                                </div>
+                            <div>
+                                <h1 className="text-xl sm:text-2xl font-bold text-gray-900 tracking-tight">
+                                    My <span className="text-rose-500">Wishlist</span>
+                                </h1>
+                                <p className="text-xs sm:text-sm text-gray-500 font-medium">
+                                    {validWishlistItems.length} {validWishlistItems.length === 1 ? 'item' : 'items'} saved
+                                </p>
                             </div>
                         </div>
-                        <div className="flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-1.5 sm:py-2 bg-gradient-to-r from-orange-100 to-yellow-100 rounded-full flex-shrink-0">
-                            <BsFillBagHeartFill className="w-4 h-4 sm:w-5 sm:h-5 text-orange-600" />
-                            <span className="font-bold text-orange-600 text-sm sm:text-base">{validWishlistItems.length}</span>
-                        </div>
+
+                        <button
+                            onClick={() => navigate('/Cart')}
+                            className="flex items-center gap-2 px-4 py-2 bg-rose-50 text-rose-600 rounded-full font-bold text-sm hover:bg-rose-100 transition-all border border-rose-100"
+                        >
+                            <FaShoppingCart className="w-4 h-4" />
+                            <span>Cart</span>
+                        </button>
                     </div>
                 </div>
-            </div> */}
+            </div>
 
             {error && (
                 <div className="w-full px-3 sm:px-4 md:px-6 lg:px-8 py-4 pb-32 flex-1">
@@ -370,26 +369,32 @@ const Wishlist = () => {
                                             const isInCart = cartItems.some(cartItem =>
                                                 (cartItem.productId?._id || cartItem.productId) === item.productId._id
                                             );
+                                            const isOutOfStock = (item.productId.stock || 0) <= 0;
+                                            const isAdding = addingToCart === item.productId._id;
+
                                             return (
                                                 <button
                                                     onClick={() => addToCart(item.productId)}
-                                                    disabled={addingToCart === item.productId._id || (item.productId.stock || 0) <= 0}
-                                                    className={`px-5 py-2.5 rounded-xl font-bold flex items-center gap-2 transition-all shadow-md hover:shadow-lg transform active:scale-95 ${addingToCart === item.productId._id || (item.productId.stock || 0) <= 0
+                                                    disabled={isAdding || isOutOfStock}
+                                                    className={`px-5 py-2.5 rounded-xl font-bold flex items-center gap-2 transition-all shadow-md hover:shadow-lg transform active:scale-95 ${isAdding || isOutOfStock
                                                         ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                                                        : 'bg-gradient-to-r from-primary/80 to-primary text-white hover:from-primary hover:to-primary/90'
+                                                        : 'text-white'
                                                         }`}
+                                                    style={{
+                                                        background: !(isAdding || isOutOfStock) ? 'linear-gradient(to right, #E91E63, #d81b60)' : undefined
+                                                    }}
                                                 >
-                                                    {addingToCart === item.productId._id ? (
+                                                    {isAdding ? (
                                                         <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
                                                     ) : isInCart ? (
                                                         <>
-                                                            <FaCheckCircle className="w-5 h-5 text-white" />
-                                                            <span>View at Cart</span>
+                                                            <FaCheckCircle className="flex-shrink-0" />
+                                                            <span className="whitespace-nowrap">View Cart</span>
                                                         </>
                                                     ) : (
                                                         <>
-                                                            <FaShoppingCart className="w-5 h-5 text-white" />
-                                                            <span>Add</span>
+                                                            <FaShoppingCart className="flex-shrink-0" />
+                                                            <span className="whitespace-nowrap">Add to Cart</span>
                                                         </>
                                                     )}
                                                 </button>

@@ -4,12 +4,40 @@ import cloudinary from "../config/cloudinary.js";
 // ⭐ CREATE PRODUCT (ADMIN ONLY)
 export const createProduct = async (req, res) => {
   try {
-    // Handle potential stringified JSON from FormData
-    const categoryData = typeof req.body.category === "string" ? JSON.parse(req.body.category) : req.body.category;
-    const pricingData = typeof req.body.pricing === "string" ? JSON.parse(req.body.pricing) : req.body.pricing;
-    const specificationsData = typeof req.body.specifications === "string" ? JSON.parse(req.body.specifications) : req.body.specifications;
-    const tagsData = typeof req.body.tags === "string" ? JSON.parse(req.body.tags) : req.body.tags;
-    const isFeaturedData = req.body.is_featured === "true" || req.body.is_featured === true;
+    const categoryData = {};
+    const pricingData = {};
+    let specificationsData = [];
+    let tagsData = [];
+    let isFeaturedData = false;
+
+    // Handle various ways FormData can send nested data
+    Object.keys(req.body).forEach(key => {
+      if (key === 'category') {
+        if (typeof req.body[key] === 'string') {
+          try { Object.assign(categoryData, JSON.parse(req.body[key])); } catch (e) { }
+        } else if (typeof req.body[key] === 'object') {
+          Object.assign(categoryData, req.body[key]);
+        }
+      } else if (key.startsWith('category[')) {
+        const field = key.match(/category\[(.+)\]/)[1];
+        categoryData[field] = req.body[key];
+      } else if (key === 'pricing') {
+        if (typeof req.body[key] === 'string') {
+          try { Object.assign(pricingData, JSON.parse(req.body[key])); } catch (e) { }
+        } else if (typeof req.body[key] === 'object') {
+          Object.assign(pricingData, req.body[key]);
+        }
+      } else if (key.startsWith('pricing[')) {
+        const field = key.match(/pricing\[(.+)\]/)[1];
+        pricingData[field] = req.body[key];
+      } else if (key === 'specifications') {
+        specificationsData = typeof req.body[key] === 'string' ? JSON.parse(req.body[key]) : req.body[key];
+      } else if (key === 'tags') {
+        tagsData = typeof req.body[key] === 'string' ? JSON.parse(req.body[key]) : req.body[key];
+      } else if (key === 'is_featured') {
+        isFeaturedData = req.body[key] === 'true' || req.body[key] === true;
+      }
+    });
 
     const {
       name,
@@ -19,6 +47,11 @@ export const createProduct = async (req, res) => {
     } = req.body;
 
     // Validate required fields
+    console.log("Create Product Received Body:", JSON.stringify(req.body, null, 2));
+    console.log("Category Data:", categoryData);
+    console.log("Pricing Data:", pricingData);
+    console.log("Req Files:", req.files ? req.files.length : 0);
+
     if (!name || !description || !brand || !categoryData?.main || !pricingData?.mrp || !pricingData?.selling_price) {
       return res.status(400).json({
         message: "Missing required fields",
@@ -37,19 +70,24 @@ export const createProduct = async (req, res) => {
     let imageUrls = [];
     if (req.files && req.files.length > 0) {
       for (const file of req.files) {
-        const result = await cloudinary.uploader.upload(file.path, {
-          folder: "products",
-          resource_type: "auto",
-        });
-        imageUrls.push(result.secure_url);
+        // If file.path is already a cloudinary URL (from multer-storage-cloudinary) 
+        // we can just use it, or re-upload to a specific folder
+        if (file.path && file.path.startsWith('http')) {
+          imageUrls.push(file.path);
+        } else {
+          const result = await cloudinary.uploader.upload(file.path, {
+            folder: "products",
+            resource_type: "auto",
+          });
+          imageUrls.push(result.secure_url);
+        }
       }
     } else if (req.body.images) {
-      // If images are provided as URLs (already uploaded)
       imageUrls = Array.isArray(req.body.images) ? req.body.images : [req.body.images];
     }
 
-    if (imageUrls.length === 0) {
-      return res.status(400).json({ message: "At least one product image is required" });
+    if (imageUrls.length < 2) {
+      return res.status(400).json({ message: "At least 2 product images are required (Max 5)" });
     }
 
     // Create product
@@ -63,6 +101,7 @@ export const createProduct = async (req, res) => {
       },
       pricing: {
         mrp: pricingData.mrp,
+        cost: pricingData.cost || 0,
         selling_price: pricingData.selling_price,
       },
       images: imageUrls,
@@ -115,10 +154,10 @@ export const updateProduct = async (req, res) => {
     Object.keys(req.body).forEach(key => {
       if (key.startsWith('category[')) {
         const field = key.match(/category\[(.+)\]/)[1];
-        categoryData[field] = req.body[key];
+        updates[`category.${field}`] = req.body[key];
       } else if (key.startsWith('pricing[')) {
         const field = key.match(/pricing\[(.+)\]/)[1];
-        pricingData[field] = req.body[key];
+        updates[`pricing.${field}`] = req.body[key];
       } else if (key === 'specifications') {
         // Parse JSON string
         updates[key] = typeof req.body[key] === 'string' ? JSON.parse(req.body[key]) : req.body[key];
@@ -138,7 +177,11 @@ export const updateProduct = async (req, res) => {
     if (req.body['tags[]']) {
       updates.tags = Array.isArray(req.body['tags[]']) ? req.body['tags[]'] : [req.body['tags[]']];
     } else if (req.body.tags) {
-      updates.tags = Array.isArray(req.body.tags) ? req.body.tags : [req.body.tags];
+      if (typeof req.body.tags === 'string' && req.body.tags.startsWith('[')) {
+        updates.tags = JSON.parse(req.body.tags);
+      } else {
+        updates.tags = Array.isArray(req.body.tags) ? req.body.tags : [req.body.tags];
+      }
     }
 
     if (req.body['colors[]']) {
@@ -147,15 +190,6 @@ export const updateProduct = async (req, res) => {
 
     if (req.body['sizes[]']) {
       updates.sizes = Array.isArray(req.body['sizes[]']) ? req.body['sizes[]'] : [req.body['sizes[]']];
-    }
-
-    // Set nested objects
-    if (Object.keys(categoryData).length > 0) {
-      updates.category = categoryData;
-    }
-
-    if (Object.keys(pricingData).length > 0) {
-      updates.pricing = pricingData;
     }
 
     // Handle images
@@ -185,6 +219,22 @@ export const updateProduct = async (req, res) => {
 
     if (imageUrls.length > 0) {
       updates.images = imageUrls;
+    }
+
+    // Manually generate slugs if category is being updated
+    if (updates['category.main']) {
+      updates['category.main_slug'] = updates['category.main']
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/(^-|-$)+/g, "");
+    }
+    if (updates['category.sub']) {
+      updates['category.sub_slug'] = updates['category.sub']
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/(^-|-$)+/g, "");
+    } else if (updates['category.sub'] === "") {
+      updates['category.sub_slug'] = "";
     }
 
     // Update the product
