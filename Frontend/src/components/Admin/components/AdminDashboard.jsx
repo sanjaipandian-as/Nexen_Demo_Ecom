@@ -183,8 +183,8 @@ const AdminDashboard = ({ onOpenUploadModal, refreshId }) => {
                         </button>
                     </div>
                     {salesData.length > 0 ? (
-                        <div className="h-[320px] w-full min-w-0 bg-white" style={{ minHeight: '320px' }}>
-                            <ResponsiveContainer width="99%" height="100%">
+                        <div className="h-[320px] w-full min-w-0 bg-white overflow-hidden" style={{ minHeight: '320px' }}>
+                            <ResponsiveContainer width="100%" height="100%" minHeight={320}>
                                 <AreaChart data={salesData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
                                     <defs>
                                         <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
@@ -232,8 +232,8 @@ const AdminDashboard = ({ onOpenUploadModal, refreshId }) => {
                 <div className="bg-white rounded-[2rem] p-8 border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.02)] hover:shadow-lg transition-shadow duration-300 flex flex-col">
                     <h3 className="text-xl font-black text-slate-900 tracking-tight mb-8 font-hero">Inventory Split</h3>
                     {categoryData.length > 0 ? (
-                        <div className="h-[320px] w-full min-w-0 relative" style={{ minHeight: '320px' }}>
-                            <ResponsiveContainer width="99%" height="100%">
+                        <div className="h-[320px] w-full min-w-0 relative overflow-hidden" style={{ minHeight: '320px' }}>
+                            <ResponsiveContainer width="100%" height="100%" minHeight={320}>
                                 <PieChart>
                                     <Pie
                                         data={categoryData}

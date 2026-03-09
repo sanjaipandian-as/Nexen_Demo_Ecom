@@ -1,5 +1,6 @@
 import Order from "../models/Order.js";
 import { createNotification } from "./notificationController.js";
+import { decrypt } from "../utils/cryptoUtils.js";
 
 export const getAllOrders = async (req, res) => {
   try {
@@ -7,7 +8,22 @@ export const getAllOrders = async (req, res) => {
       .populate("customerId")
       .populate("items.productId");
 
-    res.json(orders);
+    // ⭐ Decrypt Sensitive Bank/UPI Details for Admin View
+    const decryptedOrders = orders.map(order => {
+      const orderObj = order.toObject();
+      if (orderObj.refundAccountDetails) {
+        if (orderObj.refundAccountDetails.accountType === 'upi' && orderObj.refundAccountDetails.upiId) {
+          orderObj.refundAccountDetails.upiId = decrypt(orderObj.refundAccountDetails.upiId);
+        } else if (orderObj.refundAccountDetails.accountType === 'bank') {
+          if (orderObj.refundAccountDetails.accountNumber) {
+            orderObj.refundAccountDetails.accountNumber = decrypt(orderObj.refundAccountDetails.accountNumber);
+          }
+        }
+      }
+      return orderObj;
+    });
+
+    res.json(decryptedOrders);
 
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -36,7 +52,20 @@ export const adminUpdateOrderStatus = async (req, res) => {
     const orderIdToUse = orderId || id; // Use whichever is provided
     const { status } = req.body;
 
-    const allowedStatus = ["pending_payment", "paid", "packed", "shipped", "delivered", "cancelled"];
+    const allowedStatus = [
+      "pending_payment",
+      "paid",
+      "packed",
+      "shipped",
+      "delivered",
+      "cancelled",
+      "return_requested",
+      "return_approved",
+      "return_rejected",
+      "returned",
+      "refund_initiated",
+      "refunded"
+    ];
 
     console.log(`[AdminUpdateOrder] ID: ${orderIdToUse}, Status: ${status}`);
 
@@ -56,6 +85,8 @@ export const adminUpdateOrderStatus = async (req, res) => {
       paymentStatusUpdate = { paymentStatus: 'success' };
     } else if (status === 'pending_payment') {
       paymentStatusUpdate = { paymentStatus: 'pending' };
+    } else if (status === 'refunded') {
+      paymentStatusUpdate = { paymentStatus: 'refunded' };
     }
 
     const order = await Order.findByIdAndUpdate(

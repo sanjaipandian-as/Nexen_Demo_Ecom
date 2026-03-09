@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { FiMail, FiPhone, FiMapPin, FiClock, FiSend } from 'react-icons/fi';
+import API from '../../../../api';
+import { toast } from 'react-toastify';
 
 const Contact = () => {
     const [formData, setFormData] = useState({
@@ -7,8 +9,10 @@ const Contact = () => {
         email: '',
         phone: '',
         subject: '',
-        message: ''
+        message: '',
+        category: 'general'
     });
+    const [loading, setLoading] = useState(false);
     const [submitted, setSubmitted] = useState(false);
 
     const handleChange = (e) => {
@@ -18,20 +22,25 @@ const Contact = () => {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Contact form submitted:', formData);
-        setSubmitted(true);
-        setTimeout(() => {
-            setSubmitted(false);
-            setFormData({
-                name: '',
-                email: '',
-                phone: '',
-                subject: '',
-                message: ''
+        try {
+            setLoading(true);
+            const response = await API.post('/support/create', {
+                ...formData,
+                category: formData.subject // Using subject as category or mapped category
             });
-        }, 3000);
+
+            if (response.status === 201) {
+                setSubmitted(true);
+                toast.success('Support ticket raised successfully!');
+            }
+        } catch (error) {
+            console.error('Error submitting contact form:', error);
+            toast.error(error.response?.data?.message || 'Failed to send message');
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -195,10 +204,11 @@ const Contact = () => {
 
                                     <button
                                         type="submit"
-                                        className="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-4 rounded-lg flex items-center justify-center gap-2 transition-colors"
+                                        disabled={loading}
+                                        className={`w-full bg-primary hover:bg-primary/90 text-white font-semibold py-4 rounded-lg flex items-center justify-center gap-2 transition-colors ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
                                     >
                                         <FiSend className="w-5 h-5" />
-                                        Send Message
+                                        {loading ? 'Sending Case...' : 'Send Message'}
                                     </button>
                                 </form>
                             )}

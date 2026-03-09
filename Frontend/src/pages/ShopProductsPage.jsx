@@ -293,13 +293,13 @@ const ShopProductsPage = () => {
                                                 onClick={() => navigate(`/product/${product._id}`)}
                                             >
                                                 <img
-                                                    src={product.images?.[0] || placeholderImg}
+                                                    src={(product.images?.filter(img => img && img.trim() !== '')?.[0]) || placeholderImg}
                                                     alt={product.name}
                                                     loading="lazy"
                                                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                                     onError={(e) => {
-                                                        e.target.src = placeholderImg;
                                                         e.target.onerror = null;
+                                                        e.target.src = placeholderImg;
                                                     }}
                                                 />
 

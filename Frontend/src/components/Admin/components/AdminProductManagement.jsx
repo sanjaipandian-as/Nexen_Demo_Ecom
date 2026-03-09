@@ -150,10 +150,10 @@ const AdminProductManagement = ({ onOpenUploadModal, refreshId }) => {
                             <div className="relative h-64 bg-slate-50 overflow-hidden p-5">
                                 <div className="w-full h-full rounded-2xl overflow-hidden relative shadow-inner">
                                     <img
-                                        src={product.images?.[0] || '/placeholder.png'}
+                                        src={product.images?.[0] || PlaceholderImage}
                                         alt={product.name}
                                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                                        onError={(e) => { e.target.src = PlaceholderImage; e.target.onerror = null; }}
+                                        onError={(e) => { e.target.onerror = null; e.target.src = PlaceholderImage; }}
                                     />
                                     {/* Subtle Shine Overlay */}
                                     <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>

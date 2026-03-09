@@ -10,7 +10,9 @@ import {
     MdAttachMoney,
     MdCategory,
     MdViewCarousel,
-    MdClose
+    MdClose,
+    MdAssignmentReturn,
+    MdLiveHelp
 } from 'react-icons/md';
 
 const Adminsidebar = ({ onNavigate, activePage = 'Dashboard', onOpenUploadModal, isOpen, onClose }) => {
@@ -73,6 +75,8 @@ const Adminsidebar = ({ onNavigate, activePage = 'Dashboard', onOpenUploadModal,
         { name: 'Products', icon: MdInventory },
         { name: 'Categories', icon: MdCategory },
         { name: 'Orders', icon: MdShoppingCart },
+        { name: 'Returns & Cancellations', icon: MdAssignmentReturn },
+        { name: 'Support Tickets', icon: MdLiveHelp },
         { name: 'Hero Section', icon: MdViewCarousel },
         { name: 'Finance', icon: MdAttachMoney },
     ];

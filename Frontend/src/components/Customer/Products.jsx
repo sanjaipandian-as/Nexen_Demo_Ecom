@@ -252,39 +252,33 @@ const Products = ({ filters = defaultFilters }) => {
             >
                 <div className="relative w-[120px] sm:w-full aspect-square sm:aspect-[4/3] overflow-hidden flex-shrink-0">
                     <img
-                        src={product.images?.[0] || placeholderImg}
+                        src={(product.images?.filter(img => img && img.trim() !== '')?.[0]) || placeholderImg}
                         alt={product.name}
                         className="w-full h-full object-cover"
                         loading="lazy"
                         onError={(e) => {
-                            e.target.src = placeholderImg;
                             e.target.onerror = null;
+                            e.target.src = placeholderImg;
                         }}
                     />
 
+                    {/* 
+                       🚩 Premium "Hard Wrapped" Rolled Ribbon (Customer View)
+                    */}
                     {discount > 0 && (
-                        <div className="absolute top-2 left-2 bg-red-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded flex items-center gap-1 shadow-sm">
-                            <FaTag className="w-2 h-2" />
-                            {discount}%
+                        <div className="absolute top-0 right-0 w-24 h-24 pointer-events-none z-30">
+                            {/* Triangular Folds for "Rolled" 3D Look */}
+                            <div className="absolute top-[38px] right-[-2px] w-0 h-0 border-l-[4px] border-l-transparent border-t-[4px] border-t-[#991B1B] z-10"></div>
+                            <div className="absolute top-[-2px] right-[38px] w-0 h-0 border-b-[4px] border-b-[#991B1B] border-r-[4px] border-r-transparent z-10"></div>
+
+                            <div className="absolute inset-0 overflow-hidden">
+                                <div className="bg-[#EF4444] text-white font-black text-[9px] sm:text-[11px] uppercase tracking-[0.15em] py-2 w-[160%] absolute top-4 sm:top-5 -right-[30%] rotate-45 text-center border-y border-white/20 select-none shadow-md">
+                                    {discount}% OFF
+                                </div>
+                            </div>
                         </div>
                     )}
 
-                    <button
-                        onClick={(e) => toggleWishlist(e, product._id)}
-                        disabled={togglingWishlist === product._id}
-                        className="absolute top-2 right-2 w-7 h-7 sm:w-10 sm:h-10 bg-white backdrop-blur-sm rounded-full flex items-center justify-center shadow-md hover:shadow-lg transition-all active:scale-90"
-                    >
-                        {togglingWishlist === product._id ? (
-                            <div className="animate-spin rounded-full h-3 w-3 sm:h-5 sm:w-5 border-b-2 border-pink-600"></div>
-                        ) : (
-                            <BsFillBagHeartFill
-                                className={`w-3.5 h-3.5 sm:w-5 sm:h-5 transition-all duration-300 hover:scale-115 ${wishlistItems.includes(product._id)
-                                    ? 'text-pink-600'
-                                    : 'text-gray-300 hover:text-pink-600'
-                                    }`}
-                            />
-                        )}
-                    </button>
                     {availablePieces <= 0 && (
                         <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
                             <span className="text-white font-bold text-[10px] sm:text-base">Out of Stock</span>
@@ -318,46 +312,64 @@ const Products = ({ filters = defaultFilters }) => {
 
                     <div className="flex items-center justify-between pt-2 border-t border-gray-100 gap-2">
                         <div className="flex flex-col">
-                            <span className="text-sm sm:text-lg font-bold text-gray-800">₹{sellingPrice.toFixed(0)}</span>
                             {mrp > sellingPrice && (
-                                <span className="text-[8px] sm:text-xs text-gray-400 line-through">₹{mrp.toFixed(0)}</span>
+                                <div className="flex items-center gap-2 mb-1">
+                                    <span className="text-[10px] sm:text-xs text-gray-500 font-bold line-through decoration-gray-400">₹{mrp.toFixed(0)}</span>
+                                    <span className="text-[9px] sm:text-[11px] font-black text-white bg-red-600 px-2 py-0.5 rounded-md uppercase tracking-tighter shadow-sm">-{discount}%</span>
+                                </div>
                             )}
+                            <span className="text-lg sm:text-2xl font-black text-gray-900 leading-tight">₹{sellingPrice.toFixed(0)}</span>
                         </div>
 
-                        {inCart ? (
+                        <div className="flex items-center gap-2">
                             <button
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    navigate('/cart');
-                                }}
-                                className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 bg-pink-600 hover:bg-pink-500 text-white rounded-lg transition-all shadow-sm hover:shadow-md active:scale-95"
+                                onClick={(e) => toggleWishlist(e, product._id)}
+                                disabled={togglingWishlist === product._id}
+                                className={`flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-lg transition-all shadow-sm active:scale-90 border ${wishlistItems.includes(product._id) ? 'bg-pink-50 border-pink-100 text-pink-600' : 'bg-gray-50 border-gray-100 text-gray-400 hover:text-pink-600'}`}
+                                title="Wishlist"
                             >
-                                <FaShoppingCart className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
-                                <span className="text-[10px] sm:text-sm font-medium whitespace-nowrap">
-                                    Cart
-                                </span>
-                            </button>
-                        ) : (
-                            <button
-                                onClick={(e) => handleAddToCart(e, product._id)}
-                                disabled={addingToCart === product._id || availablePieces <= 0}
-                                className={`flex items-center gap-1 sm:gap-2 px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 text-white rounded-lg transition-all shadow-sm hover:shadow-md active:scale-95 ${addingToCart === product._id || availablePieces <= 0
-                                    ? 'bg-gray-400 cursor-not-allowed'
-                                    : 'bg-pink-600 hover:bg-pink-500 cursor-pointer'
-                                    }`}
-                            >
-                                {addingToCart === product._id ? (
-                                    <div className="animate-spin rounded-full h-3 w-3 sm:h-4 sm:w-4 border-b-2 border-white"></div>
+                                {togglingWishlist === product._id ? (
+                                    <div className="animate-spin rounded-full h-3 w-3 sm:h-4 sm:w-4 border-b-2 border-pink-600"></div>
                                 ) : (
-                                    <>
-                                        <FaShoppingCart className="w-3 h-3 sm:w-4 sm:h-4" />
-                                        <span className="text-[10px] sm:text-sm font-medium whitespace-nowrap">
-                                            {availablePieces <= 0 ? 'Out' : 'Add'}
-                                        </span>
-                                    </>
+                                    <BsFillBagHeartFill className="w-3.5 h-3.5 sm:w-5 sm:h-5" />
                                 )}
                             </button>
-                        )}
+
+                            {inCart ? (
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        navigate('/cart');
+                                    }}
+                                    className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 bg-pink-600 hover:bg-pink-500 text-white rounded-lg transition-all shadow-sm hover:shadow-md active:scale-95"
+                                >
+                                    <FaShoppingCart className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
+                                    <span className="text-[10px] sm:text-sm font-medium whitespace-nowrap">
+                                        Cart
+                                    </span>
+                                </button>
+                            ) : (
+                                <button
+                                    onClick={(e) => handleAddToCart(e, product._id)}
+                                    disabled={addingToCart === product._id || availablePieces <= 0}
+                                    className={`flex items-center gap-1 sm:gap-2 px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 text-white rounded-lg transition-all shadow-sm hover:shadow-md active:scale-95 ${addingToCart === product._id || availablePieces <= 0
+                                        ? 'bg-gray-400 cursor-not-allowed'
+                                        : 'bg-pink-600 hover:bg-pink-500 cursor-pointer'
+                                        }`}
+                                >
+                                    {addingToCart === product._id ? (
+                                        <div className="animate-spin rounded-full h-3 w-3 sm:h-4 sm:w-4 border-b-2 border-white"></div>
+                                    ) : (
+                                        <>
+                                            <FaShoppingCart className="w-3 h-3 sm:w-4 sm:h-4" />
+                                            <span className="text-[10px] sm:text-sm font-medium whitespace-nowrap">
+                                                {availablePieces <= 0 ? 'Out' : 'Add'}
+                                            </span>
+                                        </>
+                                    )}
+                                </button>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>
