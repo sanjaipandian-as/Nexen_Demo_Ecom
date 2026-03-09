@@ -1,27 +1,27 @@
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&family=Outfit:wght@100;200;300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
 
 @theme {
-  /* Primary - Rose Pink for CTAs and highlights */
-  --color-primary: #E91E63;
+  /* High-Authority Branding - Plus Jakarta Sans */
+  --font-plus: 'Plus Jakarta Sans', sans-serif;
+
+  /* Financial & Premium Numerical - Outfit */
+  --font-outfit: 'Outfit', sans-serif;
+
+  /* Precision UI - Inter */
+  --font-inter: 'Inter', sans-serif;
+
+  /* Primary - Titan Blue for professional CTAs */
+  --color-primary: #0081FF;
   --color-primary-foreground: #ffffff;
 
-  /* Secondary - Blush Pink for backgrounds and hover states */
-  --color-secondary: #F8BBD0;
-  --color-secondary-foreground: #2E2E2E;
-
-  /* Accent - Champagne Gold for badges and premium highlights */
-  --color-accent: #C9A24D;
-  --color-accent-foreground: #ffffff;
-
-  /* Neutrals */
-  --color-background: #FFFFFF;
-  --color-soft-grey: #F5F5F5;
-  --color-charcoal: #2E2E2E;
+  /* Secondary - Onyx Slate for professional depth */
+  --color-secondary: #0F172A;
+  --color-secondary-foreground: #ffffff;
 }
 
 body {
-  font-family: 'Manrope', sans-serif;
+  font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -32,7 +32,8 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Sora', sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  letter-spacing: -0.02em;
 }
 
 ::-webkit-scrollbar {
@@ -112,11 +113,11 @@ h6 {
 
 /* Custom Utilities */
 .font-hero {
-  font-family: 'Sora', sans-serif;
+  font-family: 'Inter', sans-serif;
 }
 
 .font-body {
-  font-family: 'Manrope', sans-serif;
+  font-family: 'Inter', sans-serif;
 }
 
 /* Custom Scrollbar for Independent Scrolling Areas */

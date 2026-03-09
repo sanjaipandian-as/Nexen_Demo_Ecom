@@ -74,7 +74,7 @@ const Hero = () => {
     if (isLoading) {
         return (
             <div className="mt-2 sm:mt-4 px-0">
-                <Skeleton className="h-[200px] sm:h-[300px] md:h-[400px] lg:h-[500px] w-full" />
+                <Skeleton className="h-[250px] sm:h-[350px] md:h-[450px] lg:h-[550px] w-full" />
             </div>
         );
     }
@@ -82,7 +82,7 @@ const Hero = () => {
     if (heroSlides.length === 0) return null;
 
     return (
-        <div className="relative mt-2 sm:mt-4 h-[200px] sm:h-[300px] md:h-[400px] lg:h-[500px] overflow-hidden bg-gray-900 group">
+        <div className="relative mt-2 sm:mt-4 h-[250px] sm:h-[350px] md:h-[450px] lg:h-[550px] overflow-hidden bg-gray-900 group">
             {heroSlides.map((slide, index) => (
                 <div
                     key={index}
@@ -148,6 +148,25 @@ const Hero = () => {
 
             {heroSlides.length > 1 && (
                 <>
+                    {/* Manual Navigation Arrows */}
+                    <button
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            prevSlide();
+                        }}
+                        className="absolute left-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-12 sm:h-12 bg-white/20 hover:bg-[#E91E63] backdrop-blur-md text-white rounded-full flex items-center justify-center transition-all duration-300 opacity-0 group-hover:opacity-100 -translate-x-4 group-hover:translate-x-0 shadow-lg active:scale-90"
+                    >
+                        <FaChevronLeft className="text-sm sm:text-base" />
+                    </button>
+                    <button
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            nextSlide();
+                        }}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-12 sm:h-12 bg-white/20 hover:bg-[#E91E63] backdrop-blur-md text-white rounded-full flex items-center justify-center transition-all duration-300 opacity-0 group-hover:opacity-100 translate-x-4 group-hover:translate-x-0 shadow-lg active:scale-90"
+                    >
+                        <FaChevronRight className="text-sm sm:text-base" />
+                    </button>
 
                     <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-20 flex gap-2">
                         {heroSlides.map((_, index) => (

@@ -7,6 +7,8 @@ import AdminOrdersManagement from '../components/AdminOrdersManagement';
 import AdminFinance from '../components/AdminFinance';
 import AdminHeroManagement from '../components/AdminHeroManagement';
 import AdminSettings from '../components/AdminSettings';
+import AdminRefundsManagement from '../components/AdminRefundsManagement';
+import AdminSupportTickets from '../components/AdminSupportTickets';
 import ProductUploadModal from '../components/ProductUploadModal';
 
 const Adminhome = () => {
@@ -38,6 +40,10 @@ const Adminhome = () => {
                 return <AdminCategoryManagement refreshId={refreshId} />;
             case 'Orders':
                 return <AdminOrdersManagement refreshId={refreshId} triggerGlobalRefresh={triggerGlobalRefresh} />;
+            case 'Returns & Cancellations':
+                return <AdminRefundsManagement refreshId={refreshId} />;
+            case 'Support Tickets':
+                return <AdminSupportTickets refreshId={refreshId} />;
             case 'Hero Section':
                 return <AdminHeroManagement refreshId={refreshId} />;
             case 'Finance':

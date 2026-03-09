@@ -55,15 +55,43 @@ const orderSchema = new mongoose.Schema(
         "packed",
         "shipped",
         "delivered",
+        "cancellation_requested",
         "cancelled",
+        "return_requested",
+        "return_approved",
+        "return_rejected",
+        "returned",
+        "refund_initiated",
+        "refunded"
       ],
       default: "pending_payment",
       index: true,
     },
 
+    cancelReason: { type: String },
+    returnReason: { type: String },
+    cancellationDate: { type: Date },
+    returnRequestDate: { type: Date },
+    returnImages: [{ type: String }],
+
+    refundDetails: {
+      refundId: { type: String },
+      refundAmount: { type: Number },
+      refundStatus: { type: String, enum: ["pending", "processed", "failed"] },
+      refundedAt: { type: Date }
+    },
+
+    refundAccountDetails: {
+      accountType: { type: String, enum: ["upi", "bank"] },
+      upiId: { type: String },
+      accountNumber: { type: String },
+      ifscCode: { type: String },
+      beneficiaryName: { type: String },
+    },
+
     paymentStatus: {
       type: String,
-      enum: ["pending", "success", "failed"],
+      enum: ["pending", "success", "failed", "refunded"],
       default: "pending",
     },
 
@@ -72,6 +100,9 @@ const orderSchema = new mongoose.Schema(
       enum: ["cod", "online"],
       default: "online",
     },
+    razorpayOrderId: { type: String },
+    razorpayPaymentId: { type: String },
+    razorpaySignature: { type: String },
   },
   { timestamps: true }
 );

@@ -131,9 +131,7 @@ const FAQs = () => {
             <div className="bg-white border-b-2 border-gray-200">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
                     <div className="max-w-3xl mx-auto text-center">
-                        <div className="inline-block px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-semibold mb-6">
-                            Help Center
-                        </div>
+
                         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
                             Frequently Asked Questions
                         </h1>
