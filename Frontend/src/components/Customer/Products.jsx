@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { FaStar, FaShoppingCart, FaExclamationCircle, FaTag, FaCheckCircle } from 'react-icons/fa';
 import { BsFillBagHeartFill } from 'react-icons/bs';
 import API from '../../../api';
@@ -154,6 +154,7 @@ const Products = ({ filters = defaultFilters }) => {
 
     const toggleWishlist = async (e, productId) => {
         e.stopPropagation();
+        e.preventDefault();
 
         if (!isLoggedIn) {
             showNotification('Please login to add items to wishlist', 'error');
@@ -204,6 +205,7 @@ const Products = ({ filters = defaultFilters }) => {
 
     const handleAddToCart = async (e, productId) => {
         e.stopPropagation();
+        e.preventDefault();
 
         if (!isLoggedIn) {
             showNotification('Please login to add items to cart', 'error');
@@ -246,9 +248,9 @@ const Products = ({ filters = defaultFilters }) => {
         const brandName = product.brand || 'Generic';
 
         return (
-            <div
-                onClick={() => handleProductClick(product._id)}
-                className="bg-white rounded-[16px] overflow-hidden shadow-sm hover:shadow-md sm:hover:-translate-y-1 transition-all duration-300 border border-pink-100 cursor-pointer active:scale-98 animate-fadeIn flex flex-row sm:flex-col min-w-[280px] sm:min-w-0 h-full"
+            <Link
+                to={`/product/${product._id}`}
+                className="bg-white rounded-[16px] overflow-hidden shadow-sm hover:shadow-md sm:hover:-translate-y-1 transition-all duration-300 border border-pink-100 cursor-pointer active:scale-98 animate-fadeIn flex flex-row sm:flex-col min-w-[280px] sm:min-w-0 h-full block"
             >
                 <div className="relative w-[120px] sm:w-full aspect-square sm:aspect-[4/3] overflow-hidden flex-shrink-0">
                     <img
@@ -339,6 +341,7 @@ const Products = ({ filters = defaultFilters }) => {
                                 <button
                                     onClick={(e) => {
                                         e.stopPropagation();
+                                        e.preventDefault();
                                         navigate('/cart');
                                     }}
                                     className="flex items-center gap-1 sm:gap-2 px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 bg-pink-600 hover:bg-pink-500 text-white rounded-lg transition-all shadow-sm hover:shadow-md active:scale-95"
@@ -372,7 +375,7 @@ const Products = ({ filters = defaultFilters }) => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </Link>
         );
     }, [wishlistItems, togglingWishlist, addingToCart, isInCart, getCartItem, handleProductClick, toggleWishlist, handleAddToCart, navigate]);
 

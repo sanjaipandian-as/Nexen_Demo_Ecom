@@ -4,7 +4,20 @@ import { decrypt } from "../utils/cryptoUtils.js";
 
 export const getAllOrders = async (req, res) => {
   try {
-    const orders = await Order.find()
+    const { days } = req.query;
+    let query = {};
+
+    if (days) {
+      const pastDate = new Date();
+      if (parseInt(days) === 1) {
+        pastDate.setHours(0, 0, 0, 0); // Start of today
+      } else {
+        pastDate.setDate(pastDate.getDate() - parseInt(days));
+      }
+      query.createdAt = { $gte: pastDate };
+    }
+
+    const orders = await Order.find(query)
       .populate("customerId")
       .populate("items.productId");
 

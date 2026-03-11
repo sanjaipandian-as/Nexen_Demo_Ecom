@@ -11,8 +11,8 @@ import AdminRefundsManagement from '../components/AdminRefundsManagement';
 import AdminSupportTickets from '../components/AdminSupportTickets';
 import ProductUploadModal from '../components/ProductUploadModal';
 
-const Adminhome = () => {
-    const [activePage, setActivePage] = useState('Dashboard');
+const Adminhome = ({ initialPage = 'Dashboard' }) => {
+    const [activePage, setActivePage] = useState(initialPage);
     const [showUploadModal, setShowUploadModal] = useState(false);
     const [refreshId, setRefreshId] = useState(0);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Mobile sidebar state
@@ -33,7 +33,7 @@ const Adminhome = () => {
     const renderContent = () => {
         switch (activePage) {
             case 'Dashboard':
-                return <AdminDashboard onOpenUploadModal={handleOpenUploadModal} refreshId={refreshId} />;
+                return <AdminDashboard onNavigate={handleNavigate} onOpenUploadModal={handleOpenUploadModal} refreshId={refreshId} />;
             case 'Products':
                 return <AdminAllProducts refreshId={refreshId} />;
             case 'Categories':
@@ -47,11 +47,11 @@ const Adminhome = () => {
             case 'Hero Section':
                 return <AdminHeroManagement refreshId={refreshId} />;
             case 'Finance':
-                return <AdminFinance refreshId={refreshId} />;
+                return <AdminFinance onNavigate={handleNavigate} refreshId={refreshId} />;
             case 'Settings':
                 return <AdminSettings />;
             default:
-                return <AdminDashboard onOpenUploadModal={handleOpenUploadModal} refreshId={refreshId} />;
+                return <AdminDashboard onNavigate={handleNavigate} onOpenUploadModal={handleOpenUploadModal} refreshId={refreshId} />;
         }
     };
 

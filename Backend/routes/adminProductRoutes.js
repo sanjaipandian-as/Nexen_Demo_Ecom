@@ -8,6 +8,7 @@ import {
   getAllProducts,
   updateProduct,
   deleteProduct,
+  activateProduct,
   getProductById,
   getAllProductsCount,
 } from "../controllers/adminProductController.js";
@@ -31,5 +32,8 @@ router.put("/:productId", authenticate, isAdmin, upload.array("images", 5), upda
 
 // Delete product (soft delete)
 router.delete("/:productId", authenticate, isAdmin, deleteProduct);
+
+// Activate product
+router.patch("/:productId/activate", authenticate, isAdmin, activateProduct);
 
 export default router;

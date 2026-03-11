@@ -1,72 +1,75 @@
+// Helper to get date boundaries consistently
+const getDates = (days) => {
+  const limit = days === 'today' ? 1 : (parseInt(days) || 30);
+  const now = new Date();
+
+  const pastDate = new Date();
+  if (limit === 1) {
+    pastDate.setHours(0, 0, 0, 0);
+  } else {
+    pastDate.setDate(now.getDate() - limit);
+  }
+
+  const olderDate = new Date(pastDate);
+  if (limit === 1) {
+    olderDate.setDate(olderDate.getDate() - 1);
+  } else {
+    olderDate.setDate(olderDate.getDate() - limit);
+  }
+
+  return { pastDate, olderDate, limit };
+};
+
 import Order from "../models/Order.js";
 import Customer from "../models/Customer.js";
 import Product from "../models/Product.js";
 
 export const getAdminDashboard = async (req, res) => {
   try {
-    // Overall order count
-    const orders = await Order.find();
+    const { days } = req.query;
+    const { pastDate, olderDate } = getDates(days);
 
-    const totalOrders = orders.length;
-    const deliveredOrders = orders.filter(o => o.status === "delivered").length;
+    // Fetch all data for filtering
+    const allOrders = await Order.find();
+    const allCustomers = await Customer.find();
+    const allProducts = await Product.find({ is_deleted: false });
 
-    // Count customers and products
-    const totalCustomers = await Customer.countDocuments();
-    const totalProducts = await Product.countDocuments({ is_deleted: false });
+    // Current period metrics
+    const currentOrders = allOrders.filter(o => new Date(o.createdAt) >= pastDate);
+    const currentCustomers = allCustomers.filter(c => new Date(c.createdAt) >= pastDate);
+    const currentProducts = allProducts.filter(p => new Date(p.createdAt) >= pastDate);
 
-    // Total sales amount (sum of all paid orders)
-    const totalSales = orders
-      .filter(o => o.paymentStatus === "success")
-      .reduce((sum, o) => sum + o.totalAmount, 0);
+    // Filter to only count successful payments for consistency with Finance page
+    const successfulOrders = currentOrders.filter(o => o.paymentStatus === "success");
 
+    const totalOrdersCount = successfulOrders.length;
+    const totalCustomersCount = currentCustomers.length;
+    const totalProductsCount = currentProducts.filter(p => new Date(p.createdAt) >= pastDate).length; // Products created in period
 
+    const totalSales = successfulOrders.reduce((sum, o) => sum + o.totalAmount, 0);
+    const deliveredOrders = successfulOrders.filter(o => o.status === "delivered").length;
 
-    // Calculate Growth (Current Month vs Last Month)
-    const now = new Date();
-    const currentMonth = now.getMonth();
-    const currentYear = now.getFullYear();
+    // Previous period metrics for growth
+    const previousOrders = allOrders.filter(o => new Date(o.createdAt) >= olderDate && new Date(o.createdAt) < pastDate && o.paymentStatus === "success");
+    const previousCustomers = allCustomers.filter(c => new Date(c.createdAt) >= olderDate && new Date(c.createdAt) < pastDate);
 
-    const lastMonthDate = new Date(now);
-    lastMonthDate.setMonth(now.getMonth() - 1);
-    const lastMonth = lastMonthDate.getMonth();
-    const lastMonthYear = lastMonthDate.getFullYear();
+    const previousSales = previousOrders.reduce((sum, o) => sum + o.totalAmount, 0);
 
-    // -- Revenue Growth (based on successful payments)
-    const currentMonthRevenue = orders
-      .filter(o => o.paymentStatus === "success" && new Date(o.createdAt).getMonth() === currentMonth && new Date(o.createdAt).getFullYear() === currentYear)
-      .reduce((sum, o) => sum + o.totalAmount, 0);
-
-    const lastMonthRevenue = orders
-      .filter(o => o.paymentStatus === "success" && new Date(o.createdAt).getMonth() === lastMonth && new Date(o.createdAt).getFullYear() === lastMonthYear)
-      .reduce((sum, o) => sum + o.totalAmount, 0);
-
-    let revenueGrowth = 0;
-    if (lastMonthRevenue > 0) {
-      revenueGrowth = ((currentMonthRevenue - lastMonthRevenue) / lastMonthRevenue) * 100;
-    } else if (currentMonthRevenue > 0) {
-      revenueGrowth = 100;
-    }
-
-    // -- Order Growth (based on total order count)
-    const currentMonthOrders = orders.filter(o => new Date(o.createdAt).getMonth() === currentMonth && new Date(o.createdAt).getFullYear() === currentYear).length;
-    const lastMonthOrders = orders.filter(o => new Date(o.createdAt).getMonth() === lastMonth && new Date(o.createdAt).getFullYear() === lastMonthYear).length;
-
-    let orderGrowth = 0;
-    if (lastMonthOrders > 0) {
-      orderGrowth = ((currentMonthOrders - lastMonthOrders) / lastMonthOrders) * 100;
-    } else if (currentMonthOrders > 0) {
-      orderGrowth = 100;
-    }
+    // Growth Math
+    const calcGrowth = (current, previous) => {
+      if (previous === 0) return current > 0 ? 100 : 0;
+      return ((current - previous) / previous) * 100;
+    };
 
     res.json({
-      totalOrders,
+      totalOrders: totalOrdersCount,
       deliveredOrders,
       totalSales,
-      totalSellers: 0,
-      totalCustomers,
-      totalProducts,
-      revenueGrowth: Number(revenueGrowth.toFixed(1)),
-      orderGrowth: Number(orderGrowth.toFixed(1))
+      totalCustomers: totalCustomersCount,
+      totalProducts: await Product.countDocuments({ is_deleted: false }), // Overall platform scale
+      revenueGrowth: Number(calcGrowth(totalSales, previousSales).toFixed(1)),
+      orderGrowth: Number(calcGrowth(totalOrdersCount, previousOrders.length).toFixed(1)),
+      customerGrowth: Number(calcGrowth(currentCustomers.length, previousCustomers.length).toFixed(1))
     });
 
   } catch (err) {
@@ -76,34 +79,13 @@ export const getAdminDashboard = async (req, res) => {
 
 export const getDailySales = async (req, res) => {
   try {
+    const { days } = req.query;
+    const { pastDate } = getDates(days);
+
     const orders = await Order.find({
-      paymentStatus: "success"
+      paymentStatus: "success",
+      createdAt: { $gte: pastDate }
     });
-
-    let daily = {};
-
-    orders.forEach(order => {
-      const day = order.createdAt.toISOString().split("T")[0]; // YYYY-MM-DD
-
-      // Format to "MMM DD" (e.g., "Feb 01")
-      const dateDate = new Date(day);
-      const formattedDate = dateDate.toLocaleDateString('en-US', { month: 'short', day: '2-digit' });
-
-      if (!daily[formattedDate]) {
-        daily[formattedDate] = { sales: 0, orders: 0, date: formattedDate };
-      }
-      daily[formattedDate].sales += order.totalAmount;
-      daily[formattedDate].orders += 1;
-    });
-
-    // Convert to array and sort by date (optional, but good for charts)
-    // For simplicity, we just return the values. 
-    // Ideally we should sort by actual date, but the map keys are strings now.
-    // Let's rely on the order of insertion if possible or just return as is.
-    // To sort properly we might need to keep the original timestamp.
-
-    // Better approach:
-    // Create a map with YYYY-MM-DD keys first for sorting, then format.
 
     let dailyMap = {};
     orders.forEach(order => {
@@ -136,14 +118,37 @@ export const getDailySales = async (req, res) => {
 
 export const getCategoryDistribution = async (req, res) => {
   try {
-    const products = await Product.find({ is_deleted: false }); // Only active products
+    // Only active products
+    const { days } = req.query;
+    const { pastDate } = getDates(days);
+
+    // For more accurate tracking, instead of just returning available product categories,
+    // let's tally categories from actual sales if `days` is provided
+    const orders = await Order.find({
+      paymentStatus: "success",
+      createdAt: { $gte: pastDate }
+    }).populate('items.productId');
 
     const distribution = {};
 
-    products.forEach(product => {
-      const cat = product.category?.main || "Uncategorized";
-      distribution[cat] = (distribution[cat] || 0) + 1;
-    });
+    if (orders && orders.length > 0) {
+      // Analyze actual sales from the given period
+      orders.forEach(order => {
+        order.items.forEach(item => {
+          if (item.productId && item.productId.category && item.productId.category.main) {
+            const cat = item.productId.category.main;
+            distribution[cat] = (distribution[cat] || 0) + item.quantity;
+          }
+        });
+      });
+    } else {
+      // Fallback: Just show distribution of available products
+      const products = await Product.find({ is_deleted: false });
+      products.forEach(product => {
+        const cat = product.category?.main || "Uncategorized";
+        distribution[cat] = (distribution[cat] || 0) + 1;
+      });
+    }
 
     // Format for charts: [ { name: "Men", value: 10 }, ... ]
     const chartData = Object.keys(distribution).map(key => ({
@@ -159,48 +164,41 @@ export const getCategoryDistribution = async (req, res) => {
 
 export const getFinanceStats = async (req, res) => {
   try {
-    const orders = await Order.find({ paymentStatus: "success" });
+    const { days } = req.query;
+    const { pastDate, olderDate } = getDates(days);
 
-    const totalRevenue = orders.reduce((sum, o) => sum + o.totalAmount, 0);
-    const totalOrders = orders.length;
+    // 1. Fetch current period orders
+    const currentOrders = await Order.find({
+      paymentStatus: "success",
+      createdAt: { $gte: pastDate }
+    });
+
+    const totalRevenue = currentOrders.reduce((sum, o) => sum + o.totalAmount, 0);
+    const totalOrders = currentOrders.length;
     const averageOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0;
 
-    // Calculate Growth (Current Month vs Last Month)
-    const now = new Date();
-    const currentMonth = now.getMonth();
-    const currentYear = now.getFullYear();
+    // 2. Fetch previous period orders to calculate growth
+    const oldOrders = await Order.find({
+      paymentStatus: "success",
+      createdAt: { $gte: olderDate, $lt: pastDate }
+    });
 
-    const lastMonthDate = new Date(now);
-    lastMonthDate.setMonth(now.getMonth() - 1);
-    const lastMonth = lastMonthDate.getMonth();
-    const lastMonthYear = lastMonthDate.getFullYear();
+    const oldRevenue = oldOrders.reduce((sum, o) => sum + o.totalAmount, 0);
+    const oldOrderCount = oldOrders.length;
+    const oldAov = oldOrderCount > 0 ? oldRevenue / oldOrderCount : 0;
 
-    const currentMonthRevenue = orders
-      .filter(o => {
-        const d = new Date(o.createdAt);
-        return d.getMonth() === currentMonth && d.getFullYear() === currentYear;
-      })
-      .reduce((sum, o) => sum + o.totalAmount, 0);
-
-    const lastMonthRevenue = orders
-      .filter(o => {
-        const d = new Date(o.createdAt);
-        return d.getMonth() === lastMonth && d.getFullYear() === lastMonthYear;
-      })
-      .reduce((sum, o) => sum + o.totalAmount, 0);
-
-    let revenueGrowth = 0;
-    if (lastMonthRevenue > 0) {
-      revenueGrowth = ((currentMonthRevenue - lastMonthRevenue) / lastMonthRevenue) * 100;
-    } else if (currentMonthRevenue > 0) {
-      revenueGrowth = 100; // 100% growth if started from 0
-    }
+    const calcGrowth = (curr, prev) => {
+      if (prev === 0) return curr > 0 ? 100 : 0;
+      return ((curr - prev) / prev) * 100;
+    };
 
     res.json({
       totalRevenue,
       totalOrders,
       averageOrderValue,
-      revenueGrowth: Number(revenueGrowth.toFixed(1))
+      revenueGrowth: Number(calcGrowth(totalRevenue, oldRevenue).toFixed(1)),
+      orderGrowth: Number(calcGrowth(totalOrders, oldOrderCount).toFixed(1)),
+      aovGrowth: Number(calcGrowth(averageOrderValue, oldAov).toFixed(1))
     });
 
   } catch (err) {

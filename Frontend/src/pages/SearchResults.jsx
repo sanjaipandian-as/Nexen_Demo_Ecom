@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams, Link } from 'react-router-dom';
 import { FaStar, FaShoppingCart, FaHeart, FaSearch, FaFilter, FaTimes, FaCheckCircle, FaExclamationCircle, FaEye, FaRegHeart } from 'react-icons/fa';
 import API from '../../api';
 import Skeleton from '../components/Common/Skeleton';
@@ -192,6 +192,7 @@ const SearchResults = () => {
 
     const toggleWishlist = async (e, productId) => {
         e.stopPropagation();
+        e.preventDefault();
         const token = localStorage.getItem('token');
         if (!token) {
             showNotification('Please login to add items to wishlist', 'error');
@@ -221,6 +222,7 @@ const SearchResults = () => {
 
     const addToCart = async (e, product) => {
         e.stopPropagation();
+        e.preventDefault();
         const token = localStorage.getItem('token');
         if (!token) {
             showNotification('Please login to add items to cart', 'error');
@@ -344,10 +346,10 @@ const SearchResults = () => {
 
                                     return (
 
-                                        <div
+                                        <Link
+                                            to={`/product/${product._id}`}
                                             key={product._id}
-                                            onClick={() => navigate(`/product/${product._id}`)}
-                                            className="group relative bg-white rounded-[2.5rem] overflow-hidden border border-gray-50 shadow-sm hover:shadow-2xl hover:shadow-pink-100/50 transition-all duration-500 cursor-pointer"
+                                            className="group relative bg-white rounded-[2.5rem] overflow-hidden border border-gray-50 shadow-sm hover:shadow-2xl hover:shadow-pink-100/50 transition-all duration-500 cursor-pointer block"
                                         >
                                             <div className="relative aspect-[4/5] overflow-hidden bg-gray-50/30 flex items-center justify-center p-8 transition-all duration-500 group-hover:p-4">
                                                 <img
@@ -418,6 +420,7 @@ const SearchResults = () => {
                                                         <button
                                                             onClick={(e) => {
                                                                 e.stopPropagation();
+                                                                e.preventDefault();
                                                                 navigate('/cart');
                                                             }}
                                                             className="h-10 px-4 flex items-center gap-2 bg-white border-2 border-[#E91E63] text-[#E91E63] rounded-xl font-bold text-xs hover:bg-[#E91E63] hover:text-white transition-all shadow-lg shadow-pink-500/10"
@@ -443,7 +446,7 @@ const SearchResults = () => {
                                                     )}
                                                 </div>
                                             </div>
-                                        </div>
+                                        </Link>
                                     );
                                 })}
                             </div>

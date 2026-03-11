@@ -14,6 +14,7 @@ const AdminHeroManagement = ({ refreshId }) => {
         image: null
     });
     const [previewImage, setPreviewImage] = useState(null);
+    const [submitLoading, setSubmitLoading] = useState(false);
 
     useEffect(() => {
         fetchSlides();
@@ -76,6 +77,9 @@ const AdminHeroManagement = ({ refreshId }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (submitLoading) return;
+
         const data = new FormData();
         data.append('order', formData.order);
         if (formData.image) {
@@ -83,6 +87,7 @@ const AdminHeroManagement = ({ refreshId }) => {
         }
 
         try {
+            setSubmitLoading(true);
             if (editingSlide) {
                 await API.put(`/hero/${editingSlide._id}`, data, {
                     headers: { 'Content-Type': 'multipart/form-data' }
@@ -99,6 +104,8 @@ const AdminHeroManagement = ({ refreshId }) => {
         } catch (error) {
             console.error('Error saving slide:', error);
             toast.error('Failed to save slide');
+        } finally {
+            setSubmitLoading(false);
         }
     };
 
@@ -273,10 +280,15 @@ const AdminHeroManagement = ({ refreshId }) => {
                                 </button>
                                 <button
                                     type="submit"
-                                    className="flex-1 py-4 bg-rose-600 text-white font-black uppercase tracking-widest text-xs rounded-2xl hover:bg-rose-700 shadow-lg shadow-rose-200 transition-all active:scale-95 flex items-center justify-center gap-2"
+                                    disabled={submitLoading}
+                                    className={`flex-1 py-4 text-white font-black uppercase tracking-widest text-xs rounded-2xl shadow-lg transition-all flex items-center justify-center gap-2 ${submitLoading ? 'bg-rose-400 cursor-not-allowed' : 'bg-rose-600 hover:bg-rose-700 shadow-rose-200 active:scale-95'}`}
                                 >
-                                    <MdSave className="text-lg" />
-                                    {editingSlide ? 'Update Slide' : 'Save Slide'}
+                                    {submitLoading ? (
+                                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                    ) : (
+                                        <MdSave className="text-lg" />
+                                    )}
+                                    {submitLoading ? 'Saving...' : (editingSlide ? 'Update Slide' : 'Save Slide')}
                                 </button>
                             </div>
                         </form>

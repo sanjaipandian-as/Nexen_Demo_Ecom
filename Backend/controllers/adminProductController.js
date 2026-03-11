@@ -276,6 +276,27 @@ export const deleteProduct = async (req, res) => {
   }
 };
 
+// ⭐ ACTIVATE PRODUCT
+export const activateProduct = async (req, res) => {
+  try {
+    const { productId } = req.params;
+
+    const product = await Product.findByIdAndUpdate(
+      productId,
+      { is_deleted: false },
+      { new: true }
+    );
+
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    return res.json({ message: "Product activated successfully", product });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
 // ⭐ GET PRODUCT BY ID
 export const getProductById = async (req, res) => {
   try {

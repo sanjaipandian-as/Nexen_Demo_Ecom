@@ -13,9 +13,9 @@ import { toast } from 'react-toastify';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
-const AdminFinance = ({ refreshId }) => {
+const AdminFinance = ({ refreshId, onNavigate }) => {
     const [loading, setLoading] = useState(true);
-    const [timeRange, setTimeRange] = useState('7days');
+    const [timeRange, setTimeRange] = useState('30days');
     const [financeData, setFinanceData] = useState({
         totalRevenue: 0,
         totalOrders: 0,
@@ -44,8 +44,8 @@ const AdminFinance = ({ refreshId }) => {
     const COLORS = ['#e11d48', '#0f172a', '#64748b', '#94a3b8']; // Rose, Slate900, Slate500, Slate400
 
     const timeOptions = [
+        { label: 'Today', value: 'today' },
         { label: 'Last 7 Days', value: '7days' },
-        { label: 'Last 14 Days', value: '14days' },
         { label: 'Last 30 Days', value: '30days' }
     ];
 
@@ -56,11 +56,14 @@ const AdminFinance = ({ refreshId }) => {
     const fetchAllData = async () => {
         try {
             setLoading(true);
+            const rangeMap = { 'today': 1, '7days': 7, '30days': 30 };
+            const limit = rangeMap[timeRange] || 30;
+
             const [statsRes, revenueRes, categoryRes, ordersRes] = await Promise.all([
-                API.get('/admin/analytics/finance-stats'),
-                API.get('/admin/analytics/daily-sales'),
-                API.get('/admin/analytics/category-distribution'),
-                API.get('/admin/orders') // Fetch orders for "Recent Transactions"
+                API.get(`/admin/analytics/finance-stats?days=${limit}`),
+                API.get(`/admin/analytics/daily-sales?days=${limit}`),
+                API.get(`/admin/analytics/category-distribution?days=${limit}`),
+                API.get(`/admin/orders?days=${limit}`) // Fetch orders for "Recent Transactions"
             ]);
 
             // Stats
@@ -69,7 +72,9 @@ const AdminFinance = ({ refreshId }) => {
                 totalRevenue: stats.totalRevenue || 0,
                 totalOrders: stats.totalOrders || 0,
                 averageOrderValue: stats.averageOrderValue || 0,
-                revenueGrowth: stats.revenueGrowth || 0
+                revenueGrowth: stats.revenueGrowth || 0,
+                orderGrowth: stats.orderGrowth || 0,
+                aovGrowth: stats.aovGrowth || 0
             });
 
             // Revenue Chart
@@ -79,8 +84,7 @@ const AdminFinance = ({ refreshId }) => {
                 orders: day.orders,
                 profit: Math.round(day.sales * 0.70) // Est 70% profit margin
             }));
-            const rangeMap = { '7days': 7, '14days': 14, '30days': 30 };
-            const limit = rangeMap[timeRange] || 7;
+
             setRevenueData(revenueArray.slice(-limit));
 
             // Category Pie Chart
@@ -207,7 +211,7 @@ const AdminFinance = ({ refreshId }) => {
     return (
         <div className="p-4 md:p-8 bg-slate-50/50 min-h-screen font-sans text-slate-900">
             {/* Header */}
-            <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center gap-4 md:gap-6 mb-6 md:mb-10 animate-slideUp">
+            <div className="relative z-[30] flex flex-col xl:flex-row justify-between items-start xl:items-center gap-4 md:gap-6 mb-6 md:mb-10 animate-slideUp">
                 <div>
                     <h1 className="text-xl md:text-3xl font-black text-slate-900 tracking-tight flex items-center gap-2 md:gap-3 font-hero">
                         Financial Overview <Activity className="text-rose-600" />
@@ -237,8 +241,8 @@ const AdminFinance = ({ refreshId }) => {
 
                         {showDropdown && (
                             <>
-                                <div className="fixed inset-0 z-40" onClick={() => setShowDropdown(false)} />
-                                <div className="absolute top-full right-0 mt-2 w-full min-w-[150px] bg-white border border-slate-100 rounded-xl shadow-xl z-50 overflow-hidden animate-slideDown p-1">
+                                <div className="fixed inset-0 z-[60]" onClick={() => setShowDropdown(false)} />
+                                <div className="absolute top-full right-0 mt-2 w-full min-w-[150px] bg-white border border-slate-100 rounded-xl shadow-xl z-[70] overflow-hidden animate-slideDown p-1">
                                     {timeOptions.map((option) => (
                                         <button
                                             key={option.value}
@@ -270,7 +274,7 @@ const AdminFinance = ({ refreshId }) => {
                         icon: DollarSign,
                         color: 'text-rose-600',
                         bg: 'bg-rose-50',
-                        change: `+${financeData.revenueGrowth}%`,
+                        change: `${financeData.revenueGrowth >= 0 ? '+' : ''}${financeData.revenueGrowth}%`,
                         isPositive: financeData.revenueGrowth >= 0
                     },
                     {
@@ -279,8 +283,8 @@ const AdminFinance = ({ refreshId }) => {
                         icon: ShoppingBag,
                         color: 'text-indigo-600',
                         bg: 'bg-indigo-50',
-                        change: '+12%', // Static for now as placeholder or calc from daily
-                        isPositive: true
+                        change: `${financeData.orderGrowth >= 0 ? '+' : ''}${financeData.orderGrowth}%`,
+                        isPositive: financeData.orderGrowth >= 0
                     },
                     {
                         title: 'Avg. Order Value',
@@ -288,8 +292,8 @@ const AdminFinance = ({ refreshId }) => {
                         icon: CreditCard,
                         color: 'text-emerald-600',
                         bg: 'bg-emerald-50',
-                        change: '-2.4%',
-                        isPositive: false
+                        change: `${financeData.aovGrowth >= 0 ? '+' : ''}${financeData.aovGrowth}%`,
+                        isPositive: financeData.aovGrowth >= 0
                     },
                     {
                         title: 'Net Profit (Est.)',
@@ -297,8 +301,8 @@ const AdminFinance = ({ refreshId }) => {
                         icon: TrendingUp,
                         color: 'text-blue-600',
                         bg: 'bg-blue-50',
-                        change: '+8.1%',
-                        isPositive: true
+                        change: `${financeData.revenueGrowth >= 0 ? '+' : ''}${financeData.revenueGrowth}%`,
+                        isPositive: financeData.revenueGrowth >= 0
                     }
                 ].map((card, idx) => (
                     <div key={idx} className="bg-white p-6 rounded-2xl border border-slate-100 shadow-[0_2px_10px_rgba(0,0,0,0.03)] hover:-translate-y-1 transition-all duration-300">
@@ -528,7 +532,12 @@ const AdminFinance = ({ refreshId }) => {
                         <h2 className="text-lg font-black text-slate-900 tracking-tight">Recent Transactions</h2>
                         <p className="text-sm text-slate-400 font-medium">Latest financial activity from orders</p>
                     </div>
-                    <button className="text-xs font-black text-rose-600 hover:text-rose-700 uppercase tracking-wider">View All</button>
+                    <button
+                        onClick={() => onNavigate('Orders')}
+                        className="text-xs font-black text-rose-600 hover:text-rose-700 uppercase tracking-wider"
+                    >
+                        View All
+                    </button>
                 </div>
                 {/* Mobile Card View */}
                 <div className="p-4 md:hidden flex flex-col gap-4">

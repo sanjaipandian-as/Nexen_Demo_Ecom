@@ -89,6 +89,38 @@ function App() {
               </ProtectedAdminRoute>
             }
           />
+          <Route
+            path="/admin/orders"
+            element={
+              <ProtectedAdminRoute>
+                <Adminhome initialPage="Orders" />
+              </ProtectedAdminRoute>
+            }
+          />
+          <Route
+            path="/admin/order"
+            element={
+              <ProtectedAdminRoute>
+                <Adminhome initialPage="Orders" />
+              </ProtectedAdminRoute>
+            }
+          />
+          <Route
+            path="/admin/finance"
+            element={
+              <ProtectedAdminRoute>
+                <Adminhome initialPage="Finance" />
+              </ProtectedAdminRoute>
+            }
+          />
+          <Route
+            path="/admin/products"
+            element={
+              <ProtectedAdminRoute>
+                <Adminhome initialPage="Products" />
+              </ProtectedAdminRoute>
+            }
+          />
 
 
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />

@@ -57,6 +57,19 @@ const OrdersPage = () => {
         }
     };
 
+    // Close expanded order when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            const card = event.target.closest('.order-card-container');
+            // If the user clicked outside the CURRENTLY expanded card
+            if (expandedOrder && (!card || card.getAttribute('data-order-id') !== expandedOrder)) {
+                setExpandedOrder(null);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, [expandedOrder]);
+
     const handleOrderAction = async () => {
         if (!reason.trim()) {
             alert('Please provide a reason');
@@ -153,14 +166,17 @@ const OrdersPage = () => {
         return (
             <div
                 key={order._id}
-                className={`group relative bg-white rounded-[2.5rem] p-7 border-2 transition-all duration-700 overflow-hidden flex flex-col ${isExpanded
-                    ? 'lg:col-span-1 border-[#E91E63]/20 shadow-2xl shadow-rose-100'
-                    : 'border-slate-50 hover:border-slate-200 hover:shadow-2xl hover:shadow-slate-200 h-full'
+                data-order-id={order._id}
+                className={`order-card-container group relative bg-white rounded-[2.5rem] p-7 border-2 transition-all duration-700 flex flex-col ${isExpanded
+                    ? 'lg:col-span-1 border-[#E91E63]/20 shadow-2xl shadow-rose-100 z-50'
+                    : 'border-slate-50 hover:border-slate-200 hover:shadow-2xl hover:shadow-slate-200 h-full z-10'
                     }`}
                 style={{ animationDelay: `${idx * 50}ms` }}
             >
-                {/* Luxury Background Pattern */}
-                <div className="absolute top-0 right-0 w-32 h-32 bg-slate-50 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-1000" />
+                <div className="absolute inset-0 overflow-hidden rounded-[2.5rem] pointer-events-none">
+                    {/* Luxury Background Pattern */}
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-slate-50 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-1000" />
+                </div>
 
                 <div className="relative z-10 flex flex-col h-full">
                     {/* Order Identity Block */}
@@ -245,7 +261,7 @@ const OrdersPage = () => {
 
                     {/* Expanded Intelligence Sheet */}
                     {isExpanded && (
-                        <div className="mt-10 space-y-8 animate-in slide-in-from-top-4 duration-500">
+                        <div className="absolute -left-7 top-[calc(100%+1.5rem)] w-[calc(100%+3.5rem)] bg-white rounded-[2.5rem] border-2 border-[#E91E63]/20 shadow-2xl p-7 z-50 space-y-8 animate-fadeIn transform origin-top transition-all duration-300">
                             {/* Data Matrix */}
                             <div className="grid grid-cols-2 gap-3">
                                 <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">

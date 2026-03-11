@@ -18,7 +18,8 @@ const Searchbar = () => {
     const [showSearchBar, setShowSearchBar] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
-    const searchRef = useRef(null);
+    const desktopSearchRef = useRef(null);
+    const mobileSearchRef = useRef(null);
     const debounceTimer = useRef(null);
     const notificationRef = useRef(null);
 
@@ -291,7 +292,10 @@ const Searchbar = () => {
     // Close suggestions when clicking outside
     useEffect(() => {
         const handleClickOutside = (event) => {
-            if (searchRef.current && !searchRef.current.contains(event.target)) {
+            const isOutsideDesktop = desktopSearchRef.current && !desktopSearchRef.current.contains(event.target);
+            const isOutsideMobile = mobileSearchRef.current && !mobileSearchRef.current.contains(event.target);
+
+            if (isOutsideDesktop && isOutsideMobile) {
                 setShowSuggestions(false);
             }
         };
@@ -361,7 +365,9 @@ const Searchbar = () => {
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
             if (selectedSuggestionIndex >= 0 && suggestions[selectedSuggestionIndex]) {
-                handleSearch(suggestions[selectedSuggestionIndex].name);
+                navigate(`/product/${suggestions[selectedSuggestionIndex]._id}`);
+                setShowSuggestions(false);
+                setSearchQuery('');
             } else {
                 handleSearch();
             }
@@ -482,7 +488,7 @@ const Searchbar = () => {
                     </div>
 
 
-                    <div className="hidden md:flex flex-1 max-w-xl lg:max-w-2xl" ref={searchRef}>
+                    <div className="hidden md:flex flex-1 max-w-xl lg:max-w-2xl" ref={desktopSearchRef}>
                         <div className="relative w-full">
                             <FaSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 z-10" />
                             <input
@@ -526,7 +532,11 @@ const Searchbar = () => {
                                             {suggestions.map((suggestion, index) => (
                                                 <button
                                                     key={suggestion._id}
-                                                    onClick={() => handleSearch(suggestion.name)}
+                                                    onClick={() => {
+                                                        navigate(`/product/${suggestion._id}`);
+                                                        setShowSuggestions(false);
+                                                        setSearchQuery('');
+                                                    }}
                                                     className={`w-full px-4 py-3 text-left transition-colors flex items-center gap-3`}
                                                     style={{ backgroundColor: index === selectedSuggestionIndex ? 'rgba(248, 187, 208, 0.2)' : 'transparent' }}
                                                     onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'rgba(248, 187, 208, 0.2)'; }}
@@ -675,14 +685,14 @@ const Searchbar = () => {
 
                                     {notifications.length > 0 && (
                                         <div className="p-2 sm:p-3 border-t border-gray-200 bg-gray-50 flex-shrink-0">
-                                            <button
+                                            {/* <button
                                                 onClick={() => {
                                                     setShowNotifications(false);
                                                 }}
                                                 className="w-full text-center text-xs sm:text-sm font-semibold text-primary hover:text-primary/80 py-2 hover:bg-primary/10 rounded transition-colors"
                                             >
                                                 View all notifications
-                                            </button>
+                                            </button> */}
                                         </div>
                                     )}
                                 </div>
@@ -759,7 +769,7 @@ const Searchbar = () => {
             </div>
 
 
-            <div className="md:hidden px-3 pb-3" ref={searchRef}>
+            <div className="md:hidden px-3 pb-3" ref={mobileSearchRef}>
                 <div className="relative group">
                     <FaSearch
                         className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 transition-colors z-10"
@@ -797,7 +807,11 @@ const Searchbar = () => {
                                     {suggestions.map((suggestion, index) => (
                                         <button
                                             key={suggestion._id}
-                                            onClick={() => handleSearch(suggestion.name)}
+                                            onClick={() => {
+                                                navigate(`/product/${suggestion._id}`);
+                                                setShowSuggestions(false);
+                                                setSearchQuery('');
+                                            }}
                                             className={`w-full px-3 py-2.5 text-left transition-colors flex items-center gap-2`}
                                             style={{ backgroundColor: index === selectedSuggestionIndex ? 'rgba(233, 30, 99, 0.1)' : 'transparent' }}
                                             onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'rgba(233, 30, 99, 0.1)'; }}

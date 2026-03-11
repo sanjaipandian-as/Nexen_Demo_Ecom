@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams, Link } from 'react-router-dom';
 import { FaStar, FaShoppingCart, FaCheckCircle, FaExclamationCircle, FaHeart, FaSearch, FaFilter, FaTimes } from 'react-icons/fa';
 import API from '../../../api';
 import Skeleton from '../Common/Skeleton';
@@ -139,6 +139,7 @@ const SearchResult = () => {
 
     const toggleWishlist = async (e, productId) => {
         e.stopPropagation();
+        e.preventDefault();
 
         const token = localStorage.getItem('token');
         if (!token) {
@@ -176,6 +177,7 @@ const SearchResult = () => {
 
     const handleAddToCart = async (e, productId) => {
         e.stopPropagation();
+        e.preventDefault();
 
         const token = localStorage.getItem('token');
         if (!token) {
@@ -358,10 +360,10 @@ const SearchResult = () => {
         const discount = Math.round((((product.pricing?.mrp || product.originalPrice) - (product.pricing?.selling_price || product.price)) / (product.pricing?.mrp || product.originalPrice)) * 100);
 
         return (
-            <div
+            <Link
+                to={`/product/${product._id}`}
                 key={product._id}
-                onClick={() => handleProductClick(product._id)}
-                className="group bg-white rounded-[32px] overflow-hidden border border-slate-100/60 hover:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.08)] transition-all duration-500 cursor-pointer"
+                className="group bg-white rounded-[32px] overflow-hidden border border-slate-100/60 hover:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.08)] transition-all duration-500 cursor-pointer block"
             >
                 <div className="flex flex-col md:flex-row h-full">
                     {/* Image Section */}
@@ -448,6 +450,7 @@ const SearchResult = () => {
                                     <button
                                         onClick={(e) => {
                                             e.stopPropagation();
+                                            e.preventDefault();
                                             navigate('/cart');
                                         }}
                                         className="flex-1 sm:flex-none px-12 py-5 bg-slate-900 text-white rounded-[24px] text-[12px] font-black uppercase tracking-widest shadow-xl shadow-slate-200 hover:bg-slate-800 transition-all active:scale-95 flex items-center justify-center gap-3"
@@ -478,7 +481,7 @@ const SearchResult = () => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </Link>
         );
     };
 
@@ -488,10 +491,10 @@ const SearchResult = () => {
         const discount = Math.round((((product.pricing?.mrp || product.originalPrice) - (product.pricing?.selling_price || product.price)) / (product.pricing?.mrp || product.originalPrice)) * 100);
 
         return (
-            <div
+            <Link
+                to={`/product/${product._id}`}
                 key={product._id}
-                onClick={() => handleProductClick(product._id)}
-                className="group bg-white rounded-[32px] overflow-hidden border border-slate-100/60 hover:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.08)] hover:border-blue-100/50 transition-all duration-500 cursor-pointer flex flex-col h-full bg-gradient-to-b from-white to-slate-50/30"
+                className="group bg-white rounded-[32px] overflow-hidden border border-slate-100/60 hover:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.08)] hover:border-blue-100/50 transition-all duration-500 cursor-pointer flex flex-col h-full bg-gradient-to-b from-white to-slate-50/30 block"
             >
                 {/* Image Section */}
                 <div className="relative aspect-[4/5] overflow-hidden p-4">
@@ -579,6 +582,7 @@ const SearchResult = () => {
                             <button
                                 onClick={(e) => {
                                     e.stopPropagation();
+                                    e.preventDefault();
                                     navigate('/cart');
                                 }}
                                 className="w-full flex items-center justify-center gap-2.5 py-4 bg-slate-900 text-white rounded-[20px] shadow-xl shadow-slate-200 transition-all hover:bg-slate-800 active:scale-[0.98] text-[11px] font-bold uppercase tracking-widest"
@@ -607,7 +611,7 @@ const SearchResult = () => {
                         )}
                     </div>
                 </div>
-            </div>
+            </Link>
         );
     };
 

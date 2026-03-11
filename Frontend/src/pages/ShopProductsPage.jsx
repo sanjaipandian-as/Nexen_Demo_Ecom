@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { useParams, useNavigate, useLocation, Link } from 'react-router-dom';
 import API from '../../api';
 import Skeleton from '../components/Common/Skeleton';
 
@@ -283,14 +283,14 @@ const ShopProductsPage = () => {
                                     const inWishlist = isInWishlist(product._id);
 
                                     return (
-                                        <div
+                                        <Link
+                                            to={`/product/${product._id}`}
                                             key={product._id}
-                                            className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300 group flex flex-col h-full"
+                                            className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300 group flex flex-col h-full block"
                                         >
                                             {/* Product Image Container */}
                                             <div
                                                 className="relative aspect-[4/3] overflow-hidden cursor-pointer"
-                                                onClick={() => navigate(`/product/${product._id}`)}
                                             >
                                                 <img
                                                     src={(product.images?.filter(img => img && img.trim() !== '')?.[0]) || placeholderImg}
@@ -307,6 +307,7 @@ const ShopProductsPage = () => {
                                                 <button
                                                     onClick={(e) => {
                                                         e.stopPropagation();
+                                                        e.preventDefault();
                                                         addToWishlist(product);
                                                     }}
                                                     className={`absolute top-3 right-3 w-10 h-10 rounded-full flex items-center justify-center shadow-md transition-all z-10 active:scale-90 ${inWishlist
@@ -332,12 +333,11 @@ const ShopProductsPage = () => {
                                             <div className="p-4 flex flex-col flex-1">
                                                 {/* Title & Rating Row */}
                                                 <div className="flex justify-between items-start gap-2 mb-3">
-                                                    <h3
+                                                    <div
                                                         className="font-bold text-gray-800 line-clamp-1 text-base md:text-lg cursor-pointer hover:text-primary transition-colors flex-1"
-                                                        onClick={() => navigate(`/product/${product._id}`)}
                                                     >
                                                         {product.name}
-                                                    </h3>
+                                                    </div>
                                                     <div className="flex items-center gap-1 bg-gray-50 px-2 py-0.5 rounded-md border border-gray-100">
                                                         <FaStar className="text-secondary text-xs" />
                                                         <span className="text-xs font-bold text-gray-600">4.2</span>
@@ -377,7 +377,11 @@ const ShopProductsPage = () => {
                                                     </div>
 
                                                     <button
-                                                        onClick={() => addToCart(product)}
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            e.preventDefault();
+                                                            addToCart(product);
+                                                        }}
                                                         disabled={addingToCart === product._id || (product.stock || 0) <= 0}
                                                         className={`h-11 px-5 rounded-xl font-bold text-sm flex items-center gap-2 transition-all shadow-sm active:scale-95 ${(product.stock || 0) <= 0
                                                             ? 'bg-gray-100 text-gray-400 cursor-not-allowed shadow-none'
@@ -404,7 +408,7 @@ const ShopProductsPage = () => {
                                                     </button>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </Link>
                                     );
                                 })}
                             </div>

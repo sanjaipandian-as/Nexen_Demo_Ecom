@@ -74,7 +74,7 @@ const MarginChart = ({ percentage }) => {
 };
 
 // --- Sub-Component: Product Grid Card ---
-const ProductGridCard = ({ product, onEdit, onDelete, isSelectionMode, isSelected, onToggleSelection }) => {
+const ProductGridCard = ({ product, onEdit, onDelete, onActivate, isSelectionMode, isSelected, onToggleSelection }) => {
     const [showMarginView, setShowMarginView] = useState(false);
 
     const sellingPrice = product.pricing?.selling_price || 0;
@@ -195,17 +195,28 @@ const ProductGridCard = ({ product, onEdit, onDelete, isSelectionMode, isSelecte
 
                 <div className={`absolute inset-0 bg-slate-900/60 opacity-0 ${!isSelectionMode ? 'group-hover:opacity-100' : ''} transition-all duration-400 flex items-center justify-center gap-4 backdrop-blur-[2px]`}>
                     <button
-                        onClick={() => onEdit(product)}
+                        onClick={(e) => { e.stopPropagation(); onEdit(product); }}
                         className="w-14 h-14 bg-white text-slate-900 rounded-full flex items-center justify-center hover:bg-[#4F46E5] hover:text-white transition-all transform translate-y-8 group-hover:translate-y-0 shadow-2xl active:scale-90"
                     >
                         <MdEdit size={22} />
                     </button>
-                    <button
-                        onClick={() => onDelete(product)}
-                        className="w-14 h-14 bg-white text-rose-600 rounded-full flex items-center justify-center hover:bg-rose-600 hover:text-white transition-all transform translate-y-8 group-hover:translate-y-0 shadow-2xl active:scale-90"
-                    >
-                        <MdDelete size={22} />
-                    </button>
+                    {product.is_deleted ? (
+                        <button
+                            onClick={(e) => { e.stopPropagation(); onActivate(product); }}
+                            className="w-14 h-14 bg-white text-emerald-600 rounded-full flex items-center justify-center hover:bg-emerald-600 hover:text-white transition-all transform translate-y-8 group-hover:translate-y-0 shadow-2xl active:scale-90"
+                            title="Activate Asset"
+                        >
+                            <MdCheckCircle size={22} />
+                        </button>
+                    ) : (
+                        <button
+                            onClick={(e) => { e.stopPropagation(); onDelete(product); }}
+                            className="w-14 h-14 bg-white text-rose-600 rounded-full flex items-center justify-center hover:bg-rose-600 hover:text-white transition-all transform translate-y-8 group-hover:translate-y-0 shadow-2xl active:scale-90"
+                            title="Deactivate Asset"
+                        >
+                            <MdDelete size={22} />
+                        </button>
+                    )}
                 </div>
             </div>
 
@@ -309,6 +320,8 @@ const AdminAllProducts = ({ refreshId }) => {
     const [productToEdit, setProductToEdit] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [productToDelete, setProductToDelete] = useState(null);
+    const [showActivateModal, setShowActivateModal] = useState(false);
+    const [productToActivate, setProductToActivate] = useState(null);
 
     const [stats, setStats] = useState({
         total: 0,
@@ -392,6 +405,25 @@ const AdminAllProducts = ({ refreshId }) => {
         }
     };
 
+    const handleActivateClick = (product) => {
+        setProductToActivate(product);
+        setShowActivateModal(true);
+    };
+
+    const confirmActivate = async () => {
+        if (!productToActivate) return;
+        try {
+            await API.patch(`/admin/products/${productToActivate._id}/activate`);
+            toast.success('Product activated successfully');
+            fetchAllProducts();
+            setShowActivateModal(false);
+            setProductToActivate(null);
+        } catch (error) {
+            console.error('Error activating product:', error);
+            toast.error('Failed to activate product');
+        }
+    };
+
     const handleUploadSuccess = () => {
         fetchAllProducts();
         setShowUploadModal(false);
@@ -414,9 +446,6 @@ const AdminAllProducts = ({ refreshId }) => {
 
         try {
             setLoading(true);
-            // Assuming we deactivate by deleting or setting stock to 0. 
-            // In a real app, this would be a single bulk endpoint: API.put('/admin/products/bulk-deactivate', { ids: selectedProductIds })
-            // For now, let's use the individual delete as a proxy or simulate the bulk action.
             await Promise.all(selectedProductIds.map(id => API.delete(`/admin/products/${id}`)));
 
             toast.success(`Successful Deactivation: ${selectedProductIds.length} assets purged from active catalog`);
@@ -426,6 +455,27 @@ const AdminAllProducts = ({ refreshId }) => {
         } catch (error) {
             console.error('Bulk deactivation error:', error);
             toast.error('Global Deactivation Pulse Failed');
+            setLoading(false);
+        }
+    };
+
+    const handleBulkActivate = async () => {
+        if (selectedProductIds.length === 0) {
+            toast.warning('No assets selected for activation protocol');
+            return;
+        }
+
+        try {
+            setLoading(true);
+            await Promise.all(selectedProductIds.map(id => API.patch(`/admin/products/${id}/activate`)));
+
+            toast.success(`Successful Activation: ${selectedProductIds.length} assets restored to active catalog`);
+            setSelectedProductIds([]);
+            setIsSelectionMode(false);
+            fetchAllProducts();
+        } catch (error) {
+            console.error('Bulk activation error:', error);
+            toast.error('Global Activation Pulse Failed');
             setLoading(false);
         }
     };
@@ -457,27 +507,51 @@ const AdminAllProducts = ({ refreshId }) => {
                                 <MdClose size={18} />
                                 Cancel Selection
                             </button>
-                            <button
-                                className={`flex-1 lg:flex-none flex items-center justify-center gap-2 px-6 py-4 ${selectedProductIds.length > 0 ? 'bg-rose-600' : 'bg-slate-200 text-slate-400'} text-white font-black text-[10px] uppercase tracking-widest rounded-3xl hover:bg-rose-700 transition-all shadow-xl shadow-rose-100`}
-                                onClick={handleBulkDeactivate}
-                                disabled={selectedProductIds.length === 0}
-                            >
-                                <MdBlock size={18} />
-                                Finalize Deactivation ({selectedProductIds.length})
-                            </button>
+                            {statusTab === 'draft' ? (
+                                <button
+                                    className={`flex-1 lg:flex-none flex items-center justify-center gap-2 px-6 py-4 ${selectedProductIds.length > 0 ? 'bg-emerald-600' : 'bg-slate-200 text-slate-400'} text-white font-black text-[10px] uppercase tracking-widest rounded-3xl hover:bg-emerald-700 transition-all shadow-xl shadow-emerald-100`}
+                                    onClick={handleBulkActivate}
+                                    disabled={selectedProductIds.length === 0}
+                                >
+                                    <MdCheckCircle size={18} />
+                                    Finalize Activation ({selectedProductIds.length})
+                                </button>
+                            ) : (
+                                <button
+                                    className={`flex-1 lg:flex-none flex items-center justify-center gap-2 px-6 py-4 ${selectedProductIds.length > 0 ? 'bg-rose-600' : 'bg-slate-200 text-slate-400'} text-white font-black text-[10px] uppercase tracking-widest rounded-3xl hover:bg-rose-700 transition-all shadow-xl shadow-rose-100`}
+                                    onClick={handleBulkDeactivate}
+                                    disabled={selectedProductIds.length === 0}
+                                >
+                                    <MdBlock size={18} />
+                                    Finalize Deactivation ({selectedProductIds.length})
+                                </button>
+                            )}
                         </>
                     ) : (
                         <>
-                            <button
-                                className="flex-1 lg:flex-none flex items-center justify-center gap-2 px-6 py-4 bg-white border border-slate-100 text-slate-600 font-black text-[10px] uppercase tracking-widest rounded-3xl hover:bg-rose-50 hover:text-rose-600 hover:border-rose-100 transition-all shadow-sm"
-                                onClick={() => {
-                                    setIsSelectionMode(true);
-                                    toast.info('Selection Protocol Active: Tap assets to queue for deactivation');
-                                }}
-                            >
-                                <MdBlock size={18} />
-                                Deactivate
-                            </button>
+                            {statusTab === 'draft' ? (
+                                <button
+                                    className="flex-1 lg:flex-none flex items-center justify-center gap-2 px-6 py-4 bg-white border border-slate-100 text-slate-600 font-black text-[10px] uppercase tracking-widest rounded-3xl hover:bg-emerald-50 hover:text-emerald-600 hover:border-emerald-100 transition-all shadow-sm"
+                                    onClick={() => {
+                                        setIsSelectionMode(true);
+                                        toast.info('Selection Protocol Active: Tap assets to queue for activation');
+                                    }}
+                                >
+                                    <MdCheckCircle size={18} />
+                                    Activate
+                                </button>
+                            ) : (
+                                <button
+                                    className="flex-1 lg:flex-none flex items-center justify-center gap-2 px-6 py-4 bg-white border border-slate-100 text-slate-600 font-black text-[10px] uppercase tracking-widest rounded-3xl hover:bg-rose-50 hover:text-rose-600 hover:border-rose-100 transition-all shadow-sm"
+                                    onClick={() => {
+                                        setIsSelectionMode(true);
+                                        toast.info('Selection Protocol Active: Tap assets to queue for deactivation');
+                                    }}
+                                >
+                                    <MdBlock size={18} />
+                                    Deactivate
+                                </button>
+                            )}
                             <button
                                 className="flex-1 lg:flex-none flex items-center justify-center gap-2 px-6 py-4 bg-[#4F46E5] text-white font-black text-[10px] uppercase tracking-widest rounded-3xl hover:bg-[#4338CA] transition-all shadow-lg shadow-indigo-100"
                                 onClick={() => toast.info('Sales Protocol: Opening bulk discount engine')}
@@ -570,6 +644,7 @@ const AdminAllProducts = ({ refreshId }) => {
                                 product={product}
                                 onEdit={handleEdit}
                                 onDelete={handleDeleteClick}
+                                onActivate={handleActivateClick}
                                 isSelectionMode={isSelectionMode}
                                 isSelected={selectedProductIds.includes(product._id)}
                                 onToggleSelection={toggleProductSelection}
@@ -677,8 +752,26 @@ const AdminAllProducts = ({ refreshId }) => {
                             Confirm permanent elimination of <br /><span className="text-[#4F46E5] text-lg font-black">{productToDelete?.name}</span>?
                         </p>
                         <div className="flex gap-4">
-                            <button onClick={() => setShowDeleteModal(false)} className="flex-1 px-6 py-5 bg-slate-50 text-slate-400 font-black uppercase tracking-widest text-[10px] rounded-[2rem] hover:bg-slate-100 transition-all border border-slate-100 uppercase tracking-[0.2em]">Abort</button>
-                            <button onClick={confirmDelete} className="flex-1 px-6 py-5 bg-rose-600 text-white font-black uppercase tracking-widest text-[10px] rounded-[2rem] hover:bg-rose-700 transition-all shadow-xl shadow-rose-200 active:scale-95 uppercase tracking-[0.2em]">Finalize</button>
+                            <button onClick={() => setShowDeleteModal(false)} className="flex-1 px-6 py-5 bg-slate-50 text-slate-400 font-black uppercase tracking-widest text-[10px] rounded-[2rem] hover:bg-slate-100 transition-all border border-slate-100 tracking-[0.2em]">Abort</button>
+                            <button onClick={confirmDelete} className="flex-1 px-6 py-5 bg-rose-600 text-white font-black uppercase tracking-widest text-[10px] rounded-[2rem] hover:bg-rose-700 transition-all shadow-xl shadow-rose-200 active:scale-95 tracking-[0.2em]">Finalize</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {showActivateModal && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/60 backdrop-blur-md p-4 animate-fadeIn">
+                    <div className="bg-white rounded-[4rem] p-10 max-w-sm w-full shadow-[0_50px_100px_-20px_rgba(0,0,0,0.3)] border border-slate-100 animate-scaleIn">
+                        <div className="w-24 h-24 bg-emerald-50 rounded-[3rem] flex items-center justify-center mx-auto mb-10 shadow-inner group">
+                            <MdCheckCircle className="text-5xl text-emerald-500 group-hover:rotate-12 transition-transform" />
+                        </div>
+                        <h3 className="text-3xl font-black text-slate-900 text-center mb-4 tracking-tight">System Restore</h3>
+                        <p className="text-sm text-slate-400 text-center mb-12 font-bold uppercase tracking-widest leading-loose">
+                            Confirm activation of <br /><span className="text-[#4F46E5] text-lg font-black">{productToActivate?.name}</span>?
+                        </p>
+                        <div className="flex gap-4">
+                            <button onClick={() => setShowActivateModal(false)} className="flex-1 px-6 py-5 bg-slate-50 text-slate-400 font-black uppercase tracking-widest text-[10px] rounded-[2rem] hover:bg-slate-100 transition-all border border-slate-100 tracking-[0.2em]">Abort</button>
+                            <button onClick={confirmActivate} className="flex-1 px-6 py-5 bg-emerald-600 text-white font-black uppercase tracking-widest text-[10px] rounded-[2rem] hover:bg-emerald-700 transition-all shadow-xl shadow-emerald-200 active:scale-95 tracking-[0.2em]">Finalize</button>
                         </div>
                     </div>
                 </div>
@@ -688,9 +781,15 @@ const AdminAllProducts = ({ refreshId }) => {
                 <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-[110] w-full max-w-2xl px-4 animate-in slide-in-from-bottom-10 fade-in duration-500">
                     <div className="bg-slate-900/90 backdrop-blur-2xl border border-white/10 rounded-[2.5rem] p-6 shadow-[0_40px_100px_-20px_rgba(0,0,0,0.5)] flex items-center justify-between gap-6">
                         <div className="flex items-center gap-6">
-                            <div className="w-16 h-16 bg-rose-500/10 rounded-2xl flex items-center justify-center text-rose-500 border border-rose-500/20">
-                                <MdBlock size={28} />
-                            </div>
+                            {statusTab === 'draft' ? (
+                                <div className="w-16 h-16 bg-emerald-500/10 rounded-2xl flex items-center justify-center text-emerald-500 border border-emerald-500/20">
+                                    <MdCheckCircle size={28} />
+                                </div>
+                            ) : (
+                                <div className="w-16 h-16 bg-rose-500/10 rounded-2xl flex items-center justify-center text-rose-500 border border-rose-500/20">
+                                    <MdBlock size={28} />
+                                </div>
+                            )}
                             <div>
                                 <h4 className="text-white font-black text-lg tracking-tight leading-none mb-1">Queue Active</h4>
                                 <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest">{selectedProductIds.length} Assets Targeted</p>
@@ -707,12 +806,21 @@ const AdminAllProducts = ({ refreshId }) => {
                             >
                                 Abort
                             </button>
-                            <button
-                                onClick={handleBulkDeactivate}
-                                className="px-10 py-4 bg-rose-600 text-white font-black text-[10px] uppercase tracking-widest rounded-2xl hover:bg-rose-500 shadow-2xl shadow-rose-500/20 transition-all active:scale-95"
-                            >
-                                Finalize Protocol
-                            </button>
+                            {statusTab === 'draft' ? (
+                                <button
+                                    onClick={handleBulkActivate}
+                                    className="px-10 py-4 bg-emerald-600 text-white font-black text-[10px] uppercase tracking-widest rounded-2xl hover:bg-emerald-500 shadow-2xl shadow-emerald-500/20 transition-all active:scale-95"
+                                >
+                                    Finalize Protocol
+                                </button>
+                            ) : (
+                                <button
+                                    onClick={handleBulkDeactivate}
+                                    className="px-10 py-4 bg-rose-600 text-white font-black text-[10px] uppercase tracking-widest rounded-2xl hover:bg-rose-500 shadow-2xl shadow-rose-500/20 transition-all active:scale-95"
+                                >
+                                    Finalize Protocol
+                                </button>
+                            )}
                         </div>
                     </div>
                 </div>

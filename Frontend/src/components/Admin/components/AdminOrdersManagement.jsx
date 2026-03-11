@@ -77,6 +77,7 @@ const AdminOrders = ({ refreshId, triggerGlobalRefresh }) => {
     const [selectedOrder, setSelectedOrder] = useState(null);
     const [showDetailsModal, setShowDetailsModal] = useState(false);
     const [showFilterDropdown, setShowFilterDropdown] = useState(false);
+    const [isClosingModal, setIsClosingModal] = useState(false);
     const [dateFilter, setDateFilter] = useState('all');
     const [customDate, setCustomDate] = useState('');
     const [activeTab, setActiveTab] = useState('to_ship'); // 'unpaid', 'to_ship', 'in_transit', 'completed', 'all'
@@ -183,6 +184,20 @@ const AdminOrders = ({ refreshId, triggerGlobalRefresh }) => {
 
         return matchesSearch && matchesStatus && matchesDate && matchesTab;
     });
+
+    const closeDetailsModal = () => {
+        setIsClosingModal(true);
+        setTimeout(() => {
+            setShowDetailsModal(false);
+            setSelectedOrder(null);
+            setIsClosingModal(false);
+        }, 300); // Matches the duration of the leaving animation
+    };
+
+    const handleOpenDetails = (order) => {
+        setSelectedOrder(order);
+        setShowDetailsModal(true);
+    };
 
     const getStatusColor = (status) => {
         const colors = {
@@ -559,24 +574,18 @@ const AdminOrders = ({ refreshId, triggerGlobalRefresh }) => {
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-20">
                     {filteredOrders.map((order, idx) => {
-                        const isExpanded = selectedOrder?._id === order._id;
                         const customerInitial = order.customerId?.name?.charAt(0) || 'G';
                         const itemCount = order.items?.length || 0;
 
                         return (
                             <div
                                 key={order._id}
-                                onClick={() => setSelectedOrder(isExpanded ? null : order)}
                                 className={`
-                                    bg-white rounded-[2.5rem] p-7 border border-slate-100 shadow-sm hover:shadow-2xl hover:shadow-slate-200 transition-all duration-500 group animate-in fade-in slide-in-from-bottom-8 cursor-pointer flex flex-col relative overflow-hidden
-                                    ${isExpanded ? 'lg:col-span-2 ring-2 ring-rose-500/20' : 'h-full'}
+                                    bg-white rounded-[2.5rem] p-7 border border-slate-100 shadow-sm hover:shadow-2xl hover:shadow-slate-200 transition-all duration-500 group animate-in fade-in slide-in-from-bottom-8 flex flex-col relative overflow-hidden h-full
                                 `}
                                 style={{ animationDelay: `${idx * 50}ms` }}
                             >
-                                {/* Abstract background decorator for active state */}
-                                {isExpanded && (
-                                    <div className="absolute top-0 right-0 w-32 h-32 bg-rose-50 rounded-full blur-3xl -mr-16 -mt-16 opacity-60"></div>
-                                )}
+                                {/* Removed isExpanded abstract background decorator */}
 
                                 {order.status === 'paid' && (
                                     <div className="absolute top-0 left-0 w-full h-1.5 bg-rose-500 shadow-[0_4px_12px_rgba(244,63,94,0.3)] z-20"></div>
@@ -608,18 +617,6 @@ const AdminOrders = ({ refreshId, triggerGlobalRefresh }) => {
                                             statusLabels={statusLabels}
                                             getStatusColor={getStatusColor}
                                         />
-                                        {isExpanded && (
-                                            <button
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    setSelectedOrder(null);
-                                                }}
-                                                className="w-10 h-10 rounded-xl bg-white border border-slate-100 text-slate-400 hover:text-rose-500 hover:border-rose-100 hover:bg-rose-50 transition-all flex items-center justify-center shadow-sm"
-                                                title="Minimize Card"
-                                            >
-                                                <FaTimes className="text-sm" />
-                                            </button>
-                                        )}
                                     </div>
                                 </div>
 
@@ -635,178 +632,27 @@ const AdminOrders = ({ refreshId, triggerGlobalRefresh }) => {
                                     </div>
                                 </div>
 
-                                {/* Items Info */}
-                                <div className="mb-6 px-1">
-                                    <div className="flex items-center justify-between mb-3 text-[10px] font-black uppercase tracking-widest text-slate-400">
-                                        <span>Order Items ({itemCount})</span>
-                                        <span className="text-slate-900 font-black">₹{order.totalAmount?.toLocaleString('en-IN')}</span>
-                                    </div>
+                                {/* Expanded Detail Section (Conditional) - Moved to Modal */}
 
-                                    {isExpanded ? (
-                                        <div className="space-y-3 max-h-60 overflow-y-auto pr-2 custom-scrollbar">
-                                            {order.items?.map((item, i) => (
-                                                <div key={i} className="flex items-center gap-4 p-3 bg-white border border-slate-50 rounded-2xl hover:border-rose-100 transition-colors shadow-sm">
-                                                    <div className="w-12 h-12 rounded-xl bg-slate-50 border border-slate-100 overflow-hidden flex-shrink-0">
-                                                        <img
-                                                            src={item.productId?.images?.[0]}
-                                                            alt=""
-                                                            className="w-full h-full object-cover"
-                                                            onError={(e) => e.target.src = 'https://via.placeholder.com/150'}
-                                                        />
-                                                    </div>
-                                                    <div className="flex-1 min-w-0">
-                                                        <p className="text-[11px] font-black text-slate-900 truncate uppercase">{item.productId?.name || 'Standard Product'}</p>
-                                                        <p className="text-[10px] font-bold text-slate-400">₹{item.price?.toLocaleString()} × {item.quantity}</p>
-                                                    </div>
-                                                    <p className="text-xs font-black text-slate-900">₹{(item.price * item.quantity).toLocaleString()}</p>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    ) : (
-                                        <div className="flex items-center gap-2 overflow-hidden">
-                                            {order.items?.slice(0, 3).map((item, i) => (
-                                                <div key={i} className="w-10 h-10 rounded-xl border border-slate-100 overflow-hidden flex-shrink-0 shadow-sm">
-                                                    <img
-                                                        src={item.productId?.images?.[0]}
-                                                        alt=""
-                                                        className="w-full h-full object-cover opacity-80"
-                                                        onError={(e) => e.target.src = 'https://via.placeholder.com/150'}
-                                                    />
-                                                </div>
-                                            ))}
-                                            {itemCount > 3 && (
-                                                <div className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center text-[10px] font-black text-slate-400">
-                                                    +{itemCount - 3}
-                                                </div>
-                                            )}
-                                        </div>
-                                    )}
+                                {/* Expanded Detail Section (Conditional) - Moved to Modal */}
+
+                                {/* Card Footer Actions */}
+                                <div className="mt-auto pt-6 flex items-center justify-between border-t border-slate-50 border-dashed">
+                                    <div className="flex items-center gap-3">
+                                        <button
+                                            onClick={(e) => { e.stopPropagation(); handleDownloadInvoice(order); }}
+                                            className="w-10 h-10 rounded-xl bg-white border border-slate-100 text-slate-400 hover:text-blue-600 hover:border-blue-100 hover:bg-blue-50 transition-all flex items-center justify-center shadow-sm"
+                                        >
+                                            <MdDownload />
+                                        </button>
+                                    </div>
+                                    <button
+                                        onClick={(e) => { e.stopPropagation(); handleOpenDetails(order); }}
+                                        className="cursor-pointer flex items-center gap-2 px-4 py-2 bg-slate-50 hover:bg-rose-50 rounded-xl text-[10px] font-black text-slate-600 hover:text-rose-600 uppercase tracking-widest border border-slate-100 hover:border-rose-200 transition-colors group"
+                                    >
+                                        Details <MdArrowForward className="group-hover:translate-x-1 transition-transform" />
+                                    </button>
                                 </div>
-
-                                {/* Expanded Detail Section (Conditional) */}
-                                {isExpanded && (
-                                    <div className="mt-4 pt-6 border-t border-slate-100 grid grid-cols-1 md:grid-cols-2 gap-6 animate-in slide-in-from-top-4 duration-500">
-                                        <div className="space-y-4">
-                                            <div>
-                                                <h4 className="text-[10px] font-black text-slate-300 uppercase tracking-widest mb-2 flex items-center gap-2">
-                                                    <MdLocalShipping className="text-rose-500" /> Shipping Info
-                                                </h4>
-                                                <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 text-xs font-bold text-slate-600 leading-relaxed">
-                                                    {typeof order.shippingAddress === 'string' ? (
-                                                        <p>{order.shippingAddress}</p>
-                                                    ) : (
-                                                        <>
-                                                            <p className="text-slate-900 mb-1 font-black">{order.shippingAddress?.fullname || order.shippingAddress?.fullName}</p>
-                                                            <p>{order.shippingAddress?.street}, {order.shippingAddress?.city}</p>
-                                                            <p>{order.shippingAddress?.state} - {order.shippingAddress?.zipCode}</p>
-                                                            <p className="mt-2 text-[10px] font-black text-rose-500 uppercase">📞 {order.shippingAddress?.mobile}</p>
-                                                        </>
-                                                    )}
-                                                </div>
-                                            </div>
-
-                                            {/* ⭐ NEW: Payment & Settlement Node */}
-                                            <div>
-                                                <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.4em] mb-4 flex items-center gap-3">
-                                                    <MdReceipt className="text-rose-600" /> Settlement Intelligence
-                                                </h4>
-                                                <div className="p-6 bg-slate-50 rounded-[2rem] border-2 border-slate-100/50 space-y-5 relative overflow-hidden group/settle hover:border-slate-900 transition-all duration-500">
-                                                    <div className="flex justify-between items-center relative z-10">
-                                                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Channel Origin</span>
-                                                        <span className="text-[10px] font-black text-slate-900 uppercase tracking-wider bg-white px-3 py-1 rounded-full border border-slate-200 outline outline-4 outline-slate-50 shadow-sm">{order.paymentMethod === 'cod' ? 'Cash on Delivery' : 'Digital / Online'}</span>
-                                                    </div>
-                                                    {order.razorpayPaymentId && (
-                                                        <div className="flex justify-between items-center relative z-10">
-                                                            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Gateway ID</span>
-                                                            <span className="text-[10px] font-black text-blue-600 px-2 py-1 bg-blue-50/50 rounded-lg font-mono border border-blue-100 select-all">{order.razorpayPaymentId}</span>
-                                                        </div>
-                                                    )}
-                                                    {order.refundAccountDetails && (
-                                                        <div className="pt-4 border-t-2 border-slate-200/30 mt-4 space-y-4 relative z-10">
-                                                            <div className="flex items-center gap-2">
-                                                                <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse" />
-                                                                <p className="text-[10px] font-black text-rose-500 uppercase tracking-[0.3em]">Refund Point (Origin: COD)</p>
-                                                            </div>
-                                                            {order.refundAccountDetails.accountType === 'upi' ? (
-                                                                <div className="flex flex-col gap-2 bg-white p-4 rounded-3xl border-2 border-amber-100/50 shadow-sm">
-                                                                    <span className="text-[9px] font-black text-slate-300 uppercase italic tracking-widest">Digital Address (UPI)</span>
-                                                                    <span className="text-[13px] font-black text-slate-900 select-all font-mono tracking-tighter truncate">{order.refundAccountDetails.upiId}</span>
-                                                                </div>
-                                                            ) : (
-                                                                <div className="bg-white p-5 rounded-[2rem] border-2 border-rose-100/50 space-y-4 shadow-sm group-hover/settle:border-rose-300 transition-colors">
-                                                                    <div className="flex justify-between items-center">
-                                                                        <span className="text-[9px] font-black text-slate-400 uppercase">Beneficiary Node</span>
-                                                                        <span className="text-[11px] font-black text-slate-900 uppercase italic font-hero">{order.refundAccountDetails.beneficiaryName}</span>
-                                                                    </div>
-                                                                    <div className="grid grid-cols-2 gap-4">
-                                                                        <div className="flex flex-col gap-1">
-                                                                            <span className="text-[8px] font-black text-slate-300 uppercase">Account Archive</span>
-                                                                            <span className="text-[11px] font-black text-slate-900 select-all font-mono tracking-tight">{order.refundAccountDetails.accountNumber}</span>
-                                                                        </div>
-                                                                        <div className="flex flex-col gap-1 items-end">
-                                                                            <span className="text-[8px] font-black text-slate-300 uppercase text-right">Clearing Code</span>
-                                                                            <span className="text-[11px] font-black text-slate-900 uppercase font-mono tracking-tight">{order.refundAccountDetails.ifscCode}</span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            )}
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <div className="flex flex-col justify-end gap-3">
-                                            <div className="bg-slate-900 rounded-[2rem] p-6 text-white shadow-xl shadow-slate-200">
-                                                <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2">Grand Total</p>
-                                                <div className="flex justify-between items-end">
-                                                    <p className="text-3xl font-black tracking-tighter">₹{order.totalAmount?.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</p>
-                                                    <div className="flex gap-2">
-                                                        <button
-                                                            onClick={(e) => { e.stopPropagation(); handleDownloadInvoice(order); }}
-                                                            className="px-5 py-2.5 bg-white/10 hover:bg-white/20 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all mb-1"
-                                                        >
-                                                            PDF
-                                                        </button>
-                                                        {order.status === 'paid' && (
-                                                            <button
-                                                                onClick={(e) => { e.stopPropagation(); updateOrderStatus(order._id, 'shipped'); }}
-                                                                className="px-5 py-2.5 bg-rose-500 hover:bg-rose-600 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all mb-1 shadow-lg shadow-rose-900/40"
-                                                            >
-                                                                Ship Now
-                                                            </button>
-                                                        )}
-                                                        {order.status === 'shipped' && (
-                                                            <button
-                                                                onClick={(e) => { e.stopPropagation(); updateOrderStatus(order._id, 'delivered'); }}
-                                                                className="px-5 py-2.5 bg-blue-500 hover:bg-blue-600 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all mb-1 shadow-lg shadow-blue-900/40"
-                                                            >
-                                                                Set Delivered
-                                                            </button>
-                                                        )}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                )}
-
-                                {/* Card Footer Actions (Visible only when not expanded) */}
-                                {!isExpanded && (
-                                    <div className="mt-auto pt-6 flex items-center justify-between border-t border-slate-50 border-dashed">
-                                        <div className="flex items-center gap-3">
-                                            <button
-                                                onClick={(e) => { e.stopPropagation(); handleDownloadInvoice(order); }}
-                                                className="w-10 h-10 rounded-xl bg-white border border-slate-100 text-slate-400 hover:text-blue-600 hover:border-blue-100 hover:bg-blue-50 transition-all flex items-center justify-center shadow-sm"
-                                            >
-                                                <MdDownload />
-                                            </button>
-                                        </div>
-                                        <div className="flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-xl text-[10px] font-black text-slate-600 uppercase tracking-widest border border-slate-100">
-                                            Details <MdArrowForward className="group-hover:translate-x-1 transition-transform" />
-                                        </div>
-                                    </div>
-                                )}
                             </div>
                         );
                     })}
@@ -816,8 +662,11 @@ const AdminOrders = ({ refreshId, triggerGlobalRefresh }) => {
             {/* Order Details Modal */}
             {showDetailsModal && selectedOrder && (
                 <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-                    <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={() => setShowDetailsModal(false)}></div>
-                    <div className="relative bg-white rounded-3xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col animate-modalScale">
+                    <div
+                        className={`absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity duration-300 ${isClosingModal ? 'opacity-0' : 'opacity-100'}`}
+                        onClick={closeDetailsModal}
+                    ></div>
+                    <div className={`relative bg-white rounded-3xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col transform transition-all duration-300 ${isClosingModal ? 'scale-95 opacity-0' : 'scale-100 opacity-100'} animate-in fade-in zoom-in-95`}>
                         {/* Header */}
                         <div className="p-4 md:p-8 border-b border-slate-100 bg-slate-50/50 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                             <div className="flex gap-4 md:gap-6 items-center">
@@ -846,7 +695,7 @@ const AdminOrders = ({ refreshId, triggerGlobalRefresh }) => {
                                     <span className="hidden md:inline">Download Invoice</span>
                                 </button>
                                 <button
-                                    onClick={() => setShowDetailsModal(false)}
+                                    onClick={closeDetailsModal}
                                     className="p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-600 rounded-full transition-colors cursor-pointer"
                                 >
                                     <FaTimes className="text-xl" />
