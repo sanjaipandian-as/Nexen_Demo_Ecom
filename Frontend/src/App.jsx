@@ -29,6 +29,7 @@ import AboutUs from "./components/Customer/Company/AboutUs"
 import Contact from "./components/Customer/Company/Contact"
 import CategoriesSpecificpage from "./components/Customer/Landing/CategoriesSpecificpage"
 import ShopProductsPage from "./pages/ShopProductsPage"
+import NotFound from "./pages/NotFound"
 
 import {
   ProtectedCustomerRoute,
@@ -146,6 +147,7 @@ function App() {
           <Route path="/Support" element={<Support />} />
           <Route path="/Affiliate" element={<Affiliate />} />
           <Route path="/BrandRegistry" element={<BrandRegistry />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
       <ToastContainer
